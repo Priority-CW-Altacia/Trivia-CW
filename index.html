@@ -46,21 +46,21 @@
 
         /* --- MARCA DE AGUA ANTI-TRAMPAS MEJORADA --- */
         #reloj-marca-agua {
-            position: fixed; /* Fixed para que siempre esté al frente */
+            position: fixed; 
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-25deg);
             font-size: 4.5em;
             font-weight: 900;
             color: #ffffff;
-            opacity: 0.15; /* Más visible */
+            opacity: 0.15; 
             white-space: nowrap;
-            pointer-events: none; /* No estorba los clics */
-            z-index: 9999; /* Por encima de TODO */
+            pointer-events: none; 
+            z-index: 9999; 
             text-align: center;
             line-height: 1.1;
             width: 100vw;
-            display: none; /* Solo se muestra en la pantalla de victoria */
+            display: none; 
         }
 
         /* --- ELEMENTOS VISUALES --- */
@@ -113,15 +113,23 @@
         }
         .modal-contenido {
             background: #151515; padding: 25px 20px; border-radius: 20px;
-            width: 100%; max-width: 330px; text-align: left; border: 1px solid #4CAF50;
+            width: 100%; max-width: 340px; text-align: left; border: 1px solid #4CAF50;
         }
         .modal-contenido h3 { color: #4CAF50; margin-top: 0; text-align: center; }
+        .seccion-modal { display: none; } 
 
-        /* --- LISTA DE TIENDA (CANJE) --- */
-        .lista-tienda { margin: 0; padding-left: 0; list-style: none; max-height: 50vh; overflow-y: auto;}
+        /* --- LISTAS DE PREMIOS (PORTADA Y CANJE) --- */
+        .lista-premios, .lista-tienda { margin: 0; padding-left: 0; list-style: none; max-height: 50vh; overflow-y: auto;}
+        
+        /* Ajuste de lista para la portada con Emojis y Puntos */
+        .lista-premios li { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #ddd;}
+        .costo-premio-chico { background: #333; color: #FFD700; padding: 3px 6px; border-radius: 5px; font-weight: bold; font-size: 0.85em; white-space: nowrap; }
+        
+        /* Ajuste de lista para la tienda interactiva */
         .lista-tienda li { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;}
         .costo-premio { font-weight: bold; color: #FFD700; font-size: 0.9em; background: #333; padding: 5px 8px; border-radius: 5px;}
         .nombre-premio { font-size: 0.85em; color: #ddd; max-width: 60%; line-height: 1.2;}
+        .premio-top { color: #FFD700; font-weight: bold; }
 
         .etiqueta-nivel { color: #aaa; font-size: 0.8em; margin-bottom: 10px; text-transform: uppercase; }
         .pregunta-texto { font-size: 1.1em; margin-bottom: 20px; line-height: 1.4; min-height: 70px; }
@@ -142,7 +150,10 @@
             <button class="btn btn-primario" onclick="iniciarJuego()" style="margin-bottom: 15px;">
                 <img src="Icono_EstrellaCW_BCO.png" alt="☆" class="icono-estrella" onerror="this.style.display='none'"> INICIAR JUEGO
             </button>
-            <button class="btn btn-secundario" onclick="abrirTienda(false)">🎁 VER CATÁLOGO DE PREMIOS</button>
+            <div class="contenedor-botones-duo">
+                <button class="btn btn-secundario" onclick="abrirModal('reglas')">📖 REGLAS</button>
+                <button class="btn btn-secundario" onclick="abrirModal('premios')">🎁 PREMIOS</button>
+            </div>
         </div>
     </div>
 
@@ -217,17 +228,53 @@
     </div>
 
 
-    <!-- MODAL TIENDA DE PREMIOS -->
+    <!-- MODAL COMPACTO (REGLAS Y PREMIOS DE INICIO) -->
+    <div id="modal-info" class="modal-fondo">
+        <div class="modal-contenido">
+            
+            <!-- Bloque de Reglas -->
+            <div id="contenido-reglas" class="seccion-modal">
+                <h3>REGLAS DE LA CASA</h3>
+                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">⏱️ <strong>Contra reloj:</strong> Tienes 5 segundos por pregunta. Si sales de la pantalla o cambias de app, pierdes por abandono automático.</p>
+                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🎯 <strong>Riesgo:</strong> Una respuesta incorrecta y pierdes todos los puntos acumulados en la sesión.</p>
+                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🎁 <strong>Canje Único:</strong> Válido 1 premio por mesa/cuenta. Si te sobran puntos al momento de canjear, NO son acumulables para otra visita ni puedes llevarte múltiples premios. ¡Elige sabiamente un solo premio!</p>
+            </div>
+
+            <!-- Bloque de Premios (Informativo) -->
+            <div id="contenido-premios" class="seccion-modal">
+                <h3>CATÁLOGO DE PREMIOS</h3>
+                <ul class="lista-premios">
+                    <li><span>⭐ Sticker Estrella CW</span> <span class="costo-premio-chico">100 pts</span></li>
+                    <li><span>📸 Selfie con el Staff</span> <span class="costo-premio-chico">200 pts</span></li>
+                    <li><span>🎟️ Membresía Descuento</span> <span class="costo-premio-chico">300 pts</span></li>
+                    <li><span>🍟 Aderezo sin costo</span> <span class="costo-premio-chico">400 pts</span></li>
+                    <li><span>📉 5% de Descuento</span> <span class="costo-premio-chico">500 pts</span></li>
+                    <li><span>🥃 Ronda de Shots (5)</span> <span class="costo-premio-chico">700 pts</span></li>
+                    <li><span>🍨 1 Bola de Helado</span> <span class="costo-premio-chico">900 pts</span></li>
+                    <li><span>🍻 2 Tarros de Cerveza</span> <span class="costo-premio-chico">1200 pts</span></li>
+                    <li><span>🧢 Gorra Edición CW</span> <span class="costo-premio-chico">1500 pts</span></li>
+                    <li><span>💸 10% de Descuento</span> <span class="costo-premio-chico">2000 pts</span></li>
+                    <li class="premio-top"><span>💳 Tarjeta PRIORITY +</span> <span class="costo-premio-chico">3000 pts</span></li>
+                </ul>
+            </div>
+            
+            <button class="btn btn-primario" style="margin-top: 20px;" onclick="cerrarModalInfo()">ENTENDIDO</button>
+        </div>
+    </div>
+
+
+    <!-- MODAL TIENDA DE CANJE (DURANTE EL JUEGO) -->
     <div id="modal-tienda" class="modal-fondo">
         <div class="modal-contenido">
-            <h3>CATÁLOGO DE PREMIOS</h3>
+            <h3>CANJEAR PUNTOS</h3>
             <p style="font-size: 0.8em; color:#aaa; text-align:center;">Puntos actuales: <strong id="puntos-tienda">0</strong></p>
+            <p style="font-size: 0.75em; color: #d32f2f; text-align:center; margin-top: -5px;">Recuerda: Solo puedes elegir UN premio. Los puntos sobrantes se pierden.</p>
             
             <ul class="lista-tienda" id="contenedor-premios">
                 <!-- Se llena con JS -->
             </ul>
             
-            <button class="btn btn-secundario" style="margin-top: 15px;" onclick="cerrarTienda()">CERRAR</button>
+            <button class="btn btn-secundario" style="margin-top: 15px;" onclick="cerrarTienda()">SEGUIR JUGANDO</button>
         </div>
     </div>
 
@@ -243,17 +290,17 @@
 
         // Catálogo de Premios estilo Recórcholis
         const catalogoPremios = [
-            { nombre: "Sticker Estrella CW", costo: 100 },
-            { nombre: "Selfie con el Staff", costo: 200 },
-            { nombre: "Membresía Descuento (Futuras Visitas)", costo: 300 },
-            { nombre: "Aderezo sin costo", costo: 400 },
-            { nombre: "5% de descuento en cuenta final", costo: 500 },
-            { nombre: "Ronda de Shots (5)", costo: 700 },
-            { nombre: "1 Bola de Helado", costo: 900 },
-            { nombre: "2 Tarros de Cerveza (325ml)", costo: 1200 },
-            { nombre: "Gorra Edición CW", costo: 1500 },
-            { nombre: "10% de descuento en cuenta final", costo: 2000 },
-            { nombre: "Tarjeta PRIORITY +", costo: 3000 }
+            { nombre: "Sticker Estrella CW", costo: 100, icono: "⭐" },
+            { nombre: "Selfie con el Staff", costo: 200, icono: "📸" },
+            { nombre: "Membresía Descuento", costo: 300, icono: "🎟️" },
+            { nombre: "Aderezo sin costo", costo: 400, icono: "🍟" },
+            { nombre: "5% de descuento", costo: 500, icono: "📉" },
+            { nombre: "Ronda de Shots (5)", costo: 700, icono: "🥃" },
+            { nombre: "1 Bola de Helado", costo: 900, icono: "🍨" },
+            { nombre: "2 Tarros de Cerveza", costo: 1200, icono: "🍻" },
+            { nombre: "Gorra Edición CW", costo: 1500, icono: "🧢" },
+            { nombre: "10% de descuento", costo: 2000, icono: "💸" },
+            { nombre: "Tarjeta PRIORITY +", costo: 3000, icono: "💳" }
         ];
 
         const configCategorias = {
@@ -293,7 +340,16 @@
             }
         });
 
-        // --- NAVEGACIÓN ---
+        // --- NAVEGACIÓN DE MODALES INICIALES ---
+        function abrirModal(tipo) {
+            document.getElementById('modal-info').style.display = 'flex';
+            document.getElementById('contenido-reglas').style.display = (tipo === 'reglas') ? 'block' : 'none';
+            document.getElementById('contenido-premios').style.display = (tipo === 'premios') ? 'block' : 'none';
+        }
+        function cerrarModalInfo() { 
+            document.getElementById('modal-info').style.display = 'none'; 
+        }
+
         function mostrarPantalla(idPantalla) {
             document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
             document.getElementById(idPantalla).classList.add('activa');
@@ -375,7 +431,7 @@
 
         function validarRespuesta(opcionElegida, opcionCorrecta) {
             clearInterval(temporizador);
-            juegoActivo = false; // Desactiva anti-trampas en transición
+            juegoActivo = false; // Desactiva anti-trampas temporalmente
             
             if (opcionElegida === opcionCorrecta) {
                 puntosAcumulados += puntosEnJuego;
@@ -397,7 +453,7 @@
             mostrarPantalla('pantalla-derrota');
         }
 
-        // --- TIENDA DE CANJE ---
+        // --- TIENDA DE CANJE DURANTE EL JUEGO ---
         function abrirTienda(modoCanje) {
             document.getElementById('modal-tienda').style.display = 'flex';
             document.getElementById('puntos-tienda').innerText = modoCanje ? puntosAcumulados : 0;
@@ -412,7 +468,7 @@
                 let btnHTML = '';
                 if(modoCanje) {
                     if(alcanza) {
-                        btnHTML = `<button class="btn btn-primario" style="padding: 8px; font-size: 0.7em; width: auto;" onclick="canjearPremio('${premio.nombre}')">CANJEAR</button>`;
+                        btnHTML = `<button class="btn btn-primario" style="padding: 8px; font-size: 0.7em; width: auto;" onclick="canjearPremio('${premio.icono} ${premio.nombre}')">CANJEAR</button>`;
                     } else {
                         btnHTML = `<button class="btn" style="padding: 8px; font-size: 0.7em; width: auto; background:#333; color:#666;" disabled>FALTAN PTS</button>`;
                     }
@@ -420,7 +476,7 @@
 
                 li.innerHTML = `
                     <div style="display:flex; flex-direction:column; gap:5px;">
-                        <span class="nombre-premio">${premio.nombre}</span>
+                        <span class="nombre-premio">${premio.icono} ${premio.nombre}</span>
                         <span class="costo-premio">${premio.costo} pts</span>
                     </div>
                     ${btnHTML}
@@ -429,7 +485,9 @@
             });
         }
 
-        function cerrarTienda() { document.getElementById('modal-tienda').style.display = 'none'; }
+        function cerrarTienda() { 
+            document.getElementById('modal-tienda').style.display = 'none'; 
+        }
 
         function canjearPremio(nombrePremio) {
             cerrarTienda();
