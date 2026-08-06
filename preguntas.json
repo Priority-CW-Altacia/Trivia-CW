@@ -209,6 +209,111 @@
       "pregunta": "¿Qué equipo de la NFL tiene un logotipo con la forma de un rayo?",
       "opciones": ["Los Angeles Chargers", "Las Vegas Raiders", "Miami Dolphins", "Denver Broncos"],
       "respuesta_correcta": "Los Angeles Chargers"
+    },
+    {
+      "id": 91,
+      "categoria": "Fútbol",
+      "pregunta": "¿Cuántos tiempos regulares se juegan en un partido de fútbol estándar?",
+      "opciones": ["1 tiempo de 90 minutos", "2 tiempos de 45 minutos", "3 tiempos de 30 minutos", "4 tiempos de 20 minutos"],
+      "respuesta_correcta": "2 tiempos de 45 minutos"
+    },
+    {
+      "id": 92,
+      "categoria": "NBA",
+      "pregunta": "¿Qué deporte profesional juegan Los Angeles Lakers?",
+      "opciones": ["Béisbol", "Fútbol Americano", "Baloncesto", "Hockey sobre hielo"],
+      "respuesta_correcta": "Baloncesto"
+    },
+    {
+      "id": 93,
+      "categoria": "NFL",
+      "pregunta": "¿Cómo se le llama a la acción de anotar ingresando a la zona final del rival con el balón?",
+      "opciones": ["Home Run", "Gol de campo", "Touchdown", "Safety"],
+      "respuesta_correcta": "Touchdown"
+    },
+    {
+      "id": 94,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué elemento de goma usan obligatoriamente los boxeadores en la boca?",
+      "opciones": ["Respirador", "Protector bucal", "Frenos", "Mordedera"],
+      "respuesta_correcta": "Protector bucal"
+    },
+    {
+      "id": 95,
+      "categoria": "Tenis",
+      "pregunta": "¿Cómo se le llama a un saque tan bueno que el rival no logra ni siquiera tocar la pelota?",
+      "opciones": ["Ace", "Smash", "Drive", "Drop shot"],
+      "respuesta_correcta": "Ace"
+    },
+    {
+      "id": 96,
+      "categoria": "MLB",
+      "pregunta": "¿Cuál es el nombre del jugador que se encarga de lanzar la pelota desde el centro del diamante?",
+      "opciones": ["Bateador", "Catcher", "Pitcher", "Umpire"],
+      "respuesta_correcta": "Pitcher"
+    },
+    {
+      "id": 97,
+      "categoria": "UFC",
+      "pregunta": "¿Qué significan las siglas MMA, deporte principal de la UFC?",
+      "opciones": ["Main Martial Arts", "Mixed Martial Arts", "Mega Martial Action", "Master Martial Arts"],
+      "respuesta_correcta": "Mixed Martial Arts"
+    },
+    {
+      "id": 98,
+      "categoria": "Fútbol",
+      "pregunta": "¿Cómo se llama el torneo internacional donde compiten las selecciones de Sudamérica?",
+      "opciones": ["Eurocopa", "Copa Libertadores", "Copa Oro", "Copa América"],
+      "respuesta_correcta": "Copa América"
+    },
+    {
+      "id": 99,
+      "categoria": "NFL",
+      "pregunta": "¿De qué color son los pañuelos que lanzan los árbitros a la cancha para marcar un castigo?",
+      "opciones": ["Rojos", "Amarillos", "Blancos", "Azules"],
+      "respuesta_correcta": "Amarillos"
+    },
+    {
+      "id": 100,
+      "categoria": "Tenis",
+      "pregunta": "¿De qué color es usualmente la pelota utilizada en los torneos profesionales de tenis?",
+      "opciones": ["Blanco puro", "Naranja", "Verde/Amarillo fluorescente", "Roja"],
+      "respuesta_correcta": "Verde/Amarillo fluorescente"
+    },
+    {
+      "id": 101,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué sucede cuando el árbitro cuenta hasta 10 y el peleador caído no logra levantarse?",
+      "opciones": ["Gana por puntos", "Pierde por Nocaut (KO)", "Se declara empate", "Se repite el asalto"],
+      "respuesta_correcta": "Pierde por Nocaut (KO)"
+    },
+    {
+      "id": 102,
+      "categoria": "MLB",
+      "pregunta": "¿Con qué instrumento de cuero los jugadores atrapan la pelota en un partido de béisbol?",
+      "opciones": ["Malla", "Cesta", "Guante o manopla", "Raqueta"],
+      "respuesta_correcta": "Guante o manopla"
+    },
+    {
+      "id": 103,
+      "categoria": "Fútbol",
+      "pregunta": "¿Con qué parte del cuerpo está estrictamente prohibido tocar el balón para los jugadores de campo?",
+      "opciones": ["La cabeza", "El pecho", "El muslo", "Las manos y brazos"],
+      "respuesta_correcta": "Las manos y brazos"
+    },
+    {
+      "id": 104,
+      "categoria": "UFC",
+      "pregunta": "¿Qué significa la acción cuando un peleador golpea repetidamente la lona o a su rival con la mano (Tap Out)?",
+      "opciones": ["Pide tiempo fuera", "Se rinde", "Provoca al rival", "Celebra la victoria"],
+      "respuesta_correcta": "Se rinde"
+    },
+    {
+      "id": 105,
+      "categoria": "NBA",
+      "pregunta": "¿Cómo se llama la acción de encestar el balón saltando y clavándolo con fuerza desde arriba del aro?",
+      "opciones": ["Tiro libre", "Triple", "Clavada o Mate", "Bandeja"],
+      "respuesta_correcta": "Clavada o Mate"
     }
   ],
   "medio": [
@@ -421,6 +526,111 @@
       "pregunta": "¿A qué prestigioso torneo europeo de clubes se le conoce popularmente como 'La Orejona'?",
       "opciones": ["Europa League", "Copa del Rey", "UEFA Champions League", "Supercopa de la UEFA"],
       "respuesta_correcta": "UEFA Champions League"
+    },
+    {
+      "id": 106,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué equipo se coronó campeón de la UEFA Champions League en la temporada 2023-2024?",
+      "opciones": ["Manchester City", "Real Madrid", "Borussia Dortmund", "Bayern Múnich"],
+      "respuesta_correcta": "Real Madrid"
+    },
+    {
+      "id": 107,
+      "categoria": "NFL",
+      "pregunta": "¿Qué equipo liderado por Patrick Mahomes ganó el Super Bowl LVIII en 2024?",
+      "opciones": ["San Francisco 49ers", "Philadelphia Eagles", "Kansas City Chiefs", "Cincinnati Bengals"],
+      "respuesta_correcta": "Kansas City Chiefs"
+    },
+    {
+      "id": 108,
+      "categoria": "NBA",
+      "pregunta": "¿Qué talentoso jugador esloveno de los Dallas Mavericks es famoso por usar el número 77?",
+      "opciones": ["Nikola Jokic", "Giannis Antetokounmpo", "Luka Doncic", "Kristaps Porzingis"],
+      "respuesta_correcta": "Luka Doncic"
+    },
+    {
+      "id": 109,
+      "categoria": "Boxeo",
+      "pregunta": "¿En qué categoría de peso el 'Canelo' Álvarez logró ser campeón indiscutido (poseedor de los 4 cinturones)?",
+      "opciones": ["Peso Mediano", "Peso Semicompleto", "Peso Supermediano", "Peso Welter"],
+      "respuesta_correcta": "Peso Supermediano"
+    },
+    {
+      "id": 110,
+      "categoria": "Tenis",
+      "pregunta": "¿Qué tenista serbio terminó el año 2023 en lo más alto del ranking ATP como el número 1 del mundo?",
+      "opciones": ["Carlos Alcaraz", "Daniil Medvedev", "Novak Djokovic", "Jannik Sinner"],
+      "respuesta_correcta": "Novak Djokovic"
+    },
+    {
+      "id": 111,
+      "categoria": "MLB",
+      "pregunta": "¿Qué estrella japonesa firmó un contrato histórico de 700 millones de dólares con Los Angeles Dodgers?",
+      "opciones": ["Yu Darvish", "Ichiro Suzuki", "Shohei Ohtani", "Yoshinobu Yamamoto"],
+      "respuesta_correcta": "Shohei Ohtani"
+    },
+    {
+      "id": 112,
+      "categoria": "UFC",
+      "pregunta": "¿Quién es el poderoso y mediático CEO (presidente) actual de la UFC?",
+      "opciones": ["Joe Rogan", "Dana White", "Lorenzo Fertitta", "Bruce Buffer"],
+      "respuesta_correcta": "Dana White"
+    },
+    {
+      "id": 113,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué selección nacional levantó la Copa Mundial de la FIFA en Qatar 2022?",
+      "opciones": ["Francia", "Brasil", "Croacia", "Argentina"],
+      "respuesta_correcta": "Argentina"
+    },
+    {
+      "id": 114,
+      "categoria": "NFL",
+      "pregunta": "¿Qué equipo juega de local compartiendo el espectacular SoFi Stadium con Los Angeles Rams?",
+      "opciones": ["Las Vegas Raiders", "Los Angeles Chargers", "Seattle Seahawks", "Arizona Cardinals"],
+      "respuesta_correcta": "Los Angeles Chargers"
+    },
+    {
+      "id": 115,
+      "categoria": "NBA",
+      "pregunta": "¿Qué franquicia ganó el campeonato de la NBA en 2023 liderada por el gigante serbio Nikola Jokic?",
+      "opciones": ["Denver Nuggets", "Miami Heat", "Phoenix Suns", "Los Angeles Lakers"],
+      "respuesta_correcta": "Denver Nuggets"
+    },
+    {
+      "id": 116,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué excéntrico y enorme boxeador británico es apodado 'The Gypsy King' (El Rey Gitano)?",
+      "opciones": ["Anthony Joshua", "Tyson Fury", "Deontay Wilder", "Oleksandr Usyk"],
+      "respuesta_correcta": "Tyson Fury"
+    },
+    {
+      "id": 117,
+      "categoria": "Tenis",
+      "pregunta": "¿Sobre qué tipo de superficie se juega tradicionalmente el torneo de Grand Slam 'US Open' en Nueva York?",
+      "opciones": ["Arcilla", "Césped", "Cancha dura (cemento)", "Moqueta sintética"],
+      "respuesta_correcta": "Cancha dura (cemento)"
+    },
+    {
+      "id": 118,
+      "categoria": "MLB",
+      "pregunta": "¿Qué franquicia se coronó campeona de la Serie Mundial de béisbol en el año 2023?",
+      "opciones": ["Texas Rangers", "Arizona Diamondbacks", "Houston Astros", "Atlanta Braves"],
+      "respuesta_correcta": "Texas Rangers"
+    },
+    {
+      "id": 119,
+      "categoria": "UFC",
+      "pregunta": "¿Qué peleador hispano-georgiano se coronó campeón de peso pluma en 2024 al noquear a Volkanovski?",
+      "opciones": ["Brandon Moreno", "Ilia Topuria", "Yair Rodríguez", "Max Holloway"],
+      "respuesta_correcta": "Ilia Topuria"
+    },
+    {
+      "id": 120,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué histórico club italiano disputa sus partidos de local en el estadio 'San Siro'?",
+      "opciones": ["Juventus", "AS Roma", "Napoli", "AC Milan"],
+      "respuesta_correcta": "AC Milan"
     }
   ],
   "dificil": [
@@ -633,6 +843,111 @@
       "pregunta": "¿Quién anotó el gol decisivo en el tiempo extra de la final del Mundial de Sudáfrica 2010 para darle el título a España?",
       "opciones": ["David Villa", "Xavi Hernández", "Andrés Iniesta", "Fernando Torres"],
       "respuesta_correcta": "Andrés Iniesta"
+    },
+    {
+      "id": 121,
+      "categoria": "Fútbol",
+      "pregunta": "¿Quién anotó el mítico 'Gol del Siglo' burlando a medio equipo inglés en el Mundial de México 1986?",
+      "opciones": ["Pelé", "Michel Platini", "Diego Maradona", "Jorge Valdano"],
+      "respuesta_correcta": "Diego Maradona"
+    },
+    {
+      "id": 122,
+      "categoria": "NFL",
+      "pregunta": "¿Qué receptor abierto apodado 'Megatron' impuso el récord de más yardas recibidas en una temporada (1,964) en 2012?",
+      "opciones": ["Jerry Rice", "Randy Moss", "Calvin Johnson", "Julio Jones"],
+      "respuesta_correcta": "Calvin Johnson"
+    },
+    {
+      "id": 123,
+      "categoria": "NBA",
+      "pregunta": "¿Qué leyenda de la NBA ostenta el récord histórico absoluto de más tapones (bloqueos) en su carrera?",
+      "opciones": ["Kareem Abdul-Jabbar", "Dikembe Mutombo", "Shaquille O'Neal", "Hakeem Olajuwon"],
+      "respuesta_correcta": "Hakeem Olajuwon"
+    },
+    {
+      "id": 124,
+      "categoria": "Boxeo",
+      "pregunta": "¿A qué edad exacta se coronó Mike Tyson como el campeón de peso pesado más joven en la historia del boxeo?",
+      "opciones": ["18 años", "19 años", "20 años", "21 años"],
+      "respuesta_correcta": "20 años"
+    },
+    {
+      "id": 125,
+      "categoria": "Tenis",
+      "pregunta": "¿Quién es la única tenista (hombre o mujer) en ganar el 'Golden Slam' (4 Grand Slams y oro Olímpico) en un solo año (1988)?",
+      "opciones": ["Serena Williams", "Steffi Graf", "Martina Navratilova", "Monica Seles"],
+      "respuesta_correcta": "Steffi Graf"
+    },
+    {
+      "id": 126,
+      "categoria": "MLB",
+      "pregunta": "¿Qué pelotero ostenta el récord de hierro tras jugar 2,632 partidos consecutivos sin faltar a ninguno?",
+      "opciones": ["Lou Gehrig", "Cal Ripken Jr.", "Hank Aaron", "Pete Rose"],
+      "respuesta_correcta": "Cal Ripken Jr."
+    },
+    {
+      "id": 127,
+      "categoria": "UFC",
+      "pregunta": "¿Contra quién logró Anderson Silva su legendario e histórico nocaut con una patada frontal a la cara en UFC 126?",
+      "opciones": ["Chael Sonnen", "Vitor Belfort", "Rich Franklin", "Forrest Griffin"],
+      "respuesta_correcta": "Vitor Belfort"
+    },
+    {
+      "id": 128,
+      "categoria": "Fútbol",
+      "pregunta": "¿En qué año se fundó e inició la Copa de Clubes Campeones Europeos, torneo hoy conocido como la Champions League?",
+      "opciones": ["1950", "1955", "1960", "1965"],
+      "respuesta_correcta": "1955"
+    },
+    {
+      "id": 129,
+      "categoria": "NFL",
+      "pregunta": "¿Qué equipo sufrió el peor colapso en un Super Bowl tras perder el partido luego de ir ganando 28-3?",
+      "opciones": ["Carolina Panthers", "Atlanta Falcons", "Seattle Seahawks", "Los Angeles Rams"],
+      "respuesta_correcta": "Atlanta Falcons"
+    },
+    {
+      "id": 130,
+      "categoria": "NBA",
+      "pregunta": "¿Qué equipo seleccionó originalmente a Kobe Bryant en el Draft de 1996 antes de traspasarlo a los Lakers esa misma noche?",
+      "opciones": ["Charlotte Hornets", "New Jersey Nets", "Philadelphia 76ers", "Orlando Magic"],
+      "respuesta_correcta": "Charlotte Hornets"
+    },
+    {
+      "id": 131,
+      "categoria": "Boxeo",
+      "pregunta": "¿Cuál fue el resultado oficial de la primera épica pelea entre Manny Pacquiao y Juan Manuel Márquez en el año 2004?",
+      "opciones": ["Victoria para Pacquiao", "Victoria para Márquez", "Empate dividido", "No Contest (Sin resultado)"],
+      "respuesta_correcta": "Empate dividido"
+    },
+    {
+      "id": 132,
+      "categoria": "Tenis",
+      "pregunta": "¿Quién es el único tenista en toda la historia de este deporte en haber ganado el mismo torneo de Grand Slam 14 veces?",
+      "opciones": ["Roger Federer (Wimbledon)", "Novak Djokovic (Australia)", "Rafael Nadal (Roland Garros)", "Pete Sampras (US Open)"],
+      "respuesta_correcta": "Rafael Nadal (Roland Garros)"
+    },
+    {
+      "id": 133,
+      "categoria": "MLB",
+      "pregunta": "¿Qué pitcher de los New York Yankees lanzó el único Juego Perfecto en la historia de la Serie Mundial en 1956?",
+      "opciones": ["Whitey Ford", "Don Larsen", "Yogi Berra", "Andy Pettitte"],
+      "respuesta_correcta": "Don Larsen"
+    },
+    {
+      "id": 134,
+      "categoria": "UFC",
+      "pregunta": "¿En qué evento numerado hizo su gran debut oficial la división femenil con el combate entre Ronda Rousey y Liz Carmouche?",
+      "opciones": ["UFC 100", "UFC 157", "UFC 189", "UFC 200"],
+      "respuesta_correcta": "UFC 157"
+    },
+    {
+      "id": 135,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué director técnico dirigió al FC Barcelona durante la histórica temporada donde consiguieron el codiciado 'Sextete' en 2009?",
+      "opciones": ["Frank Rijkaard", "Luis Enrique", "Johan Cruyff", "Pep Guardiola"],
+      "respuesta_correcta": "Pep Guardiola"
     }
   ]
 }
