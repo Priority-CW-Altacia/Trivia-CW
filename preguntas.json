@@ -314,6 +314,111 @@
       "pregunta": "¿Cómo se llama la acción de encestar el balón saltando y clavándolo con fuerza desde arriba del aro?",
       "opciones": ["Tiro libre", "Triple", "Clavada o Mate", "Bandeja"],
       "respuesta_correcta": "Clavada o Mate"
+    },
+    {
+      "id": 136,
+      "categoria": "Boxeo",
+      "pregunta": "¿Cuántos asaltos (rounds) tiene reglamentariamente una pelea de campeonato mundial de boxeo en la actualidad?",
+      "opciones": ["10 asaltos", "12 asaltos", "15 asaltos", "Ilimitados"],
+      "respuesta_correcta": "12 asaltos"
+    },
+    {
+      "id": 137,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué significan las siglas FIFA?",
+      "opciones": ["Federación Internacional de Fútbol Asociación", "Fundación Internacional de Fútbol Asociado", "Federación Independiente de Fútbol Asociación", "Fondo Internacional de Fútbol Asociado"],
+      "respuesta_correcta": "Federación Internacional de Fútbol Asociación"
+    },
+    {
+      "id": 138,
+      "categoria": "NBA",
+      "pregunta": "¿Cuántos puntos suma al marcador un tiro libre encestado en el baloncesto?",
+      "opciones": ["1 punto", "2 puntos", "3 puntos", "Medio punto"],
+      "respuesta_correcta": "1 punto"
+    },
+    {
+      "id": 139,
+      "categoria": "Tenis",
+      "pregunta": "¿En qué país se lleva a cabo el torneo de tenis de Wimbledon?",
+      "opciones": ["Estados Unidos", "Francia", "Inglaterra", "Australia"],
+      "respuesta_correcta": "Inglaterra"
+    },
+    {
+      "id": 140,
+      "categoria": "NFL",
+      "pregunta": "¿Qué artículo del equipamiento es obligatorio para proteger la cabeza de los jugadores de fútbol americano?",
+      "opciones": ["Gorra protectora", "Casco con barra", "Careta de plástico", "Banda acolchada"],
+      "respuesta_correcta": "Casco con barra"
+    },
+    {
+      "id": 141,
+      "categoria": "MLB",
+      "pregunta": "¿Cómo se le llama a la zona techada donde se sientan los jugadores de béisbol que no están en el campo de juego?",
+      "opciones": ["Banquillo", "Dugout", "Bullpen", "Gradería"],
+      "respuesta_correcta": "Dugout"
+    },
+    {
+      "id": 142,
+      "categoria": "UFC",
+      "pregunta": "¿Qué golpe está estrictamente prohibido lanzar a la cabeza de un oponente que se encuentra derribado en el suelo?",
+      "opciones": ["Puñetazo", "Codazo", "Patada o rodillazo", "Golpe de martillo"],
+      "respuesta_correcta": "Patada o rodillazo"
+    },
+    {
+      "id": 143,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué sucede automáticamente si un jugador recibe dos tarjetas amarillas en un mismo partido?",
+      "opciones": ["Se le muestra la tarjeta azul", "Debe salir 10 minutos", "Se le muestra la tarjeta roja y es expulsado", "Paga una multa económica"],
+      "respuesta_correcta": "Se le muestra la tarjeta roja y es expulsado"
+    },
+    {
+      "id": 144,
+      "categoria": "NBA",
+      "pregunta": "¿Cómo se llama la infracción en baloncesto cuando un jugador da más de dos pasos sin botar el balón?",
+      "opciones": ["Caminar o pasos", "Falta ofensiva", "Doble bote", "Fuera de límites"],
+      "respuesta_correcta": "Caminar o pasos"
+    },
+    {
+      "id": 145,
+      "categoria": "Boxeo",
+      "pregunta": "¿Cómo se le llama al clásico golpe ascendente lanzado de abajo hacia arriba a la barbilla del rival?",
+      "opciones": ["Jab", "Crochet", "Uppercut", "Directo"],
+      "respuesta_correcta": "Uppercut"
+    },
+    {
+      "id": 146,
+      "categoria": "Tenis",
+      "pregunta": "¿Qué término se utiliza cuando el marcador de un juego de tenis está empatado a 40-40?",
+      "opciones": ["Tie-break", "Deuce o Iguales", "Match point", "Empate técnico"],
+      "respuesta_correcta": "Deuce o Iguales"
+    },
+    {
+      "id": 147,
+      "categoria": "NFL",
+      "pregunta": "¿Cuántas oportunidades o 'downs' tiene un equipo en la NFL para avanzar un mínimo de 10 yardas?",
+      "opciones": ["3", "4", "5", "6"],
+      "respuesta_correcta": "4"
+    },
+    {
+      "id": 148,
+      "categoria": "MLB",
+      "pregunta": "¿Quién es la máxima autoridad en el campo encargada de cantar si un lanzamiento fue 'bola' o 'strike'?",
+      "opciones": ["El entrenador", "El pitcher", "El cátcher", "El umpire principal"],
+      "respuesta_correcta": "El umpire principal"
+    },
+    {
+      "id": 149,
+      "categoria": "UFC",
+      "pregunta": "¿Cómo se le llama a la acción de llevar al oponente desde una posición de pie hacia la lona?",
+      "opciones": ["Knockdown", "Takedown o derribo", "Sumisión", "Clinch"],
+      "respuesta_correcta": "Takedown o derribo"
+    },
+    {
+      "id": 150,
+      "categoria": "Fútbol",
+      "pregunta": "¿Cuánto tiempo de descanso tienen reglamentariamente los jugadores en el medio tiempo?",
+      "opciones": ["10 minutos", "15 minutos", "20 minutos", "25 minutos"],
+      "respuesta_correcta": "15 minutos"
     }
   ],
   "medio": [
@@ -631,6 +736,111 @@
       "pregunta": "¿Qué histórico club italiano disputa sus partidos de local en el estadio 'San Siro'?",
       "opciones": ["Juventus", "AS Roma", "Napoli", "AC Milan"],
       "respuesta_correcta": "AC Milan"
+    },
+    {
+      "id": 151,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué selección nacional masculina de fútbol tiene el récord de más Copas del Mundo ganadas (5 en total)?",
+      "opciones": ["Alemania", "Italia", "Argentina", "Brasil"],
+      "respuesta_correcta": "Brasil"
+    },
+    {
+      "id": 152,
+      "categoria": "NBA",
+      "pregunta": "¿Qué equipo comparte con Los Angeles Lakers el récord de más campeonatos en la historia de la NBA?",
+      "opciones": ["Chicago Bulls", "Boston Celtics", "Golden State Warriors", "San Antonio Spurs"],
+      "respuesta_correcta": "Boston Celtics"
+    },
+    {
+      "id": 153,
+      "categoria": "Boxeo",
+      "pregunta": "¿A qué boxeador le mordió y arrancó un pedazo de oreja Mike Tyson en su infame pelea de 1997?",
+      "opciones": ["Lennox Lewis", "Buster Douglas", "Evander Holyfield", "George Foreman"],
+      "respuesta_correcta": "Evander Holyfield"
+    },
+    {
+      "id": 154,
+      "categoria": "Tenis",
+      "pregunta": "¿Qué ex tenista suiza se convirtió en la jugadora más joven en llegar al número 1 del mundo en 1997 con solo 16 años?",
+      "opciones": ["Martina Hingis", "Steffi Graf", "Anna Kournikova", "Maria Sharapova"],
+      "respuesta_correcta": "Martina Hingis"
+    },
+    {
+      "id": 155,
+      "categoria": "NFL",
+      "pregunta": "¿Qué equipo ganó la histórica primera edición del Super Bowl en 1967?",
+      "opciones": ["Kansas City Chiefs", "Dallas Cowboys", "Green Bay Packers", "Pittsburgh Steelers"],
+      "respuesta_correcta": "Green Bay Packers"
+    },
+    {
+      "id": 156,
+      "categoria": "MLB",
+      "pregunta": "¿Qué jugador hizo historia al romper la barrera del color en el béisbol de Grandes Ligas en 1947?",
+      "opciones": ["Babe Ruth", "Willie Mays", "Hank Aaron", "Jackie Robinson"],
+      "respuesta_correcta": "Jackie Robinson"
+    },
+    {
+      "id": 157,
+      "categoria": "UFC",
+      "pregunta": "¿Qué talentoso peleador mexicano se coronó campeón interino de peso pluma en 2023 derrotando a Josh Emmett?",
+      "opciones": ["Brandon Moreno", "Yair 'Pantera' Rodríguez", "Kelvin Gastelum", "Brian Ortega"],
+      "respuesta_correcta": "Yair 'Pantera' Rodríguez"
+    },
+    {
+      "id": 158,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué joven astro francés anotó un impresionante 'hat-trick' (tres goles) en la final de la Copa del Mundo 2022?",
+      "opciones": ["Antoine Griezmann", "Kylian Mbappé", "Karim Benzema", "Olivier Giroud"],
+      "respuesta_correcta": "Kylian Mbappé"
+    },
+    {
+      "id": 159,
+      "categoria": "NBA",
+      "pregunta": "¿Qué jugador es mundialmente famoso por ser el propietario original de la marca deportiva 'Air' junto a Nike?",
+      "opciones": ["LeBron James", "Kobe Bryant", "Michael Jordan", "Magic Johnson"],
+      "respuesta_correcta": "Michael Jordan"
+    },
+    {
+      "id": 160,
+      "categoria": "Boxeo",
+      "pregunta": "¿De qué país es originario Manny 'Pac-Man' Pacquiao, el único boxeador en ganar títulos mundiales en ocho divisiones distintas?",
+      "opciones": ["Tailandia", "Japón", "Corea del Sur", "Filipinas"],
+      "respuesta_correcta": "Filipinas"
+    },
+    {
+      "id": 161,
+      "categoria": "Tenis",
+      "pregunta": "¿Cuál es el nombre de la famosa y también exitosa hermana mayor de la tenista Serena Williams?",
+      "opciones": ["Venus Williams", "Sloane Stephens", "Coco Gauff", "Naomi Osaka"],
+      "respuesta_correcta": "Venus Williams"
+    },
+    {
+      "id": 162,
+      "categoria": "NFL",
+      "pregunta": "¿Cuántos jugadores por cada equipo deben estar exactamente dentro del terreno de juego en cada jugada?",
+      "opciones": ["9 jugadores", "10 jugadores", "11 jugadores", "12 jugadores"],
+      "respuesta_correcta": "11 jugadores"
+    },
+    {
+      "id": 163,
+      "categoria": "MLB",
+      "pregunta": "¿Cómo se llama el batazo donde el jugador golpea la pelota fuera de los límites del campo, permitiéndole recorrer todas las bases?",
+      "opciones": ["Triple", "Grand Slam", "Doble matanza", "Home Run o Cuadrangular"],
+      "respuesta_correcta": "Home Run o Cuadrangular"
+    },
+    {
+      "id": 164,
+      "categoria": "UFC",
+      "pregunta": "¿Cuál es el apodo oficial de Jon Jones, considerado por muchos como el mejor peleador de MMA de todos los tiempos?",
+      "opciones": ["The Spider", "Bones", "The Iceman", "Rush"],
+      "respuesta_correcta": "Bones"
+    },
+    {
+      "id": 165,
+      "categoria": "Fútbol",
+      "pregunta": "¿Cómo se le conoce popularmente a la primera división de la liga de fútbol profesional en España?",
+      "opciones": ["Premier League", "Serie A", "LaLiga", "Bundesliga"],
+      "respuesta_correcta": "LaLiga"
     }
   ],
   "dificil": [
@@ -948,6 +1158,111 @@
       "pregunta": "¿Qué director técnico dirigió al FC Barcelona durante la histórica temporada donde consiguieron el codiciado 'Sextete' en 2009?",
       "opciones": ["Frank Rijkaard", "Luis Enrique", "Johan Cruyff", "Pep Guardiola"],
       "respuesta_correcta": "Pep Guardiola"
+    },
+    {
+      "id": 166,
+      "categoria": "Fútbol",
+      "pregunta": "¿Quién es el máximo goleador histórico de las Copas del Mundo de la FIFA con 16 goles anotados?",
+      "opciones": ["Ronaldo Nazário", "Pelé", "Miroslav Klose", "Lionel Messi"],
+      "respuesta_correcta": "Miroslav Klose"
+    },
+    {
+      "id": 167,
+      "categoria": "NBA",
+      "pregunta": "¿Qué legendario pívot posee el récord inquebrantable de haber ganado 11 campeonatos de la NBA como jugador?",
+      "opciones": ["Bill Russell", "Wilt Chamberlain", "Kareem Abdul-Jabbar", "Shaquille O'Neal"],
+      "respuesta_correcta": "Bill Russell"
+    },
+    {
+      "id": 168,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué boxeador fue el primero en derrotar a Muhammad Ali en el terreno profesional durante la 'Pelea del Siglo' en 1971?",
+      "opciones": ["George Foreman", "Joe Frazier", "Ken Norton", "Sonny Liston"],
+      "respuesta_correcta": "Joe Frazier"
+    },
+    {
+      "id": 169,
+      "categoria": "Tenis",
+      "pregunta": "¿Qué tenista masculino australiano logró la increíble hazaña de ganar el 'Grand Slam' calendario (los 4 torneos mayores) en el mismo año, en 1969?",
+      "opciones": ["Roy Emerson", "Ken Rosewall", "Rod Laver", "John Newcombe"],
+      "respuesta_correcta": "Rod Laver"
+    },
+    {
+      "id": 170,
+      "categoria": "NFL",
+      "pregunta": "¿Qué mariscal de campo se retiró sosteniendo el récord histórico de la NFL de más yardas por pase en su carrera profesional?",
+      "opciones": ["Drew Brees", "Peyton Manning", "Tom Brady", "Dan Marino"],
+      "respuesta_correcta": "Tom Brady"
+    },
+    {
+      "id": 171,
+      "categoria": "MLB",
+      "pregunta": "¿Qué lanzador domina la historia del béisbol con el récord absoluto de 5,714 ponches (strikeouts) en su carrera?",
+      "opciones": ["Randy Johnson", "Roger Clemens", "Nolan Ryan", "Pedro Martínez"],
+      "respuesta_correcta": "Nolan Ryan"
+    },
+    {
+      "id": 172,
+      "categoria": "UFC",
+      "pregunta": "¿Quién ganó el primer torneo en la historia de la organización en el evento UFC 1 en 1993, utilizando únicamente Jiu-Jitsu Brasileño?",
+      "opciones": ["Ken Shamrock", "Royce Gracie", "Gerard Gordeau", "Dan Severn"],
+      "respuesta_correcta": "Royce Gracie"
+    },
+    {
+      "id": 173,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué entrenador italiano ostenta el récord de más títulos de la UEFA Champions League ganados desde el banquillo?",
+      "opciones": ["Pep Guardiola", "Zinedine Zidane", "Sir Alex Ferguson", "Carlo Ancelotti"],
+      "respuesta_correcta": "Carlo Ancelotti"
+    },
+    {
+      "id": 174,
+      "categoria": "NBA",
+      "pregunta": "¿Qué equipo seleccionó originalmente a Dirk Nowitzki en el Draft de 1998, solo para traspasarlo inmediatamente a Dallas?",
+      "opciones": ["Milwaukee Bucks", "Boston Celtics", "Denver Nuggets", "Atlanta Hawks"],
+      "respuesta_correcta": "Milwaukee Bucks"
+    },
+    {
+      "id": 175,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué histórico y técnico boxeador mexicano se retiró invicto con un récord de 51-0-1, defendiendo su título paja más de 20 veces?",
+      "opciones": ["Salvador Sánchez", "Ricardo 'Finito' López", "Carlos Zárate", "Rubén Olivares"],
+      "respuesta_correcta": "Ricardo 'Finito' López"
+    },
+    {
+      "id": 176,
+      "categoria": "Tenis",
+      "pregunta": "¿Quién fue el primer tenista sudamericano en la historia en alcanzar el puesto número 1 del ranking mundial de la ATP?",
+      "opciones": ["Guillermo Vilas", "Gustavo Kuerten", "Marcelo Ríos", "Juan Martín del Potro"],
+      "respuesta_correcta": "Marcelo Ríos"
+    },
+    {
+      "id": 177,
+      "categoria": "NFL",
+      "pregunta": "¿Quién es el jugador que NO es pateador (kicker) con más puntos anotados en toda la historia de la NFL?",
+      "opciones": ["Emmitt Smith", "Jerry Rice", "LaDainian Tomlinson", "Randy Moss"],
+      "respuesta_correcta": "Jerry Rice"
+    },
+    {
+      "id": 178,
+      "categoria": "MLB",
+      "pregunta": "¿Qué jugador tiene el récord casi imposible de más bases robadas en la historia de las Grandes Ligas (1,406)?",
+      "opciones": ["Lou Brock", "Ty Cobb", "Tim Raines", "Rickey Henderson"],
+      "respuesta_correcta": "Rickey Henderson"
+    },
+    {
+      "id": 179,
+      "categoria": "UFC",
+      "pregunta": "¿Con qué llave de sumisión específica capturó Jon Jones el título vacante de peso pesado contra Ciryl Gane en UFC 285?",
+      "opciones": ["Mata león (Rear-Naked Choke)", "Kimura", "Guillotina (Guillotine Choke)", "Triángulo de brazo"],
+      "respuesta_correcta": "Guillotina (Guillotine Choke)"
+    },
+    {
+      "id": 180,
+      "categoria": "Fútbol",
+      "pregunta": "¿En qué ciudad se disputó la épica final de la Champions League 2005 donde el Liverpool remontó un 3-0 al AC Milan?",
+      "opciones": ["Atenas", "Estambul", "París", "Múnich"],
+      "respuesta_correcta": "Estambul"
     }
   ]
 }
