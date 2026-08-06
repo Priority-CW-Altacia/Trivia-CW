@@ -104,6 +104,111 @@
       "pregunta": "¿Cuál de estos es un golpe básico y muy común en el tenis?",
       "opciones": ["Gancho", "Revés", "Touchdown", "Home Run"],
       "respuesta_correcta": "Revés"
+    },
+    {
+      "id": 46,
+      "categoria": "Fútbol",
+      "pregunta": "¿A qué famoso jugador de fútbol argentino le apodan 'La Pulga'?",
+      "opciones": ["Diego Maradona", "Lionel Messi", "Sergio Agüero", "Julián Álvarez"],
+      "respuesta_correcta": "Lionel Messi"
+    },
+    {
+      "id": 47,
+      "categoria": "NBA",
+      "pregunta": "¿De qué color es tradicionalmente el balón oficial de baloncesto?",
+      "opciones": ["Blanco", "Café oscuro", "Naranja", "Amarillo"],
+      "respuesta_correcta": "Naranja"
+    },
+    {
+      "id": 48,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué significa ganar una pelea por 'KO'?",
+      "opciones": ["Kick Out", "Knockout", "Keep On", "Knee Out"],
+      "respuesta_correcta": "Knockout"
+    },
+    {
+      "id": 49,
+      "categoria": "UFC",
+      "pregunta": "¿Qué tipo de guantes utilizan los peleadores de artes marciales mixtas en la UFC?",
+      "opciones": ["Guantes de 4 onzas", "Guantes de boxeo de 16 onzas", "Vendas descubiertas", "Guantes de béisbol"],
+      "respuesta_correcta": "Guantes de 4 onzas"
+    },
+    {
+      "id": 50,
+      "categoria": "Tenis",
+      "pregunta": "¿Cómo se le llama al punto en el tenis que, de ganarse, otorga la victoria del partido?",
+      "opciones": ["Set point", "Break point", "Match point", "Game point"],
+      "respuesta_correcta": "Match point"
+    },
+    {
+      "id": 51,
+      "categoria": "MLB",
+      "pregunta": "¿Cuántos 'strikes' necesita acumular un bateador para ser ponchado?",
+      "opciones": ["2", "3", "4", "5"],
+      "respuesta_correcta": "3"
+    },
+    {
+      "id": 52,
+      "categoria": "Fútbol",
+      "pregunta": "¿A qué país pertenece el famoso equipo 'Real Madrid'?",
+      "opciones": ["Italia", "Francia", "Inglaterra", "España"],
+      "respuesta_correcta": "España"
+    },
+    {
+      "id": 53,
+      "categoria": "NFL",
+      "pregunta": "¿Cuál es la posición del jugador que lanza los pases en la ofensiva del fútbol americano?",
+      "opciones": ["Linebacker", "Quarterback", "Running Back", "Wide Receiver"],
+      "respuesta_correcta": "Quarterback"
+    },
+    {
+      "id": 54,
+      "categoria": "NBA",
+      "pregunta": "¿Qué significan las siglas 'NBA'?",
+      "opciones": ["National Basketball Association", "New Basketball Alliance", "National Ball Agency", "North Basketball Association"],
+      "respuesta_correcta": "National Basketball Association"
+    },
+    {
+      "id": 55,
+      "categoria": "Tenis",
+      "pregunta": "¿Cuál de estos torneos de tenis se juega tradicionalmente en cancha de pasto o hierba?",
+      "opciones": ["Roland Garros", "US Open", "Wimbledon", "Abierto de Australia"],
+      "respuesta_correcta": "Wimbledon"
+    },
+    {
+      "id": 56,
+      "categoria": "MLB",
+      "pregunta": "¿De qué material están hechos obligatoriamente los bates que se usan en las Grandes Ligas de béisbol?",
+      "opciones": ["Aluminio", "Madera", "Fibra de carbono", "Plástico reforzado"],
+      "respuesta_correcta": "Madera"
+    },
+    {
+      "id": 57,
+      "categoria": "UFC",
+      "pregunta": "¿A qué arte marcial corresponde principalmente el uso de llaves y sumisiones en el suelo?",
+      "opciones": ["Boxeo", "Taekwondo", "Jiu-Jitsu Brasileño", "Karate"],
+      "respuesta_correcta": "Jiu-Jitsu Brasileño"
+    },
+    {
+      "id": 58,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué jugador tiene como función principal proteger la portería y puede usar las manos en su área?",
+      "opciones": ["Delantero", "Defensa central", "Mediocampista", "Portero"],
+      "respuesta_correcta": "Portero"
+    },
+    {
+      "id": 59,
+      "categoria": "Boxeo",
+      "pregunta": "¿Cuántas cuerdas suele tener un ring de boxeo profesional por cada lado?",
+      "opciones": ["2", "3", "4", "5"],
+      "respuesta_correcta": "4"
+    },
+    {
+      "id": 60,
+      "categoria": "NFL",
+      "pregunta": "¿Qué equipo de la NFL tiene un logotipo con la forma de un rayo?",
+      "opciones": ["Los Angeles Chargers", "Las Vegas Raiders", "Miami Dolphins", "Denver Broncos"],
+      "respuesta_correcta": "Los Angeles Chargers"
     }
   ],
   "medio": [
@@ -211,6 +316,111 @@
       "pregunta": "¿Qué significa el término 'Strikeout' en un partido de béisbol?",
       "opciones": ["Cuadrangular", "Base robada", "Ponche", "Doble matanza"],
       "respuesta_correcta": "Ponche"
+    },
+    {
+      "id": 61,
+      "categoria": "Fútbol",
+      "pregunta": "¿En qué año se celebró la Copa Mundial de Fútbol en México por primera vez?",
+      "opciones": ["1966", "1970", "1978", "1986"],
+      "respuesta_correcta": "1970"
+    },
+    {
+      "id": 62,
+      "categoria": "NFL",
+      "pregunta": "¿Qué equipo de la NFL juega sus partidos como local en el histórico estadio 'Lambeau Field'?",
+      "opciones": ["Chicago Bears", "Detroit Lions", "Green Bay Packers", "Minnesota Vikings"],
+      "respuesta_correcta": "Green Bay Packers"
+    },
+    {
+      "id": 63,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué legendario boxeador era conocido mundialmente con el apodo de 'Iron Mike'?",
+      "opciones": ["Mike Tyson", "Evander Holyfield", "George Foreman", "Sonny Liston"],
+      "respuesta_correcta": "Mike Tyson"
+    },
+    {
+      "id": 64,
+      "categoria": "NBA",
+      "pregunta": "¿La silueta de qué histórico jugador fue utilizada para diseñar el logotipo oficial de la NBA?",
+      "opciones": ["Michael Jordan", "Magic Johnson", "Jerry West", "Larry Bird"],
+      "respuesta_correcta": "Jerry West"
+    },
+    {
+      "id": 65,
+      "categoria": "Tenis",
+      "pregunta": "¿Cuántos torneos conforman el circuito del 'Grand Slam' de tenis en un año calendario?",
+      "opciones": ["3", "4", "5", "6"],
+      "respuesta_correcta": "4"
+    },
+    {
+      "id": 66,
+      "categoria": "MLB",
+      "pregunta": "¿Qué equipo de béisbol sufrió la famosa 'Maldición de la Cabra' que duró hasta el año 2016?",
+      "opciones": ["Boston Red Sox", "Chicago White Sox", "Chicago Cubs", "Cleveland Guardians"],
+      "respuesta_correcta": "Chicago Cubs"
+    },
+    {
+      "id": 67,
+      "categoria": "UFC",
+      "pregunta": "¿De qué país es originario el dominante y ex campeón invicto de peso ligero Khabib Nurmagomedov?",
+      "opciones": ["Ucrania", "Rusia", "Estados Unidos", "Brasil"],
+      "respuesta_correcta": "Rusia"
+    },
+    {
+      "id": 68,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué club de fútbol inglés tiene el famoso himno y lema 'You'll Never Walk Alone'?",
+      "opciones": ["Manchester United", "Chelsea", "Arsenal", "Liverpool"],
+      "respuesta_correcta": "Liverpool"
+    },
+    {
+      "id": 69,
+      "categoria": "NFL",
+      "pregunta": "¿Qué nombre recibe el trofeo que se le entrega al equipo campeón del Super Bowl?",
+      "opciones": ["Trofeo Vince Lombardi", "Trofeo Halas", "Copa Stanley", "Trofeo Comisionado"],
+      "respuesta_correcta": "Trofeo Vince Lombardi"
+    },
+    {
+      "id": 70,
+      "categoria": "Boxeo",
+      "pregunta": "¿En qué categoría de peso reinó indiscutidamente el legendario Muhammad Ali?",
+      "opciones": ["Peso Mediano", "Peso Ligero", "Peso Pesado", "Peso Welter"],
+      "respuesta_correcta": "Peso Pesado"
+    },
+    {
+      "id": 71,
+      "categoria": "NBA",
+      "pregunta": "¿A qué equipo de baloncesto pertenece el famoso pabellón Madison Square Garden?",
+      "opciones": ["Brooklyn Nets", "New York Knicks", "Boston Celtics", "Philadelphia 76ers"],
+      "respuesta_correcta": "New York Knicks"
+    },
+    {
+      "id": 72,
+      "categoria": "Tenis",
+      "pregunta": "¿Qué tenista español es conocido popularmente como 'El Rey de la Arcilla'?",
+      "opciones": ["Carlos Alcaraz", "David Ferrer", "Rafael Nadal", "Juan Carlos Ferrero"],
+      "respuesta_correcta": "Rafael Nadal"
+    },
+    {
+      "id": 73,
+      "categoria": "MLB",
+      "pregunta": "¿Cuál es la única franquicia de las Grandes Ligas de béisbol que juega fuera de Estados Unidos actualmente?",
+      "opciones": ["Montreal Expos", "Toronto Blue Jays", "Vancouver Canadians", "Mexico City Diablos"],
+      "respuesta_correcta": "Toronto Blue Jays"
+    },
+    {
+      "id": 74,
+      "categoria": "UFC",
+      "pregunta": "¿Qué peleador se hizo mundialmente famoso bajo el apodo 'The Notorious'?",
+      "opciones": ["Nate Diaz", "Jon Jones", "Conor McGregor", "Dustin Poirier"],
+      "respuesta_correcta": "Conor McGregor"
+    },
+    {
+      "id": 75,
+      "categoria": "Fútbol",
+      "pregunta": "¿A qué prestigioso torneo europeo de clubes se le conoce popularmente como 'La Orejona'?",
+      "opciones": ["Europa League", "Copa del Rey", "UEFA Champions League", "Supercopa de la UEFA"],
+      "respuesta_correcta": "UEFA Champions League"
     }
   ],
   "dificil": [
@@ -318,6 +528,111 @@
       "pregunta": "¿Cuál fue la ciudad sede en Zaire donde se llevó a cabo la mítica pelea 'Rumble in the Jungle' entre Ali y Foreman?",
       "opciones": ["Kinsasa", "Nairobi", "Dakar", "Lagos"],
       "respuesta_correcta": "Kinsasa"
+    },
+    {
+      "id": 76,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué jugador ostenta el récord Guinness de más goles oficiales anotados en un solo año natural (91 goles en 2012)?",
+      "opciones": ["Cristiano Ronaldo", "Lionel Messi", "Robert Lewandowski", "Gerd Müller"],
+      "respuesta_correcta": "Lionel Messi"
+    },
+    {
+      "id": 77,
+      "categoria": "NFL",
+      "pregunta": "¿Qué legendario jugador fue seleccionado en el lejano puesto 199 de la sexta ronda del Draft del año 2000?",
+      "opciones": ["Peyton Manning", "Aaron Rodgers", "Tom Brady", "Drew Brees"],
+      "respuesta_correcta": "Tom Brady"
+    },
+    {
+      "id": 78,
+      "categoria": "Boxeo",
+      "pregunta": "¿Quién fue el primer boxeador profesional en la historia en derrotar al legendario Julio César Chávez en 1994?",
+      "opciones": ["Pernell Whitaker", "Meldrick Taylor", "Óscar de la Hoya", "Frankie Randall"],
+      "respuesta_correcta": "Frankie Randall"
+    },
+    {
+      "id": 79,
+      "categoria": "NBA",
+      "pregunta": "¿Qué franquicia de la NBA tiene el récord de más victorias en una sola temporada regular con 73 triunfos?",
+      "opciones": ["Chicago Bulls", "Golden State Warriors", "Los Angeles Lakers", "Boston Celtics"],
+      "respuesta_correcta": "Golden State Warriors"
+    },
+    {
+      "id": 80,
+      "categoria": "Tenis",
+      "pregunta": "¿Qué jugadora de tenis femenina posee el récord absoluto de más títulos de Grand Slam individuales en la Era Abierta con 23?",
+      "opciones": ["Steffi Graf", "Martina Navratilova", "Serena Williams", "Chris Evert"],
+      "respuesta_correcta": "Serena Williams"
+    },
+    {
+      "id": 81,
+      "categoria": "MLB",
+      "pregunta": "¿Quién es el lanzador con más juegos sin hit ni carrera (No-Hitters) en la historia de las Grandes Ligas con 7 en total?",
+      "opciones": ["Sandy Koufax", "Cy Young", "Nolan Ryan", "Randy Johnson"],
+      "respuesta_correcta": "Nolan Ryan"
+    },
+    {
+      "id": 82,
+      "categoria": "UFC",
+      "pregunta": "¿Qué peleador se convirtió en el primer 'Champ-Champ' (campeón simultáneo de dos divisiones) en la historia de la UFC?",
+      "opciones": ["Daniel Cormier", "Amanda Nunes", "Henry Cejudo", "Conor McGregor"],
+      "respuesta_correcta": "Conor McGregor"
+    },
+    {
+      "id": 83,
+      "categoria": "Fútbol",
+      "pregunta": "¿Cuál fue el marcador exacto del histórico partido conocido como el 'Maracanazo' en la final del Mundial de 1950?",
+      "opciones": ["Uruguay 2 - 1 Brasil", "Brasil 1 - 0 Uruguay", "Uruguay 3 - 2 Brasil", "Brasil 2 - 1 Uruguay"],
+      "respuesta_correcta": "Uruguay 2 - 1 Brasil"
+    },
+    {
+      "id": 84,
+      "categoria": "NFL",
+      "pregunta": "¿Qué entrenador en jefe tiene el récord de más victorias totales en la historia de la NFL, incluyendo playoffs, con 347?",
+      "opciones": ["Bill Belichick", "George Halas", "Tom Landry", "Don Shula"],
+      "respuesta_correcta": "Don Shula"
+    },
+    {
+      "id": 85,
+      "categoria": "Boxeo",
+      "pregunta": "¿En qué asalto detuvo el árbitro la brutal y mítica pelea 'Thrilla in Manila' entre Muhammad Ali y Joe Frazier?",
+      "opciones": ["Asalto 10", "Asalto 12", "Asalto 14", "Asalto 15"],
+      "respuesta_correcta": "Asalto 14"
+    },
+    {
+      "id": 86,
+      "categoria": "NBA",
+      "pregunta": "¿Qué legendario y veloz jugador de la NBA fue conocido mundialmente con el apodo 'The Answer'?",
+      "opciones": ["Allen Iverson", "Dwyane Wade", "Kyrie Irving", "Jason Kidd"],
+      "respuesta_correcta": "Allen Iverson"
+    },
+    {
+      "id": 87,
+      "categoria": "Tenis",
+      "pregunta": "¿Qué par de tenistas protagonizaron el partido más largo de la historia (11 horas y 5 minutos) en Wimbledon 2010?",
+      "opciones": ["Nadal vs Federer", "Isner vs Mahut", "Djokovic vs Murray", "Anderson vs Isner"],
+      "respuesta_correcta": "Isner vs Mahut"
+    },
+    {
+      "id": 88,
+      "categoria": "MLB",
+      "pregunta": "¿Qué beisbolista ostenta el récord aparentemente inalcanzable de conectar de hit en 56 juegos consecutivos?",
+      "opciones": ["Pete Rose", "Ichiro Suzuki", "Joe DiMaggio", "Ted Williams"],
+      "respuesta_correcta": "Joe DiMaggio"
+    },
+    {
+      "id": 89,
+      "categoria": "UFC",
+      "pregunta": "¿A quién derrotó Jon Jones en 2011 para convertirse en el campeón más joven en la historia de la UFC?",
+      "opciones": ["Rashad Evans", "Lyoto Machida", "Quinton 'Rampage' Jackson", "Mauricio 'Shogun' Rua"],
+      "respuesta_correcta": "Mauricio 'Shogun' Rua"
+    },
+    {
+      "id": 90,
+      "categoria": "Fútbol",
+      "pregunta": "¿Quién anotó el gol decisivo en el tiempo extra de la final del Mundial de Sudáfrica 2010 para darle el título a España?",
+      "opciones": ["David Villa", "Xavi Hernández", "Andrés Iniesta", "Fernando Torres"],
+      "respuesta_correcta": "Andrés Iniesta"
     }
   ]
 }
