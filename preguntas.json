@@ -1,1 +1,114 @@
+{
+  "facil": [
+    {
+      "id": 1,
+      "categoria": "Fútbol",
+      "pregunta": "¿Cada cuántos años se celebra la Copa Mundial de la FIFA?",
+      "opciones": ["2 años", "4 años", "5 años", "Cada año"],
+      "respuesta_correcta": "4 años"
+    },
+    {
+      "id": 2,
+      "categoria": "Boxeo",
+      "pregunta": "¿De qué país es originario el boxeador Saúl 'Canelo' Álvarez?",
+      "opciones": ["Estados Unidos", "Puerto Rico", "México", "Colombia"],
+      "respuesta_correcta": "México"
+    },
+    {
+      "id": 3,
+      "categoria": "NFL",
+      "pregunta": "¿Cómo se llama el partido final del campeonato de la NFL?",
+      "opciones": ["World Series", "Super Bowl", "Pro Bowl", "Stanley Cup"],
+      "respuesta_correcta": "Super Bowl"
+    },
+    {
+      "id": 4,
+      "categoria": "NBA",
+      "pregunta": "¿En qué deporte brilló el legendario Michael Jordan?",
+      "opciones": ["Béisbol", "Fútbol Americano", "Baloncesto", "Golf"],
+      "respuesta_correcta": "Baloncesto"
+    },
+    {
+      "id": 5,
+      "categoria": "Tenis",
+      "pregunta": "¿Qué torneo de Grand Slam se juega sobre superficie de arcilla?",
+      "opciones": ["Wimbledon", "US Open", "Abierto de Australia", "Roland Garros"],
+      "respuesta_correcta": "Roland Garros"
+    }
+  ],
+  "medio": [
+    {
+      "id": 6,
+      "categoria": "UFC",
+      "pregunta": "¿Qué significan las siglas UFC?",
+      "opciones": ["Ultimate Fighting Championship", "United Fighter Club", "Universal Fight Combat", "Underground Fighting Championship"],
+      "respuesta_correcta": "Ultimate Fighting Championship"
+    },
+    {
+      "id": 7,
+      "categoria": "Fútbol",
+      "pregunta": "¿Cuál es el nuevo nombre de la famosa franquicia de videojuegos de fútbol de EA Sports que reemplazó a 'FIFA'?",
+      "opciones": ["Pro Evolution Soccer", "eFootball", "EA Sports FC", "UFL"],
+      "respuesta_correcta": "EA Sports FC"
+    },
+    {
+      "id": 8,
+      "categoria": "MLB",
+      "pregunta": "¿Qué equipo de las Grandes Ligas tiene la mayor cantidad de Series Mundiales ganadas?",
+      "opciones": ["Boston Red Sox", "Los Angeles Dodgers", "New York Yankees", "St. Louis Cardinals"],
+      "respuesta_correcta": "New York Yankees"
+    },
+    {
+      "id": 9,
+      "categoria": "NBA",
+      "pregunta": "¿Qué jugador es considerado el mejor tirador de tres puntos en la historia y juega para los Golden State Warriors?",
+      "opciones": ["LeBron James", "Klay Thompson", "Kevin Durant", "Stephen Curry"],
+      "respuesta_correcta": "Stephen Curry"
+    },
+    {
+      "id": 10,
+      "categoria": "Fútbol",
+      "pregunta": "¿Qué país ganó la primera Copa del Mundo de la FIFA en 1930?",
+      "opciones": ["Brasil", "Uruguay", "Argentina", "Italia"],
+      "respuesta_correcta": "Uruguay"
+    }
+  ],
+  "dificil": [
+    {
+      "id": 11,
+      "categoria": "Boxeo",
+      "pregunta": "¿Cuál fue el récord oficial de victorias y derrotas con el que se retiró el legendario Rocky Marciano?",
+      "opciones": ["50-0", "49-0", "45-1", "51-0"],
+      "respuesta_correcta": "49-0"
+    },
+    {
+      "id": 12,
+      "categoria": "Tenis",
+      "pregunta": "¿Quién es el tenista masculino con más semanas como número 1 en la historia del ranking ATP?",
+      "opciones": ["Roger Federer", "Rafael Nadal", "Novak Djokovic", "Pete Sampras"],
+      "respuesta_correcta": "Novak Djokovic"
+    },
+    {
+      "id": 13,
+      "categoria": "NFL",
+      "pregunta": "¿Qué mariscal de campo tiene el récord de más pases de touchdown en una sola temporada regular (55)?",
+      "opciones": ["Tom Brady", "Patrick Mahomes", "Peyton Manning", "Aaron Rodgers"],
+      "respuesta_correcta": "Peyton Manning"
+    },
+    {
+      "id": 14,
+      "categoria": "MLB",
+      "pregunta": "¿Quién fue el último jugador en batear para un promedio superior a .400 en una sola temporada de Grandes Ligas?",
+      "opciones": ["Ty Cobb", "Babe Ruth", "Ted Williams", "Tony Gwynn"],
+      "respuesta_correcta": "Ted Williams"
+    },
+    {
+      "id": 15,
+      "categoria": "UFC",
+      "pregunta": "¿Quién tiene el récord absoluto de más defensas consecutivas de un título en la historia de la UFC (11 defensas)?",
+      "opciones": ["Jon Jones", "Anderson Silva", "Georges St-Pierre", "Demetrious Johnson"],
+      "respuesta_correcta": "Demetrious Johnson"
+    }
+  ]
+}
 
