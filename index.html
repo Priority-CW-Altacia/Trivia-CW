@@ -13,338 +13,345 @@
             color: #ffffff; 
             margin: 0;
             overflow: hidden; 
-            transition: background-color 0.5s ease; /* Transición suave de colores */
+            transition: background-color 0.5s ease; 
         }
 
-        /* --- PORTADA CON SILUETAS --- */
-        .pantalla-full {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* --- FONDOS Y SILUETAS --- */
+        .fondo-animado {
             background: linear-gradient(-45deg, #0d0d0d, #141414, #1b381f, #0a200d);
             background-size: 400% 400%;
             animation: gradienteDinamico 12s ease infinite;
-            padding: 20px;
-            box-sizing: border-box;
-            text-align: center;
-            position: relative;
         }
-
-        /* Siluetas de balones al fondo de la portada creadas con texto/emojis transparentes */
-        .pantalla-full::before {
-            content: "⚽  🏈  🏀  ⚾  🎾  🥊";
-            position: absolute;
-            font-size: 5em;
-            opacity: 0.03; /* Muy tenue para que no estorbe */
-            line-height: 2;
-            word-spacing: 50px;
-            text-align: justify;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-            width: 150%;
-            transform: rotate(-15deg);
-        }
-
         @keyframes gradienteDinamico {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        .logo-portada, .texto-bienvenida, .btn-opcion {
-            z-index: 1; /* Para que estén por encima de las siluetas */
+        /* Patrón de siluetas repetidas para el fondo */
+        .patron-siluetas {
+            position: absolute;
+            top: -20%; left: -20%; width: 140%; height: 140%;
+            font-size: 4em;
+            opacity: 0.12; /* Más visibles pero sin estorbar */
+            line-height: 1.8;
+            letter-spacing: 25px;
+            text-align: justify;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            transform: rotate(-15deg);
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
         }
 
+        /* Contenedores de pantallas */
+        .pantalla {
+            width: 100vw; height: 100vh;
+            display: none; /* Ocultas por defecto */
+            flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; box-sizing: border-box; text-align: center;
+            position: relative;
+        }
+        .pantalla.activa { display: flex; } /* Clase para mostrar la pantalla actual */
+        
+        .contenido-frente { z-index: 1; width: 100%; max-width: 380px; }
+
+        /* --- ELEMENTOS VISUALES --- */
         .logo-portada {
-            width: 90%;
-            max-width: 350px;
-            margin-bottom: 20px;
+            width: 90%; max-width: 330px; margin-bottom: 15px;
             filter: drop-shadow(0px 0px 15px rgba(76, 175, 80, 0.4));
         }
-
         .texto-bienvenida {
-            font-size: 1.15em;
-            color: #e0e0e0;
-            margin-bottom: 40px;
-            line-height: 1.6;
-            max-width: 320px;
+            font-size: 1.05em; color: #e0e0e0; margin-bottom: 30px; line-height: 1.5;
+        }
+
+        /* Cajas centrales (Juego, victoria, derrota) */
+        .caja-central {
+            background: rgba(30, 30, 30, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 15px; padding: 30px 20px; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8); 
+            border: 1px solid #333;
         }
 
         /* --- BOTONES --- */
-        .btn-opcion { 
-            padding: 16px; 
-            font-size: 1.05em; 
-            font-weight: bold;
-            border-radius: 12px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            width: 100%;
-            max-width: 320px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .contenedor-botones-duo { display: flex; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 15px; }
+        
+        .btn { 
+            padding: 15px; font-size: 1em; font-weight: bold; border-radius: 10px; 
+            cursor: pointer; transition: all 0.2s; width: 100%;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            text-transform: uppercase; letter-spacing: 1px; border: none;
         }
-        .btn-opcion:active { transform: scale(0.95); }
-        .btn-primario {
-            background-color: #4CAF50;
-            border: none;
-            color: #000; 
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
-        }
-        .btn-secundario {
-            background-color: transparent;
-            border: 2px solid #555;
-            color: #bbb;
-            font-size: 0.9em;
-        }
-        .icono-estrella { width: 22px; }
+        .btn:active { transform: scale(0.95); }
+        
+        .btn-primario { background-color: #4CAF50; color: #000; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+        .btn-peligro { background-color: #d32f2f; color: #fff; }
+        .btn-secundario { background-color: transparent; border: 2px solid #555; color: #ccc; font-size: 0.9em; }
+        .btn-opcion-juego { background-color: transparent; border: 2px solid #555; color: #fff; margin-bottom: 12px; font-size: 0.95em; }
+        .btn-opcion-juego:active { background-color: #4CAF50; border-color: #4CAF50; color: #000; }
+        
+        .icono-estrella { width: 20px; }
 
-        /* --- VENTANA FLOTANTE (REGLAS Y PREMIOS) --- */
+        /* --- VENTANA FLOTANTE (MODAL) CHICA --- */
         .modal-fondo {
-            display: none; 
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(8px); 
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            box-sizing: border-box;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); 
+            z-index: 100; justify-content: center; align-items: center; padding: 15px;
         }
         .modal-contenido {
-            background: #151515;
-            padding: 25px 20px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 380px;
-            max-height: 90vh;
-            overflow-y: auto; 
-            text-align: left;
-            border: 1px solid #4CAF50;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            background: #151515; padding: 25px 20px; border-radius: 20px;
+            width: 100%; max-width: 320px; text-align: left; border: 1px solid #4CAF50;
         }
-        .modal-contenido h3 {
-            color: #4CAF50;
-            margin-top: 0;
-            text-align: center;
-            letter-spacing: 2px;
-            font-size: 1.4em;
-        }
-        /* REGLAS REGRESARON AQUÍ */
-        .bloque-reglas p {
-            font-size: 0.9em;
-            color: #ccc;
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-        .divisor {
-            height: 1px;
-            background: #333;
-            margin: 15px 0;
-        }
-        .lista-premios {
-            margin: 0; padding-left: 0;
-            list-style: none; font-size: 0.9em; color: #ddd;
-        }
-        .lista-premios li {
-            margin-bottom: 12px; padding-bottom: 8px;
-            border-bottom: 1px solid #222; display: flex; align-items: center;
-        }
-        .lista-premios li::before { content: "🏆"; margin-right: 10px; font-size: 1.2em; }
+        .modal-contenido h3 { color: #4CAF50; margin-top: 0; text-align: center; }
+        .seccion-modal { display: none; } /* Alterna entre reglas y premios */
+
+        .lista-premios { margin: 0; padding-left: 0; list-style: none; font-size: 0.85em; color: #ddd; max-height: 50vh; overflow-y: auto;}
+        .lista-premios li { margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #222; }
         .premio-top { color: #FFD700; font-weight: bold; }
 
-        /* --- PANTALLA DE JUEGO Y SILUETAS DINÁMICAS --- */
-        #pantalla-juego {
-            display: none; 
-            width: 100vw;
-            height: 100vh;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-            position: relative;
-        }
+        /* --- TEXTOS DEL JUEGO --- */
+        .etiqueta-nivel { color: #4CAF50; font-size: 0.9em; font-weight: bold; margin-bottom: 5px; }
+        .etiqueta-categoria { color: #aaa; font-size: 0.8em; margin-bottom: 20px; text-transform: uppercase; }
+        .pregunta-texto { font-size: 1.15em; margin-bottom: 25px; line-height: 1.4; min-height: 70px; }
         
-        /* La silueta gigante en el fondo del juego */
-        #silueta-categoria {
-            position: absolute;
-            font-size: 40vh; /* Gigante */
-            opacity: 0.05; /* Muy transparente */
-            z-index: 0;
-            pointer-events: none;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .caja-juego {
-            width: 100%; max-width: 400px; 
-            background: rgba(30, 30, 30, 0.9); /* Ligeramente transparente para ver el fondo */
-            backdrop-filter: blur(10px);
-            border-radius: 15px; 
-            padding: 30px 20px; 
-            box-shadow: 0 8px 30px rgba(0,0,0,0.8); 
-            text-align: center;
-            z-index: 1;
-        }
-        .etiqueta-nivel { 
-            color: #4CAF50; font-size: 0.9em; font-weight: bold; 
-            margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px;
-        }
-        .etiqueta-categoria {
-            color: #aaa; font-size: 0.8em; margin-bottom: 20px; text-transform: uppercase;
-        }
-        .pregunta-texto { 
-            font-size: 1.2em; margin-bottom: 30px; line-height: 1.4; min-height: 80px;
-        }
-        .caja-juego .btn-opcion {
-            background-color: transparent; border: 2px solid #444;
-            color: #fff; max-width: 100%; font-size: 0.95em;
-        }
-        .caja-juego .btn-opcion:active {
-            background-color: #4CAF50; border-color: #4CAF50; color: #000;
-        }
+        .texto-destacado { color: #FFD700; font-size: 1.4em; font-weight: bold; margin: 15px 0; display: block;}
     </style>
 </head>
-<body>
+<body class="fondo-animado">
 
-    <!-- PORTADA -->
-    <div id="pantalla-inicio" class="pantalla-full">
-        <img src="CW_BCO_HORIZONTAL.png" alt="Central Wings" class="logo-portada" onerror="this.style.display='none'">
-        <p class="texto-bienvenida">Juega mientras esperas tus alimentos.<br>¡Reta tus conocimientos y gana premios!</p>
-        <button class="btn-opcion btn-primario" onclick="iniciarJuego()">
-            <img src="Icono_EstrellaCW_BCO.png" alt="☆" class="icono-estrella" onerror="this.style.display='none'">
-            JUGAR AHORA
-        </button>
-        <button class="btn-opcion btn-secundario" onclick="abrirModal()">VER PREMIOS Y REGLAS</button>
-    </div>
-
-    <!-- MODAL DE REGLAS Y PREMIOS -->
-    <div id="modal-reglas" class="modal-fondo">
-        <div class="modal-contenido">
-            <h3>DOBLE O NADA</h3>
-            
-            <!-- REGLAS DE REGRESO -->
-            <div class="bloque-reglas">
-                <p>🏈 <strong>Avanza:</strong> Responde bien para subir de nivel.</p>
-                <p>💰 <strong>Decide:</strong> Cobra tu premio o arriésgate a continuar.</p>
-                <p>🟥 <strong>Tarjeta Roja:</strong> Una mala respuesta y pierdes todo.</p>
-                <p>🎁 <strong>Nota:</strong> Válido 1 premio por mesa o cuenta.</p>
-            </div>
-            
-            <div class="divisor"></div>
-            
-            <ul class="lista-premios">
-                <li>Sigue participando</li>
-                <li>Sticker Estrella CW</li>
-                <li>Selfie con el Staff</li>
-                <li>Membresía de descuento futuras visitas</li>
-                <li>Aderezo sin costo</li>
-                <li>5% de descuento en tu cuenta final</li>
-                <li>Ronda de Shots (5)</li>
-                <li>1 Bola de Helado</li>
-                <li>2 Tarros de Cerveza (325ml)</li>
-                <li>Gorra Edición CW</li>
-                <li>10% de descuento en tu cuenta final</li>
-                <li class="premio-top">Tarjeta PRIORITY + (Membresía Exclusiva)</li>
-            </ul>
-            
-            <button class="btn-opcion btn-primario" style="margin-top: 20px; width: 100%;" onclick="cerrarModal()">ENTENDIDO</button>
-        </div>
-    </div>
-
-    <!-- PANTALLA DE JUEGO -->
-    <div id="pantalla-juego">
-        <!-- Silueta dinámica de fondo -->
-        <div id="silueta-categoria">🏆</div>
+    <!-- PANTALLA 1: PORTADA -->
+    <div id="pantalla-inicio" class="pantalla activa">
+        <div class="patron-siluetas">⚽ 🏈 🏀 ⚾ 🎾 🥊 ⚽ 🏈 🏀 ⚾ 🎾 🥊 ⚽ 🏈 🏀 ⚾ 🎾 🥊</div>
         
-        <div class="caja-juego">
-            <div class="etiqueta-nivel" id="nivel-texto">NIVEL: FÁCIL</div>
-            <div class="etiqueta-categoria" id="categoria-texto">Categoría</div>
-            <div class="pregunta-texto" id="pregunta-texto">Cargando pregunta...</div>
-            <div id="contenedor-opciones">
-                <!-- Los botones se generarán aquí por JavaScript -->
+        <div class="contenido-frente">
+            <img src="CW_BCO_HORIZONTAL.png" alt="Central Wings" class="logo-portada" onerror="this.style.display='none'">
+            <p class="texto-bienvenida">Demuestra lo que sabes de deportes y gana recompensas mientras preparamos tus alimentos.</p>
+
+            <button class="btn btn-primario" onclick="iniciarJuego()" style="margin-bottom: 15px;">
+                <img src="Icono_EstrellaCW_BCO.png" alt="☆" class="icono-estrella" onerror="this.style.display='none'">
+                JUGAR AHORA
+            </button>
+
+            <!-- Botones Divididos para el Modal -->
+            <div class="contenedor-botones-duo">
+                <button class="btn btn-secundario" onclick="abrirModal('reglas')">📖 REGLAS</button>
+                <button class="btn btn-secundario" onclick="abrirModal('premios')">🎁 PREMIOS</button>
             </div>
         </div>
     </div>
 
-    <!-- EL MOTOR DEL JUEGO (JavaScript) -->
+
+    <!-- PANTALLA 2: JUEGO -->
+    <div id="pantalla-juego" class="pantalla">
+        <div class="patron-siluetas" id="siluetas-juego">🏆 🏆 🏆</div>
+        
+        <div class="contenido-frente caja-central">
+            <div class="etiqueta-nivel" id="nivel-texto">PREGUNTA 1</div>
+            <div class="etiqueta-categoria" id="categoria-texto">Categoría</div>
+            <div class="pregunta-texto" id="pregunta-texto">Cargando...</div>
+            <div id="contenedor-opciones"></div>
+        </div>
+    </div>
+
+
+    <!-- PANTALLA 3: DOBLE O NADA -->
+    <div id="pantalla-dobleonada" class="pantalla">
+        <div class="patron-siluetas">💰 💰 💰 💰 💰 💰 💰 💰 💰</div>
+        
+        <div class="contenido-frente caja-central">
+            <h2 style="color: #4CAF50; margin-top: 0;">¡RESPUESTA CORRECTA!</h2>
+            <p style="color: #ccc;">Has asegurado el siguiente premio:</p>
+            <span class="texto-destacado" id="premio-actual">Premio</span>
+            
+            <p style="font-size: 0.9em; margin-bottom: 25px;">¿Qué deseas hacer, carnal?</p>
+
+            <button class="btn btn-primario" onclick="cobrarPremio()" style="margin-bottom: 15px;">
+                💰 COBRAR PREMIO AHORA
+            </button>
+            <button class="btn btn-secundario" onclick="siguientePregunta()">
+                🎲 ARRIESGAR (DOBLE O NADA)
+            </button>
+        </div>
+    </div>
+
+
+    <!-- PANTALLA 4: TARJETA ROJA (DERROTA) -->
+    <div id="pantalla-derrota" class="pantalla">
+        <div class="patron-siluetas">🟥 🟥 🟥 🟥 🟥 🟥 🟥 🟥</div>
+        
+        <div class="contenido-frente caja-central" style="border-color: #d32f2f;">
+            <h2 style="color: #d32f2f; margin-top: 0;">¡TARJETA ROJA!</h2>
+            <p style="color: #ccc;">Respuesta incorrecta. Has perdido tu racha y los premios acumulados.</p>
+            <p style="font-size: 0.85em; color: #888;">No te agüites, sigue disfrutando con nosotros.</p>
+            
+            <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">VOLVER AL INICIO</button>
+        </div>
+    </div>
+
+
+    <!-- PANTALLA 5: VICTORIA / COBRAR -->
+    <div id="pantalla-victoria" class="pantalla">
+        <div class="patron-siluetas">⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐</div>
+        
+        <div class="contenido-frente caja-central" style="border-color: #FFD700;">
+            <h2 style="color: #FFD700; margin-top: 0;">¡FELICIDADES!</h2>
+            <p style="color: #ccc;">Te retiraste a tiempo. Has ganado:</p>
+            <span class="texto-destacado" id="premio-final">Premio</span>
+            
+            <div style="background: #222; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <p style="font-size: 0.85em; margin: 0; color: #aaa;">Muestra esta pantalla a tu mesero para reclamar tu premio.</p>
+                <p style="font-size: 0.7em; color: #666; margin-top: 10px;">Válido solo hoy. 1 por mesa.</p>
+            </div>
+            
+            <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">FINALIZAR JUEGO</button>
+        </div>
+    </div>
+
+
+    <!-- MODAL COMPACTO (REGLAS Y PREMIOS) -->
+    <div id="modal-info" class="modal-fondo">
+        <div class="modal-contenido">
+            
+            <!-- Bloque de Reglas -->
+            <div id="contenido-reglas" class="seccion-modal">
+                <h3>REGLAS DEL JUEGO</h3>
+                <p style="font-size: 0.9em; color: #ccc;">🏈 <strong>Avanza:</strong> Responde bien para subir tu premio.</p>
+                <p style="font-size: 0.9em; color: #ccc;">💰 <strong>Decide:</strong> Al acertar, cobra tu premio o arriésgate a ir por uno mejor.</p>
+                <p style="font-size: 0.9em; color: #ccc;">🟥 <strong>Tarjeta Roja:</strong> Una mala respuesta y pierdes lo acumulado.</p>
+                <p style="font-size: 0.9em; color: #ccc;">🎁 <strong>Nota:</strong> Válido 1 premio por mesa.</p>
+            </div>
+
+            <!-- Bloque de Premios -->
+            <div id="contenido-premios" class="seccion-modal">
+                <h3>PREMIOS</h3>
+                <ul class="lista-premios">
+                    <li>1. Sticker Estrella CW</li>
+                    <li>2. Selfie con el Staff</li>
+                    <li>3. Membresía de descuento futuras visitas</li>
+                    <li>4. Aderezo sin costo</li>
+                    <li>5. 5% de descuento (cuenta final)</li>
+                    <li>6. Ronda de Shots (5)</li>
+                    <li>7. 1 Bola de Helado</li>
+                    <li>8. 2 Tarros de Cerveza (325ml)</li>
+                    <li>9. Gorra Edición CW</li>
+                    <li>10. 10% de descuento (cuenta final)</li>
+                    <li class="premio-top">11. Tarjeta PRIORITY +</li>
+                </ul>
+            </div>
+            
+            <button class="btn btn-primario" style="margin-top: 20px;" onclick="cerrarModal()">ENTENDIDO</button>
+        </div>
+    </div>
+
+    <!-- MOTOR LÓGICO (JavaScript) -->
     <script>
         let baseDeDatos = {};
-        let nivelActual = "facil";
+        let rachaAciertos = 0; // Controla en qué pregunta y premio va
 
-        // Configuración de colores y siluetas por deporte
+        // Lista de premios ligada a la racha de aciertos (11 premios)
+        const premiosNiveles = [
+            "Sigue participando", // 0 aciertos
+            "Sticker Estrella CW", // 1 acierto
+            "Selfie con el Staff", // 2 aciertos
+            "Membresía de descuento para futuras visitas", // 3 aciertos
+            "Aderezo sin costo", // 4 aciertos
+            "5% de descuento en tu cuenta final", // 5 aciertos
+            "Ronda de Shots (5)", // 6 aciertos
+            "1 Bola de Helado", // 7 aciertos
+            "2 Tarros de Cerveza (325ml)", // 8 aciertos
+            "Gorra Edición CW", // 9 aciertos
+            "10% de descuento en tu cuenta final", // 10 aciertos
+            "Tarjeta PRIORITY + (Membresía Exclusiva)" // 11 aciertos (MAX)
+        ];
+
         const configCategorias = {
-            "Fútbol": { color: "#0a2e13", icono: "⚽" }, // Verde muy oscuro
-            "NBA": { color: "#3d1804", icono: "🏀" }, // Naranja/Café oscuro
-            "NFL": { color: "#2e1b0a", icono: "🏈" }, // Café oscuro
-            "Boxeo": { color: "#380808", icono: "🥊" }, // Rojo oscuro
-            "UFC": { color: "#222222", icono: "🥋" }, // Gris oscuro
-            "MLB": { color: "#061a30", icono: "⚾" }, // Azul oscuro
-            "Tenis": { color: "#1f3308", icono: "🎾" }, // Verde amarillento oscuro
-            "default": { color: "#121212", icono: "🏆" }
+            "Fútbol": { color: "#0a2e13", icono: "⚽ " },
+            "NBA": { color: "#3d1804", icono: "🏀 " },
+            "NFL": { color: "#2e1b0a", icono: "🏈 " },
+            "Boxeo": { color: "#380808", icono: "🥊 " },
+            "UFC": { color: "#222222", icono: "🥋 " },
+            "MLB": { color: "#061a30", icono: "⚾ " },
+            "Tenis": { color: "#1f3308", icono: "🎾 " },
+            "default": { color: "#121212", icono: "🏆 " }
         };
 
-        function abrirModal() { document.getElementById('modal-reglas').style.display = 'flex'; }
-        function cerrarModal() { document.getElementById('modal-reglas').style.display = 'none'; }
+        // --- CONTROL DE PANTALLAS ---
+        function mostrarPantalla(idPantalla) {
+            document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
+            document.getElementById(idPantalla).classList.add('activa');
+        }
 
-        // Función para arrancar
+        function abrirModal(tipo) {
+            document.getElementById('modal-info').style.display = 'flex';
+            document.getElementById('contenido-reglas').style.display = (tipo === 'reglas') ? 'block' : 'none';
+            document.getElementById('contenido-premios').style.display = (tipo === 'premios') ? 'block' : 'none';
+        }
+        function cerrarModal() { document.getElementById('modal-info').style.display = 'none'; }
+
+        function volverAlInicio() {
+            document.body.className = "fondo-animado"; // Regresa color original
+            document.body.style.backgroundColor = "";
+            mostrarPantalla('pantalla-inicio');
+        }
+
+
+        // --- LÓGICA DEL JUEGO ---
         async function iniciarJuego() {
-            document.getElementById('pantalla-inicio').style.display = 'none';
-            document.getElementById('pantalla-juego').style.display = 'flex';
+            rachaAciertos = 0;
+            document.body.className = ""; // Quita la animación de inicio
             
-            // Cargar el JSON si aún no se ha cargado
             if (Object.keys(baseDeDatos).length === 0) {
                 try {
                     const respuesta = await fetch('preguntas.json');
                     baseDeDatos = await respuesta.json();
-                    cargarPreguntaAleatoria();
                 } catch (error) {
-                    document.getElementById('pregunta-texto').innerText = "Error cargando las preguntas. Asegúrate de estar en un servidor web.";
-                    console.error("Error al cargar JSON:", error);
+                    alert("Error cargando JSON. Asegúrate de estar en un servidor web local (Live Server).");
+                    volverAlInicio();
+                    return;
                 }
-            } else {
-                cargarPreguntaAleatoria();
             }
+            siguientePregunta();
         }
 
-        function cargarPreguntaAleatoria() {
-            // Validar que exista el nivel
-            if (!baseDeDatos[nivelActual] || baseDeDatos[nivelActual].length === 0) return;
+        function siguientePregunta() {
+            mostrarPantalla('pantalla-juego');
+            
+            // Determinar dificultad basada en racha (Ej. 0-3 Facil, 4-7 Medio, 8+ Dificil)
+            let nivelKey = "facil";
+            if (rachaAciertos >= 4) nivelKey = "medio";
+            if (rachaAciertos >= 8) nivelKey = "dificil";
 
-            // Elegir pregunta al azar
-            const totalPreguntas = baseDeDatos[nivelActual].length;
-            const indiceAleatorio = Math.floor(Math.random() * totalPreguntas);
-            const pregunta = baseDeDatos[nivelActual][indiceAleatorio];
+            const preguntasNivel = baseDeDatos[nivelKey];
+            const indiceAleatorio = Math.floor(Math.random() * preguntasNivel.length);
+            const pregunta = preguntasNivel[indiceAleatorio];
 
-            // Aplicar estilo dinámico de fondo
+            // Aplicar estilo de categoría
             const estilo = configCategorias[pregunta.categoria] || configCategorias["default"];
             document.body.style.backgroundColor = estilo.color;
-            document.getElementById('silueta-categoria').innerText = estilo.icono;
+            
+            // Llenar el fondo con el patrón de la categoría
+            const patron = estilo.icono.repeat(60); // Repite el emoji 60 veces
+            document.getElementById('siluetas-juego').innerText = patron;
 
-            // Actualizar textos
-            document.getElementById('nivel-texto').innerText = `NIVEL: ${nivelActual.toUpperCase()}`;
+            // Textos
+            document.getElementById('nivel-texto').innerText = `PREGUNTA ${rachaAciertos + 1} (${nivelKey})`;
             document.getElementById('categoria-texto').innerText = pregunta.categoria;
             document.getElementById('pregunta-texto').innerText = pregunta.pregunta;
 
-            // Generar botones de opciones
+            // Botones
             const contenedorOpciones = document.getElementById('contenedor-opciones');
-            contenedorOpciones.innerHTML = ''; // Limpiar anteriores
+            contenedorOpciones.innerHTML = ''; 
             
-            pregunta.opciones.forEach(opcion => {
+            // Reordenar opciones al azar para que no siempre la correcta esté en el mismo lugar
+            let opcionesMezcladas = [...pregunta.opciones].sort(() => Math.random() - 0.5);
+
+            opcionesMezcladas.forEach(opcion => {
                 const boton = document.createElement('button');
-                boton.className = 'btn-opcion';
+                boton.className = 'btn btn-opcion-juego';
                 boton.innerText = opcion;
-                // Al hacer clic, por ahora solo mostramos si es correcta en consola (luego armamos la lógica visual de ganar/perder)
                 boton.onclick = () => validarRespuesta(opcion, pregunta.respuesta_correcta);
                 contenedorOpciones.appendChild(boton);
             });
@@ -352,11 +359,30 @@
 
         function validarRespuesta(opcionElegida, opcionCorrecta) {
             if(opcionElegida === opcionCorrecta) {
-                alert("¡CORRECTO! (Pronto programaremos la pantalla de Doble o Nada)");
-                cargarPreguntaAleatoria(); // Saca otra pregunta por ahora
+                rachaAciertos++;
+                
+                // Si ya llegó al premio máximo (Tarjeta Priority), gana en automático
+                if(rachaAciertos >= premiosNiveles.length - 1) {
+                    document.getElementById('premio-final').innerText = premiosNiveles[rachaAciertos];
+                    document.body.style.backgroundColor = "#121212";
+                    mostrarPantalla('pantalla-victoria');
+                } else {
+                    // Pantalla de Doble o Nada
+                    document.getElementById('premio-actual').innerText = premiosNiveles[rachaAciertos];
+                    document.body.style.backgroundColor = "#1a1a1a"; // Color neutro para doble o nada
+                    mostrarPantalla('pantalla-dobleonada');
+                }
             } else {
-                alert("¡INCORRECTO! (Pronto programaremos la tarjeta roja)");
+                // Tarjeta Roja
+                document.body.style.backgroundColor = "#3d0b0b"; // Fondo rojo oscuro
+                mostrarPantalla('pantalla-derrota');
             }
+        }
+
+        function cobrarPremio() {
+            document.getElementById('premio-final').innerText = premiosNiveles[rachaAciertos];
+            document.body.style.backgroundColor = "#121212";
+            mostrarPantalla('pantalla-victoria');
         }
     </script>
 
