@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- Esta línea es vital para que se adapte a la pantalla del celular y no se vea chiquito -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trivia - Central Wings</title>
+    
+    <style>
+        /* EL MAQUILLAJE (CSS) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #121212; /* Fondo oscuro elegante */
+            color: #ffffff; 
+            text-align: center; 
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .contenedor-juego { 
+            width: 100%;
+            max-width: 400px; 
+            background: #1e1e1e; 
+            border-radius: 15px; 
+            padding: 30px 20px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.8); 
+        }
+        .etiqueta-nivel { 
+            color: #4CAF50; /* Un verde llamativo */
+            font-size: 0.9em;
+            font-weight: bold; 
+            margin-bottom: 15px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+        }
+        .pregunta-texto { 
+            font-size: 1.3em; 
+            margin-bottom: 30px; 
+            line-height: 1.4;
+        }
+        .contenedor-opciones { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        .btn-opcion { 
+            padding: 15px; 
+            font-size: 1em; 
+            font-weight: bold;
+            border: 2px solid #333; 
+            border-radius: 10px; 
+            background-color: transparent; 
+            color: #fff; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
+        /* Efecto cuando el cliente presiona el botón */
+        .btn-opcion:active { 
+            background-color: #4CAF50; 
+            border-color: #4CAF50;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LA ESTRUCTURA (HTML) -->
+    <div class="contenedor-juego">
+        
+        <div class="etiqueta-nivel" id="nivel">TIEMPO 1: CALENTAMIENTO</div>
+        
+        <div class="pregunta-texto" id="pregunta">
+            ¿Estás listo para demostrar qué tanto sabes de deportes mientras llega tu orden?
+        </div>
+        
+        <div class="contenedor-opciones" id="opciones">
+            <button class="btn-opcion">Opción A</button>
+            <button class="btn-opcion">Opción B</button>
+            <button class="btn-opcion">Opción C</button>
+            <button class="btn-opcion">Opción D</button>
+        </div>
+
+    </div>
+
+    <!-- EL MOTOR (JavaScript) -->
+    <script>
+        // Aquí construiremos la conexión con el JSON y la ruleta aleatoria.
+        console.log("Interfaz cargada. ¡Listos para programar el algoritmo!");
+    </script>
+
+</body>
+</html>
+
