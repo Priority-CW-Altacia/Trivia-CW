@@ -71,6 +71,30 @@
             border-radius: 15px; padding: 30px 20px; 
             box-shadow: 0 8px 30px rgba(0,0,0,0.8); 
             border: 1px solid #333;
+            position: relative; /* Para que la marca de agua se posicione dentro */
+            overflow: hidden; /* Para que la marca de agua no se salga de la caja */
+        }
+
+        /* --- MARCA DE AGUA RELOJ --- */
+        #reloj-marca-agua {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            font-size: 3.5em;
+            font-weight: 900;
+            color: #ffffff;
+            opacity: 0.06; /* Muy tenue para que no estorbe la lectura */
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+            text-align: center;
+            line-height: 1.1;
+            width: 100%;
+        }
+        .contenido-victoria-frente {
+            position: relative;
+            z-index: 1; /* Esto asegura que el texto del premio quede ENCIMA del reloj */
         }
 
         /* --- BOTONES --- */
@@ -83,7 +107,6 @@
         }
         .btn:active { transform: scale(0.95); }
         .btn-primario { background-color: #4CAF50; color: #000; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
-        .btn-peligro { background-color: #d32f2f; color: #fff; }
         .btn-secundario { background-color: transparent; border: 2px solid #555; color: #ccc; font-size: 0.9em; }
         .btn-opcion-juego { background-color: transparent; border: 2px solid #555; color: #fff; margin-bottom: 12px; font-size: 0.95em; }
         .btn-opcion-juego:active { background-color: #4CAF50; border-color: #4CAF50; color: #000; }
@@ -187,21 +210,30 @@
     </div>
 
 
-    <!-- PANTALLA 5: VICTORIA / COBRAR -->
+    <!-- PANTALLA 5: VICTORIA / COBRAR CON MARCA DE AGUA -->
     <div id="pantalla-victoria" class="pantalla">
         <div class="patron-siluetas">⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐</div>
         
         <div class="contenido-frente caja-central" style="border-color: #FFD700;">
-            <h2 style="color: #FFD700; margin-top: 0;">¡FELICIDADES!</h2>
-            <p style="color: #ccc;">Te retiraste a tiempo. Has ganado:</p>
-            <span class="texto-destacado" id="premio-final">Premio</span>
             
-            <div style="background: #222; padding: 15px; border-radius: 10px; margin-top: 20px;">
-                <p style="font-size: 0.85em; margin: 0; color: #aaa;">Muestra esta pantalla a tu mesero para reclamar tu premio.</p>
-                <p style="font-size: 0.7em; color: #666; margin-top: 10px;">Válido solo hoy. 1 por mesa.</p>
+            <!-- MARCA DE AGUA ANTI-TRAMPAS -->
+            <div id="reloj-marca-agua">
+                00:00:00<br><span style="font-size: 0.4em;">00/00/0000</span>
             </div>
-            
-            <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">FINALIZAR JUEGO</button>
+
+            <!-- CONTENIDO REAL (Encima del reloj) -->
+            <div class="contenido-victoria-frente">
+                <h2 style="color: #FFD700; margin-top: 0;">¡FELICIDADES!</h2>
+                <p style="color: #ccc;">Te retiraste a tiempo. Has ganado:</p>
+                <span class="texto-destacado" id="premio-final">Premio</span>
+                
+                <div style="background: #222; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                    <p style="font-size: 0.85em; margin: 0; color: #aaa;">Muestra esta pantalla a tu mesero para reclamar tu premio.</p>
+                    <p style="font-size: 0.7em; color: #666; margin-top: 10px;">Válido solo hoy. 1 por mesa.</p>
+                </div>
+                
+                <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">FINALIZAR JUEGO</button>
+            </div>
         </div>
     </div>
 
@@ -209,8 +241,6 @@
     <!-- MODAL COMPACTO (REGLAS Y PREMIOS) -->
     <div id="modal-info" class="modal-fondo">
         <div class="modal-contenido">
-            
-            <!-- Bloque de Reglas -->
             <div id="contenido-reglas" class="seccion-modal">
                 <h3>REGLAS DEL JUEGO</h3>
                 <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🏈 <strong>Avanza:</strong> Cada nivel tiene 5 preguntas. Necesitas contestar bien mínimo 4 (Niveles 1 al 5) o todas perfectas (Niveles 6 en adelante) para ganar.</p>
@@ -218,8 +248,6 @@
                 <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🟥 <strong>Tarjeta Roja:</strong> Si superas el límite de errores, pierdes todo lo acumulado.</p>
                 <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🎁 <strong>Nota:</strong> Válido 1 premio por mesa/cuenta.</p>
             </div>
-
-            <!-- Bloque de Premios -->
             <div id="contenido-premios" class="seccion-modal">
                 <h3>PREMIOS</h3>
                 <ul class="lista-premios">
@@ -236,7 +264,6 @@
                     <li class="premio-top">11. Tarjeta PRIORITY +</li>
                 </ul>
             </div>
-            
             <button class="btn btn-primario" style="margin-top: 20px;" onclick="cerrarModal()">ENTENDIDO</button>
         </div>
     </div>
@@ -245,24 +272,23 @@
     <script>
         let baseDeDatos = {};
         
-        // Controladores de Rondas y Bloques
-        let indicePremioActual = 0; // 0 = Sin premio, 1 = Sticker, etc.
+        let indicePremioActual = 0; 
         let preguntasContestadasBloque = 0;
         let erroresBloque = 0;
 
         const premiosNiveles = [
-            "Sigue participando", // 0
-            "Sticker Estrella CW", // 1
-            "Selfie con el Staff", // 2
-            "Membresía de descuento (futuras visitas)", // 3
-            "Aderezo sin costo", // 4
-            "5% de descuento en cuenta final", // 5
-            "Ronda de Shots (5)", // 6
-            "1 Bola de Helado", // 7
-            "2 Tarros de Cerveza (325ml)", // 8
-            "Gorra Edición CW", // 9
-            "10% de descuento en cuenta final", // 10
-            "Tarjeta PRIORITY + (Membresía Exclusiva)" // 11
+            "Sigue participando",
+            "Sticker Estrella CW",
+            "Selfie con el Staff",
+            "Membresía de descuento (futuras visitas)",
+            "Aderezo sin costo",
+            "5% de descuento en cuenta final",
+            "Ronda de Shots (5)",
+            "1 Bola de Helado",
+            "2 Tarros de Cerveza (325ml)",
+            "Gorra Edición CW",
+            "10% de descuento en cuenta final",
+            "Tarjeta PRIORITY + (Membresía Exclusiva)"
         ];
 
         const configCategorias = {
@@ -276,6 +302,26 @@
             "default": { color: "#121212", icono: "🏆 " }
         };
 
+        // --- RELOJ ANTI-TRAMPAS ---
+        function actualizarReloj() {
+            const ahora = new Date();
+            const horas = String(ahora.getHours()).padStart(2, '0');
+            const minutos = String(ahora.getMinutes()).padStart(2, '0');
+            const segundos = String(ahora.getSeconds()).padStart(2, '0');
+            
+            const dia = String(ahora.getDate()).padStart(2, '0');
+            const mes = String(ahora.getMonth() + 1).padStart(2, '0'); 
+            const anio = ahora.getFullYear();
+
+            const elementoReloj = document.getElementById('reloj-marca-agua');
+            if(elementoReloj) {
+                elementoReloj.innerHTML = `${horas}:${minutos}:${segundos}<br><span style="font-size: 0.4em;">${dia}/${mes}/${anio}</span>`;
+            }
+        }
+        setInterval(actualizarReloj, 1000); // Se actualiza cada segundo
+        actualizarReloj(); // Ejecutar de inmediato al cargar
+
+        // --- FUNCIONES DE PANTALLA ---
         function mostrarPantalla(idPantalla) {
             document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
             document.getElementById(idPantalla).classList.add('activa');
@@ -294,6 +340,7 @@
             mostrarPantalla('pantalla-inicio');
         }
 
+        // --- LÓGICA DEL JUEGO ---
         async function iniciarJuego() {
             indicePremioActual = 0;
             preguntasContestadasBloque = 0;
@@ -315,11 +362,8 @@
 
         function siguientePregunta() {
             mostrarPantalla('pantalla-juego');
-            
-            // Ocultar alerta de error temporalmente
             document.getElementById('alerta-error').style.display = 'none';
             
-            // Aumentar la dificultad de las preguntas conforme suben de premio
             let nivelKey = "facil";
             if (indicePremioActual >= 3) nivelKey = "medio";
             if (indicePremioActual >= 7) nivelKey = "dificil";
@@ -366,23 +410,19 @@
             
             preguntasContestadasBloque++;
             
-            // Límite de errores: 1 error para las primeras 5 rondas, 0 errores de la 6 en adelante.
             let limiteErrores = (indicePremioActual < 5) ? 1 : 0; 
             
-            // Si supera el límite, TARJETA ROJA
             if (erroresBloque > limiteErrores) {
                 document.body.style.backgroundColor = "#3d0b0b"; 
                 mostrarPantalla('pantalla-derrota');
                 return;
             }
             
-            // Si contesta el bloque completo (5 preguntas) sin perder
             if (preguntasContestadasBloque === 5) {
                 indicePremioActual++;
-                preguntasContestadasBloque = 0; // Reinicia contador para la siguiente ronda
+                preguntasContestadasBloque = 0; 
                 erroresBloque = 0;
                 
-                // Si llegó a la Tarjeta Priority (Premio 11), gana en automático
                 if (indicePremioActual >= premiosNiveles.length - 1) {
                     document.getElementById('premio-final').innerText = premiosNiveles[indicePremioActual];
                     document.body.style.backgroundColor = "#121212";
@@ -393,7 +433,6 @@
                     mostrarPantalla('pantalla-dobleonada');
                 }
             } else {
-                // Si aún no completa las 5, pasa a la siguiente pregunta de la ronda
                 siguientePregunta();
             }
         }
