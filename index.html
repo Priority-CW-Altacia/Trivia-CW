@@ -28,12 +28,11 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Patrón de siluetas repetidas para el fondo */
         .patron-siluetas {
             position: absolute;
             top: -20%; left: -20%; width: 140%; height: 140%;
             font-size: 4em;
-            opacity: 0.12; /* Más visibles pero sin estorbar */
+            opacity: 0.12; 
             line-height: 1.8;
             letter-spacing: 25px;
             text-align: justify;
@@ -49,12 +48,12 @@
         /* Contenedores de pantallas */
         .pantalla {
             width: 100vw; height: 100vh;
-            display: none; /* Ocultas por defecto */
+            display: none; 
             flex-direction: column; justify-content: center; align-items: center;
             padding: 20px; box-sizing: border-box; text-align: center;
             position: relative;
         }
-        .pantalla.activa { display: flex; } /* Clase para mostrar la pantalla actual */
+        .pantalla.activa { display: flex; } 
         
         .contenido-frente { z-index: 1; width: 100%; max-width: 380px; }
 
@@ -66,8 +65,6 @@
         .texto-bienvenida {
             font-size: 1.05em; color: #e0e0e0; margin-bottom: 30px; line-height: 1.5;
         }
-
-        /* Cajas centrales (Juego, victoria, derrota) */
         .caja-central {
             background: rgba(30, 30, 30, 0.85);
             backdrop-filter: blur(10px);
@@ -78,7 +75,6 @@
 
         /* --- BOTONES --- */
         .contenedor-botones-duo { display: flex; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 15px; }
-        
         .btn { 
             padding: 15px; font-size: 1em; font-weight: bold; border-radius: 10px; 
             cursor: pointer; transition: all 0.2s; width: 100%;
@@ -86,7 +82,6 @@
             text-transform: uppercase; letter-spacing: 1px; border: none;
         }
         .btn:active { transform: scale(0.95); }
-        
         .btn-primario { background-color: #4CAF50; color: #000; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
         .btn-peligro { background-color: #d32f2f; color: #fff; }
         .btn-secundario { background-color: transparent; border: 2px solid #555; color: #ccc; font-size: 0.9em; }
@@ -95,7 +90,7 @@
         
         .icono-estrella { width: 20px; }
 
-        /* --- VENTANA FLOTANTE (MODAL) CHICA --- */
+        /* --- VENTANA FLOTANTE (MODAL) --- */
         .modal-fondo {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); 
@@ -103,10 +98,10 @@
         }
         .modal-contenido {
             background: #151515; padding: 25px 20px; border-radius: 20px;
-            width: 100%; max-width: 320px; text-align: left; border: 1px solid #4CAF50;
+            width: 100%; max-width: 330px; text-align: left; border: 1px solid #4CAF50;
         }
         .modal-contenido h3 { color: #4CAF50; margin-top: 0; text-align: center; }
-        .seccion-modal { display: none; } /* Alterna entre reglas y premios */
+        .seccion-modal { display: none; } 
 
         .lista-premios { margin: 0; padding-left: 0; list-style: none; font-size: 0.85em; color: #ddd; max-height: 50vh; overflow-y: auto;}
         .lista-premios li { margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #222; }
@@ -114,9 +109,9 @@
 
         /* --- TEXTOS DEL JUEGO --- */
         .etiqueta-nivel { color: #4CAF50; font-size: 0.9em; font-weight: bold; margin-bottom: 5px; }
-        .etiqueta-categoria { color: #aaa; font-size: 0.8em; margin-bottom: 20px; text-transform: uppercase; }
+        .etiqueta-categoria { color: #aaa; font-size: 0.8em; margin-bottom: 15px; text-transform: uppercase; }
+        .indicador-errores { color: #d32f2f; font-size: 0.8em; margin-bottom: 15px; font-weight: bold; display: none; }
         .pregunta-texto { font-size: 1.15em; margin-bottom: 25px; line-height: 1.4; min-height: 70px; }
-        
         .texto-destacado { color: #FFD700; font-size: 1.4em; font-weight: bold; margin: 15px 0; display: block;}
     </style>
 </head>
@@ -135,7 +130,6 @@
                 JUGAR AHORA
             </button>
 
-            <!-- Botones Divididos para el Modal -->
             <div class="contenedor-botones-duo">
                 <button class="btn btn-secundario" onclick="abrirModal('reglas')">📖 REGLAS</button>
                 <button class="btn btn-secundario" onclick="abrirModal('premios')">🎁 PREMIOS</button>
@@ -149,8 +143,9 @@
         <div class="patron-siluetas" id="siluetas-juego">🏆 🏆 🏆</div>
         
         <div class="contenido-frente caja-central">
-            <div class="etiqueta-nivel" id="nivel-texto">PREGUNTA 1</div>
+            <div class="etiqueta-nivel" id="nivel-texto">RONDA 1 - PREGUNTA 1/5</div>
             <div class="etiqueta-categoria" id="categoria-texto">Categoría</div>
+            <div class="indicador-errores" id="alerta-error">¡Cuidado! Un error más y pierdes.</div>
             <div class="pregunta-texto" id="pregunta-texto">Cargando...</div>
             <div id="contenedor-opciones"></div>
         </div>
@@ -162,7 +157,7 @@
         <div class="patron-siluetas">💰 💰 💰 💰 💰 💰 💰 💰 💰</div>
         
         <div class="contenido-frente caja-central">
-            <h2 style="color: #4CAF50; margin-top: 0;">¡RESPUESTA CORRECTA!</h2>
+            <h2 style="color: #4CAF50; margin-top: 0;">¡RONDA SUPERADA!</h2>
             <p style="color: #ccc;">Has asegurado el siguiente premio:</p>
             <span class="texto-destacado" id="premio-actual">Premio</span>
             
@@ -172,7 +167,7 @@
                 💰 COBRAR PREMIO AHORA
             </button>
             <button class="btn btn-secundario" onclick="siguientePregunta()">
-                🎲 ARRIESGAR (DOBLE O NADA)
+                🎲 ARRIESGAR E IR POR MÁS
             </button>
         </div>
     </div>
@@ -184,8 +179,8 @@
         
         <div class="contenido-frente caja-central" style="border-color: #d32f2f;">
             <h2 style="color: #d32f2f; margin-top: 0;">¡TARJETA ROJA!</h2>
-            <p style="color: #ccc;">Respuesta incorrecta. Has perdido tu racha y los premios acumulados.</p>
-            <p style="font-size: 0.85em; color: #888;">No te agüites, sigue disfrutando con nosotros.</p>
+            <p style="color: #ccc;">Fallaste el límite de preguntas en esta ronda. Has perdido tus premios acumulados.</p>
+            <p style="font-size: 0.85em; color: #888;">No te agüites, pide una bebida y vuelve a intentarlo.</p>
             
             <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">VOLVER AL INICIO</button>
         </div>
@@ -218,10 +213,10 @@
             <!-- Bloque de Reglas -->
             <div id="contenido-reglas" class="seccion-modal">
                 <h3>REGLAS DEL JUEGO</h3>
-                <p style="font-size: 0.9em; color: #ccc;">🏈 <strong>Avanza:</strong> Responde bien para subir tu premio.</p>
-                <p style="font-size: 0.9em; color: #ccc;">💰 <strong>Decide:</strong> Al acertar, cobra tu premio o arriésgate a ir por uno mejor.</p>
-                <p style="font-size: 0.9em; color: #ccc;">🟥 <strong>Tarjeta Roja:</strong> Una mala respuesta y pierdes lo acumulado.</p>
-                <p style="font-size: 0.9em; color: #ccc;">🎁 <strong>Nota:</strong> Válido 1 premio por mesa.</p>
+                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🏈 <strong>Avanza:</strong> Cada nivel tiene 5 preguntas. Necesitas contestar bien mínimo 4 (Niveles 1 al 5) o todas perfectas (Niveles 6 en adelante) para ganar.</p>
+                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">💰 <strong>Decide:</strong> Al pasar un nivel, cobra tu premio o arriésgate al Doble o Nada para mejorar el premio.</p>
+                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🟥 <strong>Tarjeta Roja:</strong> Si superas el límite de errores, pierdes todo lo acumulado.</p>
+                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🎁 <strong>Nota:</strong> Válido 1 premio por mesa/cuenta.</p>
             </div>
 
             <!-- Bloque de Premios -->
@@ -230,7 +225,7 @@
                 <ul class="lista-premios">
                     <li>1. Sticker Estrella CW</li>
                     <li>2. Selfie con el Staff</li>
-                    <li>3. Membresía de descuento futuras visitas</li>
+                    <li>3. Membresía descuento futuras visitas</li>
                     <li>4. Aderezo sin costo</li>
                     <li>5. 5% de descuento (cuenta final)</li>
                     <li>6. Ronda de Shots (5)</li>
@@ -249,22 +244,25 @@
     <!-- MOTOR LÓGICO (JavaScript) -->
     <script>
         let baseDeDatos = {};
-        let rachaAciertos = 0; // Controla en qué pregunta y premio va
+        
+        // Controladores de Rondas y Bloques
+        let indicePremioActual = 0; // 0 = Sin premio, 1 = Sticker, etc.
+        let preguntasContestadasBloque = 0;
+        let erroresBloque = 0;
 
-        // Lista de premios ligada a la racha de aciertos (11 premios)
         const premiosNiveles = [
-            "Sigue participando", // 0 aciertos
-            "Sticker Estrella CW", // 1 acierto
-            "Selfie con el Staff", // 2 aciertos
-            "Membresía de descuento para futuras visitas", // 3 aciertos
-            "Aderezo sin costo", // 4 aciertos
-            "5% de descuento en tu cuenta final", // 5 aciertos
-            "Ronda de Shots (5)", // 6 aciertos
-            "1 Bola de Helado", // 7 aciertos
-            "2 Tarros de Cerveza (325ml)", // 8 aciertos
-            "Gorra Edición CW", // 9 aciertos
-            "10% de descuento en tu cuenta final", // 10 aciertos
-            "Tarjeta PRIORITY + (Membresía Exclusiva)" // 11 aciertos (MAX)
+            "Sigue participando", // 0
+            "Sticker Estrella CW", // 1
+            "Selfie con el Staff", // 2
+            "Membresía de descuento (futuras visitas)", // 3
+            "Aderezo sin costo", // 4
+            "5% de descuento en cuenta final", // 5
+            "Ronda de Shots (5)", // 6
+            "1 Bola de Helado", // 7
+            "2 Tarros de Cerveza (325ml)", // 8
+            "Gorra Edición CW", // 9
+            "10% de descuento en cuenta final", // 10
+            "Tarjeta PRIORITY + (Membresía Exclusiva)" // 11
         ];
 
         const configCategorias = {
@@ -278,7 +276,6 @@
             "default": { color: "#121212", icono: "🏆 " }
         };
 
-        // --- CONTROL DE PANTALLAS ---
         function mostrarPantalla(idPantalla) {
             document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
             document.getElementById(idPantalla).classList.add('activa');
@@ -292,23 +289,23 @@
         function cerrarModal() { document.getElementById('modal-info').style.display = 'none'; }
 
         function volverAlInicio() {
-            document.body.className = "fondo-animado"; // Regresa color original
+            document.body.className = "fondo-animado"; 
             document.body.style.backgroundColor = "";
             mostrarPantalla('pantalla-inicio');
         }
 
-
-        // --- LÓGICA DEL JUEGO ---
         async function iniciarJuego() {
-            rachaAciertos = 0;
-            document.body.className = ""; // Quita la animación de inicio
+            indicePremioActual = 0;
+            preguntasContestadasBloque = 0;
+            erroresBloque = 0;
+            document.body.className = ""; 
             
             if (Object.keys(baseDeDatos).length === 0) {
                 try {
                     const respuesta = await fetch('preguntas.json');
                     baseDeDatos = await respuesta.json();
                 } catch (error) {
-                    alert("Error cargando JSON. Asegúrate de estar en un servidor web local (Live Server).");
+                    alert("Error cargando JSON. Asegúrate de estar en un servidor local.");
                     volverAlInicio();
                     return;
                 }
@@ -319,33 +316,36 @@
         function siguientePregunta() {
             mostrarPantalla('pantalla-juego');
             
-            // Determinar dificultad basada en racha (Ej. 0-3 Facil, 4-7 Medio, 8+ Dificil)
+            // Ocultar alerta de error temporalmente
+            document.getElementById('alerta-error').style.display = 'none';
+            
+            // Aumentar la dificultad de las preguntas conforme suben de premio
             let nivelKey = "facil";
-            if (rachaAciertos >= 4) nivelKey = "medio";
-            if (rachaAciertos >= 8) nivelKey = "dificil";
+            if (indicePremioActual >= 3) nivelKey = "medio";
+            if (indicePremioActual >= 7) nivelKey = "dificil";
 
             const preguntasNivel = baseDeDatos[nivelKey];
             const indiceAleatorio = Math.floor(Math.random() * preguntasNivel.length);
             const pregunta = preguntasNivel[indiceAleatorio];
 
-            // Aplicar estilo de categoría
             const estilo = configCategorias[pregunta.categoria] || configCategorias["default"];
             document.body.style.backgroundColor = estilo.color;
             
-            // Llenar el fondo con el patrón de la categoría
-            const patron = estilo.icono.repeat(60); // Repite el emoji 60 veces
+            const patron = estilo.icono.repeat(60); 
             document.getElementById('siluetas-juego').innerText = patron;
 
-            // Textos
-            document.getElementById('nivel-texto').innerText = `PREGUNTA ${rachaAciertos + 1} (${nivelKey})`;
+            document.getElementById('nivel-texto').innerText = `RONDA ${indicePremioActual + 1} - PREGUNTA ${preguntasContestadasBloque + 1}/5`;
             document.getElementById('categoria-texto').innerText = pregunta.categoria;
             document.getElementById('pregunta-texto').innerText = pregunta.pregunta;
 
-            // Botones
+            const limiteErrores = (indicePremioActual < 5) ? 1 : 0;
+            if (erroresBloque === limiteErrores && limiteErrores === 1) {
+                document.getElementById('alerta-error').style.display = 'block';
+            }
+
             const contenedorOpciones = document.getElementById('contenedor-opciones');
             contenedorOpciones.innerHTML = ''; 
             
-            // Reordenar opciones al azar para que no siempre la correcta esté en el mismo lugar
             let opcionesMezcladas = [...pregunta.opciones].sort(() => Math.random() - 0.5);
 
             opcionesMezcladas.forEach(opcion => {
@@ -358,29 +358,48 @@
         }
 
         function validarRespuesta(opcionElegida, opcionCorrecta) {
-            if(opcionElegida === opcionCorrecta) {
-                rachaAciertos++;
+            let esCorrecta = (opcionElegida === opcionCorrecta);
+            
+            if (!esCorrecta) {
+                erroresBloque++;
+            }
+            
+            preguntasContestadasBloque++;
+            
+            // Límite de errores: 1 error para las primeras 5 rondas, 0 errores de la 6 en adelante.
+            let limiteErrores = (indicePremioActual < 5) ? 1 : 0; 
+            
+            // Si supera el límite, TARJETA ROJA
+            if (erroresBloque > limiteErrores) {
+                document.body.style.backgroundColor = "#3d0b0b"; 
+                mostrarPantalla('pantalla-derrota');
+                return;
+            }
+            
+            // Si contesta el bloque completo (5 preguntas) sin perder
+            if (preguntasContestadasBloque === 5) {
+                indicePremioActual++;
+                preguntasContestadasBloque = 0; // Reinicia contador para la siguiente ronda
+                erroresBloque = 0;
                 
-                // Si ya llegó al premio máximo (Tarjeta Priority), gana en automático
-                if(rachaAciertos >= premiosNiveles.length - 1) {
-                    document.getElementById('premio-final').innerText = premiosNiveles[rachaAciertos];
+                // Si llegó a la Tarjeta Priority (Premio 11), gana en automático
+                if (indicePremioActual >= premiosNiveles.length - 1) {
+                    document.getElementById('premio-final').innerText = premiosNiveles[indicePremioActual];
                     document.body.style.backgroundColor = "#121212";
                     mostrarPantalla('pantalla-victoria');
                 } else {
-                    // Pantalla de Doble o Nada
-                    document.getElementById('premio-actual').innerText = premiosNiveles[rachaAciertos];
-                    document.body.style.backgroundColor = "#1a1a1a"; // Color neutro para doble o nada
+                    document.getElementById('premio-actual').innerText = premiosNiveles[indicePremioActual];
+                    document.body.style.backgroundColor = "#1a1a1a"; 
                     mostrarPantalla('pantalla-dobleonada');
                 }
             } else {
-                // Tarjeta Roja
-                document.body.style.backgroundColor = "#3d0b0b"; // Fondo rojo oscuro
-                mostrarPantalla('pantalla-derrota');
+                // Si aún no completa las 5, pasa a la siguiente pregunta de la ronda
+                siguientePregunta();
             }
         }
 
         function cobrarPremio() {
-            document.getElementById('premio-final').innerText = premiosNiveles[rachaAciertos];
+            document.getElementById('premio-final').innerText = premiosNiveles[indicePremioActual];
             document.body.style.backgroundColor = "#121212";
             mostrarPantalla('pantalla-victoria');
         }
