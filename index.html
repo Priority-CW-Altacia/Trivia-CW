@@ -2,15 +2,14 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Esta línea es vital para que se adapte a la pantalla del celular y no se vea chiquito -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Trivia - Central Wings</title>
     
     <style>
-        /* EL MAQUILLAJE (CSS) */
+        /* --- ESTILOS GENERALES --- */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #121212; /* Fondo oscuro elegante */
+            background-color: #121212; 
             color: #ffffff; 
             text-align: center; 
             padding: 20px;
@@ -28,8 +27,94 @@
             padding: 30px 20px; 
             box-shadow: 0 8px 16px rgba(0,0,0,0.8); 
         }
+
+        /* --- PORTADA --- */
+        .logo-portada {
+            width: 85%;
+            margin-bottom: 10px;
+        }
+        .texto-bienvenida {
+            font-size: 1.1em;
+            color: #aaaaaa;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* --- BOTONES --- */
+        .btn-opcion { 
+            padding: 15px; 
+            font-size: 1em; 
+            font-weight: bold;
+            border: 2px solid #333; 
+            border-radius: 10px; 
+            background-color: transparent; 
+            color: #fff; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            width: 100%;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-opcion:active { 
+            transform: scale(0.98);
+        }
+        .btn-primario {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .btn-secundario {
+            background-color: transparent;
+            border-color: #555;
+            color: #ccc;
+            font-size: 0.9em;
+        }
+        .icono-estrella {
+            width: 20px;
+        }
+
+        /* --- VENTANA FLOTANTE (MODAL) --- */
+        .modal-fondo {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px); /* Efecto pro de desenfoque */
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-contenido {
+            background: #252525;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 350px;
+            text-align: left;
+            border: 1px solid #4CAF50;
+        }
+        .modal-contenido h3 {
+            color: #4CAF50;
+            margin-top: 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .modal-contenido p {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        /* --- ELEMENTOS DEL JUEGO (Ocultos inicialmente) --- */
+        #pantalla-juego {
+            display: none;
+        }
         .etiqueta-nivel { 
-            color: #4CAF50; /* Un verde llamativo */
+            color: #4CAF50; 
             font-size: 0.9em;
             font-weight: bold; 
             margin-bottom: 15px; 
@@ -46,51 +131,81 @@
             flex-direction: column; 
             gap: 15px; 
         }
-        .btn-opcion { 
-            padding: 15px; 
-            font-size: 1em; 
-            font-weight: bold;
-            border: 2px solid #333; 
-            border-radius: 10px; 
-            background-color: transparent; 
-            color: #fff; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-        }
-        /* Efecto cuando el cliente presiona el botón */
-        .btn-opcion:active { 
-            background-color: #4CAF50; 
-            border-color: #4CAF50;
-            transform: scale(0.98);
-        }
     </style>
 </head>
 <body>
 
-    <!-- LA ESTRUCTURA (HTML) -->
-    <div class="contenedor-juego">
+    <!-- PANTALLA 1: PORTADA -->
+    <div id="pantalla-inicio" class="contenedor-juego">
+        <!-- Logo -->
+        <img src="CW_BCO_HORIZONTAL.png" alt="Central Wings" class="logo-portada">
         
+        <p class="texto-bienvenida">
+            Pon a prueba tu conocimiento deportivo y gana premios mientras preparamos tus alimentos.
+        </p>
+
+        <!-- Botón Principal con el ícono de estrella -->
+        <button class="btn-opcion btn-primario" onclick="iniciarJuego()">
+            <img src="Icono_EstrellaCW_BCO.png" alt="☆" class="icono-estrella">
+            INICIAR TRIVIA
+        </button>
+
+        <!-- Botón de Reglas -->
+        <button class="btn-opcion btn-secundario" onclick="abrirModal()">
+            LEER REGLAS DEL JUEGO
+        </button>
+    </div>
+
+
+    <!-- PANTALLA 2: JUEGO (Oculta hasta presionar iniciar) -->
+    <div id="pantalla-juego" class="contenedor-juego">
         <div class="etiqueta-nivel" id="nivel">TIEMPO 1: CALENTAMIENTO</div>
-        
         <div class="pregunta-texto" id="pregunta">
-            ¿Estás listo para demostrar qué tanto sabes de deportes mientras llega tu orden?
+            Aquí aparecerá la primera pregunta de la base de datos...
         </div>
-        
         <div class="contenedor-opciones" id="opciones">
             <button class="btn-opcion">Opción A</button>
             <button class="btn-opcion">Opción B</button>
             <button class="btn-opcion">Opción C</button>
             <button class="btn-opcion">Opción D</button>
         </div>
-
     </div>
 
-    <!-- EL MOTOR (JavaScript) -->
+
+    <!-- VENTANA FLOTANTE DE REGLAS -->
+    <div id="modal-reglas" class="modal-fondo">
+        <div class="modal-contenido">
+            <h3>REGLAS DE LA CASA</h3>
+            <p>🏈 <strong>Avanza:</strong> Responde correctamente para subir de nivel.</p>
+            <p>💰 <strong>Doble o Nada:</strong> Al terminar un nivel, puedes cobrar tu premio o arriesgarte a continuar.</p>
+            <p>🟥 <strong>Tarjeta Roja:</strong> Si contestas mal una sola pregunta, ¡pierdes todo lo acumulado!</p>
+            <p>🎁 <strong>Nota:</strong> Válido 1 premio por mesa o cuenta por visita.</p>
+            
+            <button class="btn-opcion btn-primario" style="margin-top: 20px;" onclick="cerrarModal()">ENTENDIDO</button>
+        </div>
+    </div>
+
+
+    <!-- MOTOR LÓGICO (JavaScript) -->
     <script>
-        // Aquí construiremos la conexión con el JSON y la ruleta aleatoria.
-        console.log("Interfaz cargada. ¡Listos para programar el algoritmo!");
+        // Funciones para controlar la ventana de reglas
+        function abrirModal() {
+            document.getElementById('modal-reglas').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-reglas').style.display = 'none';
+        }
+
+        // Función para cambiar de la portada al juego
+        function iniciarJuego() {
+            document.getElementById('pantalla-inicio').style.display = 'none';
+            document.getElementById('pantalla-juego').style.display = 'block';
+            
+            // Aquí luego llamaremos a la función que saca la primera pregunta
+            console.log("¡Arranca el partido!");
+        }
     </script>
 
 </body>
 </html>
-
