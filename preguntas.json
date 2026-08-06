@@ -34,6 +34,76 @@
       "pregunta": "¿Qué torneo de Grand Slam se juega sobre superficie de arcilla?",
       "opciones": ["Wimbledon", "US Open", "Abierto de Australia", "Roland Garros"],
       "respuesta_correcta": "Roland Garros"
+    },
+    {
+      "id": 16,
+      "categoria": "Fútbol",
+      "pregunta": "¿De qué color es la tarjeta que expulsa definitivamente a un jugador del partido?",
+      "opciones": ["Amarilla", "Verde", "Azul", "Roja"],
+      "respuesta_correcta": "Roja"
+    },
+    {
+      "id": 17,
+      "categoria": "NBA",
+      "pregunta": "¿Cuántos jugadores por equipo están en la cancha durante un partido de baloncesto?",
+      "opciones": ["5", "6", "7", "11"],
+      "respuesta_correcta": "5"
+    },
+    {
+      "id": 18,
+      "categoria": "Tenis",
+      "pregunta": "¿Con qué instrumento se golpea la pelota en un partido de tenis?",
+      "opciones": ["Bate", "Palo", "Raqueta", "Mazo"],
+      "respuesta_correcta": "Raqueta"
+    },
+    {
+      "id": 19,
+      "categoria": "Boxeo",
+      "pregunta": "¿Cómo se le llama al área oficial donde pelean los boxeadores?",
+      "opciones": ["Tatami", "Ring", "Octágono", "Cancha"],
+      "respuesta_correcta": "Ring"
+    },
+    {
+      "id": 20,
+      "categoria": "NFL",
+      "pregunta": "¿Qué forma tiene el balón utilizado en el fútbol americano?",
+      "opciones": ["Redonda", "Triangular", "Ovalada", "Plana"],
+      "respuesta_correcta": "Ovalada"
+    },
+    {
+      "id": 21,
+      "categoria": "MLB",
+      "pregunta": "¿Cuántas bases tiene un campo de béisbol sin contar el 'home'?",
+      "opciones": ["2", "3", "4", "5"],
+      "respuesta_correcta": "3"
+    },
+    {
+      "id": 22,
+      "categoria": "UFC",
+      "pregunta": "¿En qué tipo de estructura se llevan a cabo los combates de artes marciales mixtas de la UFC?",
+      "opciones": ["Ring de cuerdas", "Octágono", "Cuadrilátero", "Fosa"],
+      "respuesta_correcta": "Octágono"
+    },
+    {
+      "id": 23,
+      "categoria": "Fútbol",
+      "pregunta": "¿En qué deporte se utiliza comúnmente el término 'fuera de lugar' u 'offside'?",
+      "opciones": ["Tenis", "Baloncesto", "Fútbol", "Boxeo"],
+      "respuesta_correcta": "Fútbol"
+    },
+    {
+      "id": 24,
+      "categoria": "NBA",
+      "pregunta": "¿Qué famoso equipo de baloncesto tiene un logotipo con la cara de un toro rojo?",
+      "opciones": ["Los Angeles Lakers", "Chicago Bulls", "Miami Heat", "Boston Celtics"],
+      "respuesta_correcta": "Chicago Bulls"
+    },
+    {
+      "id": 25,
+      "categoria": "Tenis",
+      "pregunta": "¿Cuál de estos es un golpe básico y muy común en el tenis?",
+      "opciones": ["Gancho", "Revés", "Touchdown", "Home Run"],
+      "respuesta_correcta": "Revés"
     }
   ],
   "medio": [
@@ -71,6 +141,76 @@
       "pregunta": "¿Qué país ganó la primera Copa del Mundo de la FIFA en 1930?",
       "opciones": ["Brasil", "Uruguay", "Argentina", "Italia"],
       "respuesta_correcta": "Uruguay"
+    },
+    {
+      "id": 26,
+      "categoria": "Fútbol",
+      "pregunta": "¿En qué estadio se jugará la gran final de la Copa Mundial de la FIFA 2026?",
+      "opciones": ["Estadio Azteca", "MetLife Stadium", "Wembley", "Maracaná"],
+      "respuesta_correcta": "MetLife Stadium"
+    },
+    {
+      "id": 27,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué peleador es mundialmente conocido como 'El Gran Campeón Mexicano'?",
+      "opciones": ["Juan Manuel Márquez", "Julio César Chávez", "Erik Morales", "Marco Antonio Barrera"],
+      "respuesta_correcta": "Julio César Chávez"
+    },
+    {
+      "id": 28,
+      "categoria": "UFC",
+      "pregunta": "¿Quién fue la primera campeona femenina en la historia de la UFC?",
+      "opciones": ["Amanda Nunes", "Holly Holm", "Cris Cyborg", "Ronda Rousey"],
+      "respuesta_correcta": "Ronda Rousey"
+    },
+    {
+      "id": 29,
+      "categoria": "NFL",
+      "pregunta": "¿Cuántos puntos vale un touchdown en el fútbol americano (sin contar el punto extra)?",
+      "opciones": ["3 puntos", "6 puntos", "7 puntos", "8 puntos"],
+      "respuesta_correcta": "6 puntos"
+    },
+    {
+      "id": 30,
+      "categoria": "MLB",
+      "pregunta": "¿A qué equipo pertenece el estadio Fenway Park, famoso por su gran muro conocido como 'El Monstruo Verde'?",
+      "opciones": ["New York Yankees", "Chicago Cubs", "Boston Red Sox", "Los Angeles Dodgers"],
+      "respuesta_correcta": "Boston Red Sox"
+    },
+    {
+      "id": 31,
+      "categoria": "NBA",
+      "pregunta": "¿Quién es el máximo anotador histórico en temporada regular de la NBA superando a Kareem Abdul-Jabbar?",
+      "opciones": ["Kobe Bryant", "Michael Jordan", "LeBron James", "Kevin Durant"],
+      "respuesta_correcta": "LeBron James"
+    },
+    {
+      "id": 32,
+      "categoria": "Fútbol",
+      "pregunta": "¿Cuál es el famoso apodo de la selección de fútbol de Inglaterra?",
+      "opciones": ["La Furia Roja", "La Albiceleste", "Los Tres Leones", "La Naranja Mecánica"],
+      "respuesta_correcta": "Los Tres Leones"
+    },
+    {
+      "id": 33,
+      "categoria": "Tenis",
+      "pregunta": "¿En qué ciudad se juega tradicionalmente el prestigioso torneo de Wimbledon?",
+      "opciones": ["París", "Nueva York", "Melbourne", "Londres"],
+      "respuesta_correcta": "Londres"
+    },
+    {
+      "id": 34,
+      "categoria": "NFL",
+      "pregunta": "¿Qué equipo de la NFL es conocido popularmente como 'El equipo de América' (America's Team)?",
+      "opciones": ["New England Patriots", "Dallas Cowboys", "San Francisco 49ers", "Green Bay Packers"],
+      "respuesta_correcta": "Dallas Cowboys"
+    },
+    {
+      "id": 35,
+      "categoria": "MLB",
+      "pregunta": "¿Qué significa el término 'Strikeout' en un partido de béisbol?",
+      "opciones": ["Cuadrangular", "Base robada", "Ponche", "Doble matanza"],
+      "respuesta_correcta": "Ponche"
     }
   ],
   "dificil": [
@@ -108,6 +248,76 @@
       "pregunta": "¿Quién tiene el récord absoluto de más defensas consecutivas de un título en la historia de la UFC (11 defensas)?",
       "opciones": ["Jon Jones", "Anderson Silva", "Georges St-Pierre", "Demetrious Johnson"],
       "respuesta_correcta": "Demetrious Johnson"
+    },
+    {
+      "id": 36,
+      "categoria": "Fútbol",
+      "pregunta": "¿Quién es el único futbolista en la historia en ganar tres Copas del Mundo de la FIFA como jugador?",
+      "opciones": ["Diego Maradona", "Ronaldo Nazário", "Pelé", "Zinedine Zidane"],
+      "respuesta_correcta": "Pelé"
+    },
+    {
+      "id": 37,
+      "categoria": "Boxeo",
+      "pregunta": "¿Qué boxeador le quitó el invicto a Mike Tyson en 1990 dando una de las mayores sorpresas del deporte?",
+      "opciones": ["Evander Holyfield", "Lennox Lewis", "Buster Douglas", "George Foreman"],
+      "respuesta_correcta": "Buster Douglas"
+    },
+    {
+      "id": 38,
+      "categoria": "UFC",
+      "pregunta": "¿Cuál es el combate de UFC que más compras de Pago Por Evento (PPV) ha vendido en toda su historia?",
+      "opciones": ["Khabib vs. McGregor", "McGregor vs. Diaz 2", "Lesnar vs. Mir 100", "Masvidal vs. Diaz"],
+      "respuesta_correcta": "Khabib vs. McGregor"
+    },
+    {
+      "id": 39,
+      "categoria": "NFL",
+      "pregunta": "¿Qué equipo es el único en lograr una temporada perfecta (invictos en temporada y Super Bowl) en la era del Super Bowl?",
+      "opciones": ["New England Patriots (2007)", "Miami Dolphins (1972)", "Chicago Bears (1985)", "Pittsburgh Steelers (1978)"],
+      "respuesta_correcta": "Miami Dolphins (1972)"
+    },
+    {
+      "id": 40,
+      "categoria": "MLB",
+      "pregunta": "¿Quién tiene el récord absoluto de más jonrones conectados en una sola temporada de Grandes Ligas con 73?",
+      "opciones": ["Babe Ruth", "Mark McGwire", "Sammy Sosa", "Barry Bonds"],
+      "respuesta_correcta": "Barry Bonds"
+    },
+    {
+      "id": 41,
+      "categoria": "NBA",
+      "pregunta": "¿Qué jugador logró la hazaña de anotar 100 puntos en un solo partido de la NBA en 1962?",
+      "opciones": ["Bill Russell", "Wilt Chamberlain", "Magic Johnson", "Larry Bird"],
+      "respuesta_correcta": "Wilt Chamberlain"
+    },
+    {
+      "id": 42,
+      "categoria": "Tenis",
+      "pregunta": "¿Quién fue el tenista masculino más joven en la historia en ganar el torneo de Wimbledon, con solo 17 años?",
+      "opciones": ["Björn Borg", "Rafael Nadal", "Boris Becker", "Andre Agassi"],
+      "respuesta_correcta": "Boris Becker"
+    },
+    {
+      "id": 43,
+      "categoria": "Fútbol",
+      "pregunta": "¿En qué año ganó la selección de Inglaterra su primera y única Copa del Mundo de la FIFA?",
+      "opciones": ["1958", "1966", "1970", "1982"],
+      "respuesta_correcta": "1966"
+    },
+    {
+      "id": 44,
+      "categoria": "UFC",
+      "pregunta": "¿Quién es el peleador que logró el nocaut más rápido en la historia de la UFC en tan solo 5 segundos?",
+      "opciones": ["Conor McGregor", "Anderson Silva", "Francis Ngannou", "Jorge Masvidal"],
+      "respuesta_correcta": "Jorge Masvidal"
+    },
+    {
+      "id": 45,
+      "categoria": "Boxeo",
+      "pregunta": "¿Cuál fue la ciudad sede en Zaire donde se llevó a cabo la mítica pelea 'Rumble in the Jungle' entre Ali y Foreman?",
+      "opciones": ["Kinsasa", "Nairobi", "Dakar", "Lagos"],
+      "respuesta_correcta": "Kinsasa"
     }
   ]
 }
