@@ -29,266 +29,231 @@
         }
 
         .patron-siluetas {
-            position: absolute;
-            top: -20%; left: -20%; width: 140%; height: 140%;
-            font-size: 4em;
-            opacity: 0.12; 
-            line-height: 1.8;
-            letter-spacing: 25px;
-            text-align: justify;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-            transform: rotate(-15deg);
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
+            position: absolute; top: -20%; left: -20%; width: 140%; height: 140%;
+            font-size: 4em; opacity: 0.12; line-height: 1.8; letter-spacing: 25px;
+            text-align: justify; z-index: 0; pointer-events: none; overflow: hidden;
+            transform: rotate(-15deg); display: flex; flex-wrap: wrap; align-content: flex-start;
         }
 
         /* Contenedores de pantallas */
         .pantalla {
-            width: 100vw; height: 100vh;
-            display: none; 
+            width: 100vw; height: 100vh; display: none; 
             flex-direction: column; justify-content: center; align-items: center;
-            padding: 20px; box-sizing: border-box; text-align: center;
-            position: relative;
+            padding: 20px; box-sizing: border-box; text-align: center; position: relative;
         }
         .pantalla.activa { display: flex; } 
-        
         .contenido-frente { z-index: 1; width: 100%; max-width: 380px; }
 
-        /* --- ELEMENTOS VISUALES --- */
-        .logo-portada {
-            width: 90%; max-width: 330px; margin-bottom: 15px;
-            filter: drop-shadow(0px 0px 15px rgba(76, 175, 80, 0.4));
-        }
-        .texto-bienvenida {
-            font-size: 1.05em; color: #e0e0e0; margin-bottom: 30px; line-height: 1.5;
-        }
-        .caja-central {
-            background: rgba(30, 30, 30, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 15px; padding: 30px 20px; 
-            box-shadow: 0 8px 30px rgba(0,0,0,0.8); 
-            border: 1px solid #333;
-            position: relative; /* Para que la marca de agua se posicione dentro */
-            overflow: hidden; /* Para que la marca de agua no se salga de la caja */
-        }
-
-        /* --- MARCA DE AGUA RELOJ --- */
+        /* --- MARCA DE AGUA ANTI-TRAMPAS MEJORADA --- */
         #reloj-marca-agua {
-            position: absolute;
-            top: 50%;
+            position: fixed; /* Fixed para que siempre esté al frente */
+            top: 40%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(-15deg);
-            font-size: 3.5em;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 4.5em;
             font-weight: 900;
             color: #ffffff;
-            opacity: 0.06; /* Muy tenue para que no estorbe la lectura */
+            opacity: 0.15; /* Más visible */
             white-space: nowrap;
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; /* No estorba los clics */
+            z-index: 9999; /* Por encima de TODO */
             text-align: center;
             line-height: 1.1;
-            width: 100%;
+            width: 100vw;
+            display: none; /* Solo se muestra en la pantalla de victoria */
         }
-        .contenido-victoria-frente {
-            position: relative;
-            z-index: 1; /* Esto asegura que el texto del premio quede ENCIMA del reloj */
+
+        /* --- ELEMENTOS VISUALES --- */
+        .logo-portada { width: 90%; max-width: 330px; margin-bottom: 15px; filter: drop-shadow(0px 0px 15px rgba(76, 175, 80, 0.4)); }
+        .texto-bienvenida { font-size: 1.05em; color: #e0e0e0; margin-bottom: 30px; line-height: 1.5; }
+        
+        .caja-central {
+            background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(10px);
+            border-radius: 15px; padding: 25px 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.8); 
+            border: 1px solid #333; position: relative;
+        }
+
+        /* --- MARCADOR DE PUNTOS Y TIEMPO --- */
+        .marcador-puntos {
+            background: #2a2a2a; border: 1px solid #4CAF50; color: #FFD700;
+            padding: 10px; border-radius: 10px; font-weight: bold; font-size: 1.2em; margin-bottom: 15px;
+        }
+        .temporizador {
+            font-size: 3em; font-weight: 900; color: #fff; margin-bottom: 10px;
+            text-shadow: 0 0 10px #d32f2f;
         }
 
         /* --- BOTONES --- */
         .contenedor-botones-duo { display: flex; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 15px; }
         .btn { 
             padding: 15px; font-size: 1em; font-weight: bold; border-radius: 10px; 
-            cursor: pointer; transition: all 0.2s; width: 100%;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            cursor: pointer; transition: all 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
             text-transform: uppercase; letter-spacing: 1px; border: none;
         }
         .btn:active { transform: scale(0.95); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; border-color: #333; color: #666;}
+        
         .btn-primario { background-color: #4CAF50; color: #000; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+        .btn-peligro { background-color: #d32f2f; color: #fff; }
         .btn-secundario { background-color: transparent; border: 2px solid #555; color: #ccc; font-size: 0.9em; }
-        .btn-opcion-juego { background-color: transparent; border: 2px solid #555; color: #fff; margin-bottom: 12px; font-size: 0.95em; }
+        .btn-opcion-juego { background-color: transparent; border: 2px solid #555; color: #fff; margin-bottom: 10px; font-size: 0.9em; }
         .btn-opcion-juego:active { background-color: #4CAF50; border-color: #4CAF50; color: #000; }
+        
+        /* Botones de Dificultad */
+        .btn-facil { border-color: #4CAF50; color: #4CAF50; }
+        .btn-medio { border-color: #FF9800; color: #FF9800; }
+        .btn-dificil { border-color: #f44336; color: #f44336; }
         
         .icono-estrella { width: 20px; }
 
         /* --- VENTANA FLOTANTE (MODAL) --- */
         .modal-fondo {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); 
-            z-index: 100; justify-content: center; align-items: center; padding: 15px;
+            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 100; justify-content: center; align-items: center; padding: 15px;
         }
         .modal-contenido {
             background: #151515; padding: 25px 20px; border-radius: 20px;
             width: 100%; max-width: 330px; text-align: left; border: 1px solid #4CAF50;
         }
         .modal-contenido h3 { color: #4CAF50; margin-top: 0; text-align: center; }
-        .seccion-modal { display: none; } 
 
-        .lista-premios { margin: 0; padding-left: 0; list-style: none; font-size: 0.85em; color: #ddd; max-height: 50vh; overflow-y: auto;}
-        .lista-premios li { margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #222; }
-        .premio-top { color: #FFD700; font-weight: bold; }
+        /* --- LISTA DE TIENDA (CANJE) --- */
+        .lista-tienda { margin: 0; padding-left: 0; list-style: none; max-height: 50vh; overflow-y: auto;}
+        .lista-tienda li { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;}
+        .costo-premio { font-weight: bold; color: #FFD700; font-size: 0.9em; background: #333; padding: 5px 8px; border-radius: 5px;}
+        .nombre-premio { font-size: 0.85em; color: #ddd; max-width: 60%; line-height: 1.2;}
 
-        /* --- TEXTOS DEL JUEGO --- */
-        .etiqueta-nivel { color: #4CAF50; font-size: 0.9em; font-weight: bold; margin-bottom: 5px; }
-        .etiqueta-categoria { color: #aaa; font-size: 0.8em; margin-bottom: 15px; text-transform: uppercase; }
-        .indicador-errores { color: #d32f2f; font-size: 0.8em; margin-bottom: 15px; font-weight: bold; display: none; }
-        .pregunta-texto { font-size: 1.15em; margin-bottom: 25px; line-height: 1.4; min-height: 70px; }
-        .texto-destacado { color: #FFD700; font-size: 1.4em; font-weight: bold; margin: 15px 0; display: block;}
+        .etiqueta-nivel { color: #aaa; font-size: 0.8em; margin-bottom: 10px; text-transform: uppercase; }
+        .pregunta-texto { font-size: 1.1em; margin-bottom: 20px; line-height: 1.4; min-height: 70px; }
+        .texto-destacado { color: #FFD700; font-size: 1.4em; font-weight: bold; margin: 10px 0; display: block;}
     </style>
 </head>
 <body class="fondo-animado">
 
+    <!-- RELOJ MARCA DE AGUA (Se activa por JS en la victoria) -->
+    <div id="reloj-marca-agua"></div>
+
     <!-- PANTALLA 1: PORTADA -->
     <div id="pantalla-inicio" class="pantalla activa">
-        <div class="patron-siluetas">⚽ 🏈 🏀 ⚾ 🎾 🥊 ⚽ 🏈 🏀 ⚾ 🎾 🥊 ⚽ 🏈 🏀 ⚾ 🎾 🥊</div>
-        
+        <div class="patron-siluetas">⚽ 🏈 🏀 ⚾ 🎾 🥊</div>
         <div class="contenido-frente">
             <img src="CW_BCO_HORIZONTAL.png" alt="Central Wings" class="logo-portada" onerror="this.style.display='none'">
-            <p class="texto-bienvenida">Demuestra lo que sabes de deportes y gana recompensas mientras preparamos tus alimentos.</p>
-
+            <p class="texto-bienvenida">Acumula puntos respondiendo trivias en 5 segundos. ¡Canjéalos por premios exclusivos!</p>
             <button class="btn btn-primario" onclick="iniciarJuego()" style="margin-bottom: 15px;">
-                <img src="Icono_EstrellaCW_BCO.png" alt="☆" class="icono-estrella" onerror="this.style.display='none'">
-                JUGAR AHORA
+                <img src="Icono_EstrellaCW_BCO.png" alt="☆" class="icono-estrella" onerror="this.style.display='none'"> INICIAR JUEGO
             </button>
-
-            <div class="contenedor-botones-duo">
-                <button class="btn btn-secundario" onclick="abrirModal('reglas')">📖 REGLAS</button>
-                <button class="btn btn-secundario" onclick="abrirModal('premios')">🎁 PREMIOS</button>
-            </div>
+            <button class="btn btn-secundario" onclick="abrirTienda(false)">🎁 VER CATÁLOGO DE PREMIOS</button>
         </div>
     </div>
 
 
-    <!-- PANTALLA 2: JUEGO -->
-    <div id="pantalla-juego" class="pantalla">
-        <div class="patron-siluetas" id="siluetas-juego">🏆 🏆 🏆</div>
-        
+    <!-- PANTALLA 2: ELEGIR DIFICULTAD -->
+    <div id="pantalla-dificultad" class="pantalla">
+        <div class="patron-siluetas">🎯 🎯 🎯 🎯 🎯</div>
         <div class="contenido-frente caja-central">
-            <div class="etiqueta-nivel" id="nivel-texto">RONDA 1 - PREGUNTA 1/5</div>
-            <div class="etiqueta-categoria" id="categoria-texto">Categoría</div>
-            <div class="indicador-errores" id="alerta-error">¡Cuidado! Un error más y pierdes.</div>
+            <div class="marcador-puntos">PUNTOS ACUMULADOS: <span id="puntos-display">0</span></div>
+            <h3 style="margin-top:0;">Elige tu riesgo</h3>
+            <p style="font-size: 0.85em; color: #aaa; margin-bottom: 20px;">Una respuesta incorrecta y pierdes todos tus puntos.</p>
+            
+            <button class="btn btn-secundario btn-facil" onclick="cargarPregunta('facil', 20)">FÁCIL (+20 pts)</button>
+            <button class="btn btn-secundario btn-medio" onclick="cargarPregunta('medio', 50)">MEDIO (+50 pts)</button>
+            <button class="btn btn-secundario btn-dificil" onclick="cargarPregunta('dificil', 100)">DIFÍCIL (+100 pts)</button>
+            
+            <hr style="border-color: #333; margin: 20px 0;">
+            <button class="btn btn-primario" onclick="abrirTienda(true)">🛒 CANJEAR MIS PUNTOS</button>
+        </div>
+    </div>
+
+
+    <!-- PANTALLA 3: JUEGO -->
+    <div id="pantalla-juego" class="pantalla">
+        <div class="patron-siluetas" id="siluetas-juego">🏆</div>
+        <div class="contenido-frente caja-central">
+            <div class="temporizador" id="tiempo-display">5</div>
+            <div class="etiqueta-nivel" id="categoria-texto">Categoría</div>
             <div class="pregunta-texto" id="pregunta-texto">Cargando...</div>
             <div id="contenedor-opciones"></div>
         </div>
     </div>
 
 
-    <!-- PANTALLA 3: DOBLE O NADA -->
-    <div id="pantalla-dobleonada" class="pantalla">
-        <div class="patron-siluetas">💰 💰 💰 💰 💰 💰 💰 💰 💰</div>
-        
-        <div class="contenido-frente caja-central">
-            <h2 style="color: #4CAF50; margin-top: 0;">¡RONDA SUPERADA!</h2>
-            <p style="color: #ccc;">Has asegurado el siguiente premio:</p>
-            <span class="texto-destacado" id="premio-actual">Premio</span>
-            
-            <p style="font-size: 0.9em; margin-bottom: 25px;">¿Qué deseas hacer, carnal?</p>
-
-            <button class="btn btn-primario" onclick="cobrarPremio()" style="margin-bottom: 15px;">
-                💰 COBRAR PREMIO AHORA
-            </button>
-            <button class="btn btn-secundario" onclick="siguientePregunta()">
-                🎲 ARRIESGAR E IR POR MÁS
-            </button>
+    <!-- PANTALLA 4: ACIERTO -->
+    <div id="pantalla-acierto" class="pantalla">
+        <div class="patron-siluetas">⭐ ⭐ ⭐ ⭐ ⭐</div>
+        <div class="contenido-frente caja-central" style="border-color: #4CAF50;">
+            <h2 style="color: #4CAF50; margin-top: 0;">¡TIRO PERFECTO!</h2>
+            <p style="color: #ccc;">Sumaste <span id="puntos-ganados" class="texto-destacado" style="display:inline; font-size:1.2em;"></span> puntos.</p>
+            <button class="btn btn-primario" onclick="mostrarPantalla('pantalla-dificultad')" style="margin-top: 20px;">CONTINUAR JUGANDO</button>
         </div>
     </div>
 
 
-    <!-- PANTALLA 4: TARJETA ROJA (DERROTA) -->
+    <!-- PANTALLA 5: DERROTA -->
     <div id="pantalla-derrota" class="pantalla">
-        <div class="patron-siluetas">🟥 🟥 🟥 🟥 🟥 🟥 🟥 🟥</div>
-        
+        <div class="patron-siluetas">🟥 🟥 🟥 🟥 🟥</div>
         <div class="contenido-frente caja-central" style="border-color: #d32f2f;">
-            <h2 style="color: #d32f2f; margin-top: 0;">¡TARJETA ROJA!</h2>
-            <p style="color: #ccc;">Fallaste el límite de preguntas en esta ronda. Has perdido tus premios acumulados.</p>
-            <p style="font-size: 0.85em; color: #888;">No te agüites, pide una bebida y vuelve a intentarlo.</p>
-            
+            <h2 style="color: #d32f2f; margin-top: 0;" id="titulo-derrota">¡TARJETA ROJA!</h2>
+            <p style="color: #ccc;" id="mensaje-derrota">Respuesta incorrecta. Perdiste todo.</p>
+            <p style="font-size: 0.85em; color: #888;">Ni modo carnal, pide algo de tomar y vuelve a intentarlo.</p>
             <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">VOLVER AL INICIO</button>
         </div>
     </div>
 
 
-    <!-- PANTALLA 5: VICTORIA / COBRAR CON MARCA DE AGUA -->
+    <!-- PANTALLA 6: VICTORIA (CANJE) -->
     <div id="pantalla-victoria" class="pantalla">
-        <div class="patron-siluetas">⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐</div>
-        
-        <div class="contenido-frente caja-central" style="border-color: #FFD700;">
+        <div class="contenido-frente caja-central" style="border-color: #FFD700; background: rgba(20,20,20,0.95);">
+            <h2 style="color: #FFD700; margin-top: 0;">¡CANJE EXITOSO!</h2>
+            <p style="color: #ccc;">Te retiraste como los grandes con:</p>
+            <span class="texto-destacado" id="premio-final">Premio</span>
             
-            <!-- MARCA DE AGUA ANTI-TRAMPAS -->
-            <div id="reloj-marca-agua">
-                00:00:00<br><span style="font-size: 0.4em;">00/00/0000</span>
+            <div style="background: #222; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <p style="font-size: 0.85em; margin: 0; color: #aaa;">Muestra esta pantalla a tu mesero para reclamar tu premio.</p>
+                <p style="font-size: 0.7em; color: #666; margin-top: 10px;">Válido solo hoy. 1 por mesa/cuenta.</p>
             </div>
-
-            <!-- CONTENIDO REAL (Encima del reloj) -->
-            <div class="contenido-victoria-frente">
-                <h2 style="color: #FFD700; margin-top: 0;">¡FELICIDADES!</h2>
-                <p style="color: #ccc;">Te retiraste a tiempo. Has ganado:</p>
-                <span class="texto-destacado" id="premio-final">Premio</span>
-                
-                <div style="background: #222; padding: 15px; border-radius: 10px; margin-top: 20px;">
-                    <p style="font-size: 0.85em; margin: 0; color: #aaa;">Muestra esta pantalla a tu mesero para reclamar tu premio.</p>
-                    <p style="font-size: 0.7em; color: #666; margin-top: 10px;">Válido solo hoy. 1 por mesa.</p>
-                </div>
-                
-                <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">FINALIZAR JUEGO</button>
-            </div>
+            
+            <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">FINALIZAR JUEGO</button>
         </div>
     </div>
 
 
-    <!-- MODAL COMPACTO (REGLAS Y PREMIOS) -->
-    <div id="modal-info" class="modal-fondo">
+    <!-- MODAL TIENDA DE PREMIOS -->
+    <div id="modal-tienda" class="modal-fondo">
         <div class="modal-contenido">
-            <div id="contenido-reglas" class="seccion-modal">
-                <h3>REGLAS DEL JUEGO</h3>
-                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🏈 <strong>Avanza:</strong> Cada nivel tiene 5 preguntas. Necesitas contestar bien mínimo 4 (Niveles 1 al 5) o todas perfectas (Niveles 6 en adelante) para ganar.</p>
-                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">💰 <strong>Decide:</strong> Al pasar un nivel, cobra tu premio o arriésgate al Doble o Nada para mejorar el premio.</p>
-                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🟥 <strong>Tarjeta Roja:</strong> Si superas el límite de errores, pierdes todo lo acumulado.</p>
-                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🎁 <strong>Nota:</strong> Válido 1 premio por mesa/cuenta.</p>
-            </div>
-            <div id="contenido-premios" class="seccion-modal">
-                <h3>PREMIOS</h3>
-                <ul class="lista-premios">
-                    <li>1. Sticker Estrella CW</li>
-                    <li>2. Selfie con el Staff</li>
-                    <li>3. Membresía descuento futuras visitas</li>
-                    <li>4. Aderezo sin costo</li>
-                    <li>5. 5% de descuento (cuenta final)</li>
-                    <li>6. Ronda de Shots (5)</li>
-                    <li>7. 1 Bola de Helado</li>
-                    <li>8. 2 Tarros de Cerveza (325ml)</li>
-                    <li>9. Gorra Edición CW</li>
-                    <li>10. 10% de descuento (cuenta final)</li>
-                    <li class="premio-top">11. Tarjeta PRIORITY +</li>
-                </ul>
-            </div>
-            <button class="btn btn-primario" style="margin-top: 20px;" onclick="cerrarModal()">ENTENDIDO</button>
+            <h3>CATÁLOGO DE PREMIOS</h3>
+            <p style="font-size: 0.8em; color:#aaa; text-align:center;">Puntos actuales: <strong id="puntos-tienda">0</strong></p>
+            
+            <ul class="lista-tienda" id="contenedor-premios">
+                <!-- Se llena con JS -->
+            </ul>
+            
+            <button class="btn btn-secundario" style="margin-top: 15px;" onclick="cerrarTienda()">CERRAR</button>
         </div>
     </div>
 
-    <!-- MOTOR LÓGICO (JavaScript) -->
+
+    <!-- MOTOR LÓGICO -->
     <script>
         let baseDeDatos = {};
-        
-        let indicePremioActual = 0; 
-        let preguntasContestadasBloque = 0;
-        let erroresBloque = 0;
+        let puntosAcumulados = 0;
+        let temporizador;
+        let tiempoRestante = 5;
+        let puntosEnJuego = 0;
+        let juegoActivo = false;
 
-        const premiosNiveles = [
-            "Sigue participando",
-            "Sticker Estrella CW",
-            "Selfie con el Staff",
-            "Membresía de descuento (futuras visitas)",
-            "Aderezo sin costo",
-            "5% de descuento en cuenta final",
-            "Ronda de Shots (5)",
-            "1 Bola de Helado",
-            "2 Tarros de Cerveza (325ml)",
-            "Gorra Edición CW",
-            "10% de descuento en cuenta final",
-            "Tarjeta PRIORITY + (Membresía Exclusiva)"
+        // Catálogo de Premios estilo Recórcholis
+        const catalogoPremios = [
+            { nombre: "Sticker Estrella CW", costo: 100 },
+            { nombre: "Selfie con el Staff", costo: 200 },
+            { nombre: "Membresía Descuento (Futuras Visitas)", costo: 300 },
+            { nombre: "Aderezo sin costo", costo: 400 },
+            { nombre: "5% de descuento en cuenta final", costo: 500 },
+            { nombre: "Ronda de Shots (5)", costo: 700 },
+            { nombre: "1 Bola de Helado", costo: 900 },
+            { nombre: "2 Tarros de Cerveza (325ml)", costo: 1200 },
+            { nombre: "Gorra Edición CW", costo: 1500 },
+            { nombre: "10% de descuento en cuenta final", costo: 2000 },
+            { nombre: "Tarjeta PRIORITY +", costo: 3000 }
         ];
 
         const configCategorias = {
@@ -302,96 +267,85 @@
             "default": { color: "#121212", icono: "🏆 " }
         };
 
-        // --- RELOJ ANTI-TRAMPAS ---
+        // --- RELOJ MARCA DE AGUA ---
         function actualizarReloj() {
             const ahora = new Date();
             const horas = String(ahora.getHours()).padStart(2, '0');
             const minutos = String(ahora.getMinutes()).padStart(2, '0');
             const segundos = String(ahora.getSeconds()).padStart(2, '0');
-            
             const dia = String(ahora.getDate()).padStart(2, '0');
             const mes = String(ahora.getMonth() + 1).padStart(2, '0'); 
             const anio = ahora.getFullYear();
 
             const elementoReloj = document.getElementById('reloj-marca-agua');
             if(elementoReloj) {
-                elementoReloj.innerHTML = `${horas}:${minutos}:${segundos}<br><span style="font-size: 0.4em;">${dia}/${mes}/${anio}</span>`;
+                elementoReloj.innerHTML = `${horas}:${minutos}:${segundos}<br><span style="font-size: 0.35em;">${dia}/${mes}/${anio}</span>`;
             }
         }
-        setInterval(actualizarReloj, 1000); // Se actualiza cada segundo
-        actualizarReloj(); // Ejecutar de inmediato al cargar
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
 
-        // --- FUNCIONES DE PANTALLA ---
+        // --- SEGURIDAD: DETECTAR CAMBIO DE PESTAÑA (ANTI-TRAMPAS) ---
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden && juegoActivo) {
+                clearInterval(temporizador);
+                lanzarDerrota("¡TRAMPA DETECTADA!", "Te saliste de la pantalla. En esta cancha se juega limpio. Pierdes todo.");
+            }
+        });
+
+        // --- NAVEGACIÓN ---
         function mostrarPantalla(idPantalla) {
             document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
             document.getElementById(idPantalla).classList.add('activa');
+            
+            // La marca de agua SOLO sale en la victoria
+            document.getElementById('reloj-marca-agua').style.display = (idPantalla === 'pantalla-victoria') ? 'block' : 'none';
         }
-
-        function abrirModal(tipo) {
-            document.getElementById('modal-info').style.display = 'flex';
-            document.getElementById('contenido-reglas').style.display = (tipo === 'reglas') ? 'block' : 'none';
-            document.getElementById('contenido-premios').style.display = (tipo === 'premios') ? 'block' : 'none';
-        }
-        function cerrarModal() { document.getElementById('modal-info').style.display = 'none'; }
 
         function volverAlInicio() {
-            document.body.className = "fondo-animado"; 
-            document.body.style.backgroundColor = "";
+            juegoActivo = false;
+            document.body.className = "fondo-animado"; document.body.style.backgroundColor = "";
             mostrarPantalla('pantalla-inicio');
         }
 
-        // --- LÓGICA DEL JUEGO ---
+        // --- LÓGICA PRINCIPAL ---
         async function iniciarJuego() {
-            indicePremioActual = 0;
-            preguntasContestadasBloque = 0;
-            erroresBloque = 0;
-            document.body.className = ""; 
+            puntosAcumulados = 0;
+            document.getElementById('puntos-display').innerText = puntosAcumulados;
             
             if (Object.keys(baseDeDatos).length === 0) {
                 try {
                     const respuesta = await fetch('preguntas.json');
                     baseDeDatos = await respuesta.json();
                 } catch (error) {
-                    alert("Error cargando JSON. Asegúrate de estar en un servidor local.");
-                    volverAlInicio();
-                    return;
+                    alert("Error cargando JSON."); return;
                 }
             }
-            siguientePregunta();
+            document.body.className = ""; document.body.style.backgroundColor = "#121212";
+            mostrarPantalla('pantalla-dificultad');
         }
 
-        function siguientePregunta() {
-            mostrarPantalla('pantalla-juego');
-            document.getElementById('alerta-error').style.display = 'none';
+        function cargarPregunta(dificultad, puntos) {
+            puntosEnJuego = puntos;
+            juegoActivo = true; // Activa el anti-trampas
             
-            let nivelKey = "facil";
-            if (indicePremioActual >= 3) nivelKey = "medio";
-            if (indicePremioActual >= 7) nivelKey = "dificil";
-
-            const preguntasNivel = baseDeDatos[nivelKey];
+            const preguntasNivel = baseDeDatos[dificultad];
             const indiceAleatorio = Math.floor(Math.random() * preguntasNivel.length);
             const pregunta = preguntasNivel[indiceAleatorio];
 
+            // Estilos
             const estilo = configCategorias[pregunta.categoria] || configCategorias["default"];
             document.body.style.backgroundColor = estilo.color;
-            
-            const patron = estilo.icono.repeat(60); 
-            document.getElementById('siluetas-juego').innerText = patron;
+            document.getElementById('siluetas-juego').innerText = estilo.icono.repeat(60);
 
-            document.getElementById('nivel-texto').innerText = `RONDA ${indicePremioActual + 1} - PREGUNTA ${preguntasContestadasBloque + 1}/5`;
-            document.getElementById('categoria-texto').innerText = pregunta.categoria;
+            // Llenar datos
+            document.getElementById('categoria-texto').innerText = `${pregunta.categoria} (Por ${puntos} pts)`;
             document.getElementById('pregunta-texto').innerText = pregunta.pregunta;
-
-            const limiteErrores = (indicePremioActual < 5) ? 1 : 0;
-            if (erroresBloque === limiteErrores && limiteErrores === 1) {
-                document.getElementById('alerta-error').style.display = 'block';
-            }
 
             const contenedorOpciones = document.getElementById('contenedor-opciones');
             contenedorOpciones.innerHTML = ''; 
             
             let opcionesMezcladas = [...pregunta.opciones].sort(() => Math.random() - 0.5);
-
             opcionesMezcladas.forEach(opcion => {
                 const boton = document.createElement('button');
                 boton.className = 'btn btn-opcion-juego';
@@ -399,46 +353,88 @@
                 boton.onclick = () => validarRespuesta(opcion, pregunta.respuesta_correcta);
                 contenedorOpciones.appendChild(boton);
             });
+
+            mostrarPantalla('pantalla-juego');
+            iniciarTemporizador();
+        }
+
+        function iniciarTemporizador() {
+            tiempoRestante = 5;
+            document.getElementById('tiempo-display').innerText = tiempoRestante;
+            
+            temporizador = setInterval(() => {
+                tiempoRestante--;
+                document.getElementById('tiempo-display').innerText = tiempoRestante;
+                
+                if (tiempoRestante <= 0) {
+                    clearInterval(temporizador);
+                    lanzarDerrota("¡TIEMPO AGOTADO!", "Tardaste más de 5 segundos. Pierdes todos tus puntos.");
+                }
+            }, 1000);
         }
 
         function validarRespuesta(opcionElegida, opcionCorrecta) {
-            let esCorrecta = (opcionElegida === opcionCorrecta);
+            clearInterval(temporizador);
+            juegoActivo = false; // Desactiva anti-trampas en transición
             
-            if (!esCorrecta) {
-                erroresBloque++;
-            }
-            
-            preguntasContestadasBloque++;
-            
-            let limiteErrores = (indicePremioActual < 5) ? 1 : 0; 
-            
-            if (erroresBloque > limiteErrores) {
-                document.body.style.backgroundColor = "#3d0b0b"; 
-                mostrarPantalla('pantalla-derrota');
-                return;
-            }
-            
-            if (preguntasContestadasBloque === 5) {
-                indicePremioActual++;
-                preguntasContestadasBloque = 0; 
-                erroresBloque = 0;
+            if (opcionElegida === opcionCorrecta) {
+                puntosAcumulados += puntosEnJuego;
+                document.getElementById('puntos-ganados').innerText = `+${puntosEnJuego}`;
+                document.getElementById('puntos-display').innerText = puntosAcumulados;
                 
-                if (indicePremioActual >= premiosNiveles.length - 1) {
-                    document.getElementById('premio-final').innerText = premiosNiveles[indicePremioActual];
-                    document.body.style.backgroundColor = "#121212";
-                    mostrarPantalla('pantalla-victoria');
-                } else {
-                    document.getElementById('premio-actual').innerText = premiosNiveles[indicePremioActual];
-                    document.body.style.backgroundColor = "#1a1a1a"; 
-                    mostrarPantalla('pantalla-dobleonada');
-                }
+                document.body.style.backgroundColor = "#1a1a1a";
+                mostrarPantalla('pantalla-acierto');
             } else {
-                siguientePregunta();
+                lanzarDerrota("¡TARJETA ROJA!", "Respuesta incorrecta. Pierdes todos tus puntos.");
             }
         }
 
-        function cobrarPremio() {
-            document.getElementById('premio-final').innerText = premiosNiveles[indicePremioActual];
+        function lanzarDerrota(titulo, mensaje) {
+            juegoActivo = false;
+            document.getElementById('titulo-derrota').innerText = titulo;
+            document.getElementById('mensaje-derrota').innerText = mensaje;
+            document.body.style.backgroundColor = "#3d0b0b";
+            mostrarPantalla('pantalla-derrota');
+        }
+
+        // --- TIENDA DE CANJE ---
+        function abrirTienda(modoCanje) {
+            document.getElementById('modal-tienda').style.display = 'flex';
+            document.getElementById('puntos-tienda').innerText = modoCanje ? puntosAcumulados : 0;
+            
+            const contenedor = document.getElementById('contenedor-premios');
+            contenedor.innerHTML = '';
+
+            catalogoPremios.forEach(premio => {
+                const li = document.createElement('li');
+                const alcanza = puntosAcumulados >= premio.costo;
+                
+                let btnHTML = '';
+                if(modoCanje) {
+                    if(alcanza) {
+                        btnHTML = `<button class="btn btn-primario" style="padding: 8px; font-size: 0.7em; width: auto;" onclick="canjearPremio('${premio.nombre}')">CANJEAR</button>`;
+                    } else {
+                        btnHTML = `<button class="btn" style="padding: 8px; font-size: 0.7em; width: auto; background:#333; color:#666;" disabled>FALTAN PTS</button>`;
+                    }
+                }
+
+                li.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:5px;">
+                        <span class="nombre-premio">${premio.nombre}</span>
+                        <span class="costo-premio">${premio.costo} pts</span>
+                    </div>
+                    ${btnHTML}
+                `;
+                contenedor.appendChild(li);
+            });
+        }
+
+        function cerrarTienda() { document.getElementById('modal-tienda').style.display = 'none'; }
+
+        function canjearPremio(nombrePremio) {
+            cerrarTienda();
+            juegoActivo = false;
+            document.getElementById('premio-final').innerText = nombrePremio;
             document.body.style.backgroundColor = "#121212";
             mostrarPantalla('pantalla-victoria');
         }
