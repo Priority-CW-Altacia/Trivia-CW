@@ -6,26 +6,32 @@
     <title>Trivia - Central Wings</title>
     
     <style>
-        /* --- ESTILOS GENERALES --- */
+        /* --- ESTILOS GENERALES Y ANIMACIONES --- */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #0d0d0d; 
             color: #ffffff; 
             margin: 0;
             overflow: hidden; 
-            transition: background-color 0.5s ease; 
+            transition: background-color 0.6s ease-in-out; 
         }
 
-        /* --- FONDOS Y SILUETAS --- */
-        .fondo-animado {
-            background: linear-gradient(-45deg, #0d0d0d, #141414, #1b381f, #0a200d);
-            background-size: 400% 400%;
-            animation: gradienteDinamico 12s ease infinite;
-        }
         @keyframes gradienteDinamico {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+        
+        /* Efecto de transición suave (Fade In) para las pantallas y cajas */
+        @keyframes aparecerSuave {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fondo-animado {
+            background: linear-gradient(-45deg, #0d0d0d, #141414, #1b381f, #0a200d);
+            background-size: 400% 400%;
+            animation: gradienteDinamico 12s ease infinite;
         }
 
         .patron-siluetas {
@@ -35,37 +41,28 @@
             transform: rotate(-15deg); display: flex; flex-wrap: wrap; align-content: flex-start;
         }
 
-        /* Contenedores de pantallas */
+        /* --- CONTENEDORES DE PANTALLAS --- */
         .pantalla {
             width: 100vw; height: 100vh; display: none; 
             flex-direction: column; justify-content: center; align-items: center;
             padding: 20px; box-sizing: border-box; text-align: center; position: relative;
         }
-        .pantalla.activa { display: flex; } 
+        /* Al activarse la pantalla, entra la animación */
+        .pantalla.activa { display: flex; animation: aparecerSuave 0.4s ease-out forwards; } 
+        
         .contenido-frente { z-index: 1; width: 100%; max-width: 380px; }
 
-        /* --- MARCA DE AGUA ANTI-TRAMPAS MEJORADA --- */
+        /* --- MARCA DE AGUA ANTI-TRAMPAS --- */
         #reloj-marca-agua {
-            position: fixed; 
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 4.5em;
-            font-weight: 900;
-            color: #ffffff;
-            opacity: 0.15; 
-            white-space: nowrap;
-            pointer-events: none; 
-            z-index: 9999; 
-            text-align: center;
-            line-height: 1.1;
-            width: 100vw;
-            display: none; 
+            position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 4.5em; font-weight: 900; color: #ffffff; opacity: 0.15; 
+            white-space: nowrap; pointer-events: none; z-index: 9999; text-align: center;
+            line-height: 1.1; width: 100vw; display: none; 
         }
 
         /* --- ELEMENTOS VISUALES --- */
-        .logo-portada { width: 90%; max-width: 330px; margin-bottom: 15px; filter: drop-shadow(0px 0px 15px rgba(76, 175, 80, 0.4)); }
-        .texto-bienvenida { font-size: 1.05em; color: #e0e0e0; margin-bottom: 30px; line-height: 1.5; }
+        .logo-portada { width: 90%; max-width: 330px; margin-bottom: 25px; filter: drop-shadow(0px 0px 15px rgba(76, 175, 80, 0.5)); }
+        .texto-bienvenida { font-size: 1.1em; color: #e0e0e0; margin-bottom: 30px; line-height: 1.5; }
         
         .caja-central {
             background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(10px);
@@ -73,38 +70,45 @@
             border: 1px solid #333; position: relative;
         }
 
-        /* --- MARCADOR DE PUNTOS Y TIEMPO --- */
+        /* El contenedor de las preguntas también se anima para no cambiar "en seco" */
+        .animar-cambio { animation: aparecerSuave 0.3s ease-out forwards; }
+
+        /* --- MARCADOR Y TIEMPO --- */
         .marcador-puntos {
-            background: #2a2a2a; border: 1px solid #4CAF50; color: #FFD700;
-            padding: 10px; border-radius: 10px; font-weight: bold; font-size: 1.2em; margin-bottom: 15px;
+            background: #1a1a1a; border: 2px solid #4CAF50; color: #FFD700;
+            padding: 12px; border-radius: 12px; font-weight: bold; font-size: 1.3em; margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
         }
         .temporizador {
-            font-size: 3em; font-weight: 900; color: #fff; margin-bottom: 10px;
-            text-shadow: 0 0 10px #d32f2f;
+            font-size: 3.5em; font-weight: 900; color: #fff; margin-bottom: 10px;
+            text-shadow: 0 0 15px #d32f2f;
+            transition: color 0.3s;
         }
 
         /* --- BOTONES --- */
         .contenedor-botones-duo { display: flex; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 15px; }
         .btn { 
-            padding: 15px; font-size: 1em; font-weight: bold; border-radius: 10px; 
-            cursor: pointer; transition: all 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 15px; font-size: 1em; font-weight: bold; border-radius: 12px; 
+            cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); width: 100%; 
+            display: flex; align-items: center; justify-content: center; gap: 10px;
             text-transform: uppercase; letter-spacing: 1px; border: none;
         }
-        .btn:active { transform: scale(0.95); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; border-color: #333; color: #666;}
+        .btn:active { transform: scale(0.93); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; background: #333 !important; color: #666 !important; box-shadow: none !important;}
         
-        .btn-primario { background-color: #4CAF50; color: #000; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
-        .btn-peligro { background-color: #d32f2f; color: #fff; }
-        .btn-secundario { background-color: transparent; border: 2px solid #555; color: #ccc; font-size: 0.9em; }
-        .btn-opcion-juego { background-color: transparent; border: 2px solid #555; color: #fff; margin-bottom: 10px; font-size: 0.9em; }
+        .btn-primario { background: linear-gradient(135deg, #4CAF50, #388E3C); color: #fff; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); text-shadow: 1px 1px 2px rgba(0,0,0,0.5);}
+        .btn-peligro { background: linear-gradient(135deg, #f44336, #c62828); color: #fff; }
+        .btn-secundario { background-color: rgba(255, 255, 255, 0.05); border: 2px solid #555; color: #ddd; font-size: 0.9em; backdrop-filter: blur(5px);}
+        
+        .btn-opcion-juego { background-color: rgba(255,255,255,0.05); border: 2px solid #555; color: #fff; margin-bottom: 10px; font-size: 0.95em; }
         .btn-opcion-juego:active { background-color: #4CAF50; border-color: #4CAF50; color: #000; }
         
-        /* Botones de Dificultad */
-        .btn-facil { border-color: #4CAF50; color: #4CAF50; }
-        .btn-medio { border-color: #FF9800; color: #FF9800; }
-        .btn-dificil { border-color: #f44336; color: #f44336; }
+        /* Botones de Dificultad (Vibrantes y coloridos) */
+        .btn-facil { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); margin-bottom: 12px;}
+        .btn-medio { background: linear-gradient(135deg, #FF9800, #EF6C00); color: white; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3); margin-bottom: 12px;}
+        .btn-dificil { background: linear-gradient(135deg, #f44336, #c62828); color: white; box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3); margin-bottom: 12px;}
         
-        .icono-estrella { width: 20px; }
+        .icono-estrella { width: 22px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.5));}
 
         /* --- VENTANA FLOTANTE (MODAL) --- */
         .modal-fondo {
@@ -112,33 +116,33 @@
             background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 100; justify-content: center; align-items: center; padding: 15px;
         }
         .modal-contenido {
-            background: #151515; padding: 25px 20px; border-radius: 20px;
+            background: #1a1a1a; padding: 25px 20px; border-radius: 20px;
             width: 100%; max-width: 340px; text-align: left; border: 1px solid #4CAF50;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            animation: aparecerSuave 0.3s ease-out forwards;
         }
         .modal-contenido h3 { color: #4CAF50; margin-top: 0; text-align: center; }
         .seccion-modal { display: none; } 
 
-        /* --- LISTAS DE PREMIOS (PORTADA Y CANJE) --- */
+        /* --- LISTAS DE PREMIOS --- */
         .lista-premios, .lista-tienda { margin: 0; padding-left: 0; list-style: none; max-height: 50vh; overflow-y: auto;}
         
-        /* Ajuste de lista para la portada con Emojis y Puntos */
-        .lista-premios li { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #ddd;}
-        .costo-premio-chico { background: #333; color: #FFD700; padding: 3px 6px; border-radius: 5px; font-weight: bold; font-size: 0.85em; white-space: nowrap; }
+        .lista-premios li { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; color: #ddd;}
+        .costo-premio-chico { background: #333; color: #FFD700; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em; white-space: nowrap; box-shadow: inset 0 0 5px rgba(0,0,0,0.5);}
         
-        /* Ajuste de lista para la tienda interactiva */
-        .lista-tienda li { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;}
-        .costo-premio { font-weight: bold; color: #FFD700; font-size: 0.9em; background: #333; padding: 5px 8px; border-radius: 5px;}
-        .nombre-premio { font-size: 0.85em; color: #ddd; max-width: 60%; line-height: 1.2;}
+        .lista-tienda li { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;}
+        .costo-premio { font-weight: bold; color: #FFD700; font-size: 0.9em; background: #222; padding: 6px 10px; border-radius: 6px; box-shadow: inset 0 0 5px rgba(0,0,0,0.8);}
+        .nombre-premio { font-size: 0.9em; color: #fff; max-width: 60%; line-height: 1.3;}
         .premio-top { color: #FFD700; font-weight: bold; }
 
-        .etiqueta-nivel { color: #aaa; font-size: 0.8em; margin-bottom: 10px; text-transform: uppercase; }
-        .pregunta-texto { font-size: 1.1em; margin-bottom: 20px; line-height: 1.4; min-height: 70px; }
-        .texto-destacado { color: #FFD700; font-size: 1.4em; font-weight: bold; margin: 10px 0; display: block;}
+        .etiqueta-nivel { color: #aaa; font-size: 0.85em; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
+        .pregunta-texto { font-size: 1.15em; margin-bottom: 25px; line-height: 1.4; min-height: 80px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);}
+        .texto-destacado { color: #FFD700; font-size: 1.5em; font-weight: bold; margin: 15px 0; display: block; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);}
     </style>
 </head>
 <body class="fondo-animado">
 
-    <!-- RELOJ MARCA DE AGUA (Se activa por JS en la victoria) -->
+    <!-- RELOJ MARCA DE AGUA (Victoria) -->
     <div id="reloj-marca-agua"></div>
 
     <!-- PANTALLA 1: PORTADA -->
@@ -146,10 +150,12 @@
         <div class="patron-siluetas">⚽ 🏈 🏀 ⚾ 🎾 🥊</div>
         <div class="contenido-frente">
             <img src="CW_BCO_HORIZONTAL.png" alt="Central Wings" class="logo-portada" onerror="this.style.display='none'">
-            <p class="texto-bienvenida">Acumula puntos respondiendo trivias en 5 segundos. ¡Canjéalos por premios exclusivos!</p>
-            <button class="btn btn-primario" onclick="iniciarJuego()" style="margin-bottom: 15px;">
+            <p class="texto-bienvenida">Acumula puntos respondiendo trivias en <strong>10 segundos</strong>. ¡Canjéalos por premios exclusivos!</p>
+            
+            <button class="btn btn-primario" onclick="iniciarJuego()" style="margin-bottom: 20px; font-size: 1.1em; padding: 18px;">
                 <img src="Icono_EstrellaCW_BCO.png" alt="☆" class="icono-estrella" onerror="this.style.display='none'"> INICIAR JUEGO
             </button>
+            
             <div class="contenedor-botones-duo">
                 <button class="btn btn-secundario" onclick="abrirModal('reglas')">📖 REGLAS</button>
                 <button class="btn btn-secundario" onclick="abrirModal('premios')">🎁 PREMIOS</button>
@@ -162,16 +168,18 @@
     <div id="pantalla-dificultad" class="pantalla">
         <div class="patron-siluetas">🎯 🎯 🎯 🎯 🎯</div>
         <div class="contenido-frente caja-central">
-            <div class="marcador-puntos">PUNTOS ACUMULADOS: <span id="puntos-display">0</span></div>
+            <div class="marcador-puntos">PUNTOS ACUMULADOS:<br><span id="puntos-display" style="font-size: 1.4em; display: inline-block; margin-top: 5px;">0</span></div>
             <h3 style="margin-top:0;">Elige tu riesgo</h3>
-            <p style="font-size: 0.85em; color: #aaa; margin-bottom: 20px;">Una respuesta incorrecta y pierdes todos tus puntos.</p>
+            <p style="font-size: 0.9em; color: #ccc; margin-bottom: 25px;">Una respuesta incorrecta y pierdes todos tus puntos. ¡Decide bien!</p>
             
-            <button class="btn btn-secundario btn-facil" onclick="cargarPregunta('facil', 20)">FÁCIL (+20 pts)</button>
-            <button class="btn btn-secundario btn-medio" onclick="cargarPregunta('medio', 50)">MEDIO (+50 pts)</button>
-            <button class="btn btn-secundario btn-dificil" onclick="cargarPregunta('dificil', 100)">DIFÍCIL (+100 pts)</button>
+            <button class="btn btn-facil" onclick="cargarPregunta('facil', 20)">🎯 FÁCIL (+20 pts)</button>
+            <button class="btn btn-medio" onclick="cargarPregunta('medio', 50)">🔥 MEDIO (+50 pts)</button>
+            <button class="btn btn-dificil" onclick="cargarPregunta('dificil', 100)">💀 DIFÍCIL (+100 pts)</button>
             
-            <hr style="border-color: #333; margin: 20px 0;">
-            <button class="btn btn-primario" onclick="abrirTienda(true)">🛒 CANJEAR MIS PUNTOS</button>
+            <hr style="border-color: #333; margin: 25px 0;">
+            <button class="btn btn-secundario" style="background-color: rgba(76, 175, 80, 0.1); border-color: #4CAF50; color: #4CAF50;" onclick="abrirTienda(true)">
+                🛒 CANJEAR MIS PUNTOS
+            </button>
         </div>
     </div>
 
@@ -179,8 +187,8 @@
     <!-- PANTALLA 3: JUEGO -->
     <div id="pantalla-juego" class="pantalla">
         <div class="patron-siluetas" id="siluetas-juego">🏆</div>
-        <div class="contenido-frente caja-central">
-            <div class="temporizador" id="tiempo-display">5</div>
+        <div class="contenido-frente caja-central" id="caja-pregunta">
+            <div class="temporizador" id="tiempo-display">10</div>
             <div class="etiqueta-nivel" id="categoria-texto">Categoría</div>
             <div class="pregunta-texto" id="pregunta-texto">Cargando...</div>
             <div id="contenedor-opciones"></div>
@@ -191,10 +199,10 @@
     <!-- PANTALLA 4: ACIERTO -->
     <div id="pantalla-acierto" class="pantalla">
         <div class="patron-siluetas">⭐ ⭐ ⭐ ⭐ ⭐</div>
-        <div class="contenido-frente caja-central" style="border-color: #4CAF50;">
-            <h2 style="color: #4CAF50; margin-top: 0;">¡TIRO PERFECTO!</h2>
-            <p style="color: #ccc;">Sumaste <span id="puntos-ganados" class="texto-destacado" style="display:inline; font-size:1.2em;"></span> puntos.</p>
-            <button class="btn btn-primario" onclick="mostrarPantalla('pantalla-dificultad')" style="margin-top: 20px;">CONTINUAR JUGANDO</button>
+        <div class="contenido-frente caja-central" style="border-color: #4CAF50; box-shadow: 0 0 30px rgba(76, 175, 80, 0.3);">
+            <h2 style="color: #4CAF50; margin-top: 0; font-size: 2em;">¡TIRO PERFECTO!</h2>
+            <p style="color: #ccc; font-size: 1.1em;">Sumaste <span id="puntos-ganados" class="texto-destacado" style="display:inline; font-size:1.4em;"></span> puntos.</p>
+            <button class="btn btn-primario" onclick="mostrarPantalla('pantalla-dificultad')" style="margin-top: 25px;">CONTINUAR JUGANDO</button>
         </div>
     </div>
 
@@ -202,28 +210,28 @@
     <!-- PANTALLA 5: DERROTA -->
     <div id="pantalla-derrota" class="pantalla">
         <div class="patron-siluetas">🟥 🟥 🟥 🟥 🟥</div>
-        <div class="contenido-frente caja-central" style="border-color: #d32f2f;">
-            <h2 style="color: #d32f2f; margin-top: 0;" id="titulo-derrota">¡TARJETA ROJA!</h2>
-            <p style="color: #ccc;" id="mensaje-derrota">Respuesta incorrecta. Perdiste todo.</p>
-            <p style="font-size: 0.85em; color: #888;">Ni modo carnal, pide algo de tomar y vuelve a intentarlo.</p>
-            <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">VOLVER AL INICIO</button>
+        <div class="contenido-frente caja-central" style="border-color: #d32f2f; box-shadow: 0 0 30px rgba(211, 47, 47, 0.3);">
+            <h2 style="color: #f44336; margin-top: 0; font-size: 2em;" id="titulo-derrota">¡TARJETA ROJA!</h2>
+            <p style="color: #ccc; font-size: 1.1em;" id="mensaje-derrota">Respuesta incorrecta. Perdiste todo.</p>
+            <p style="font-size: 0.9em; color: #888;">Ni modo carnal, pide algo de tomar y vuelve a intentarlo.</p>
+            <button class="btn btn-secundario" style="margin-top: 25px;" onclick="volverAlInicio()">VOLVER AL INICIO</button>
         </div>
     </div>
 
 
     <!-- PANTALLA 6: VICTORIA (CANJE) -->
     <div id="pantalla-victoria" class="pantalla">
-        <div class="contenido-frente caja-central" style="border-color: #FFD700; background: rgba(20,20,20,0.95);">
-            <h2 style="color: #FFD700; margin-top: 0;">¡CANJE EXITOSO!</h2>
-            <p style="color: #ccc;">Te retiraste como los grandes con:</p>
-            <span class="texto-destacado" id="premio-final">Premio</span>
+        <div class="contenido-frente caja-central" style="border-color: #FFD700; background: rgba(20,20,20,0.95); box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);">
+            <h2 style="color: #FFD700; margin-top: 0; font-size: 2em;">¡CANJE EXITOSO!</h2>
+            <p style="color: #ccc; font-size: 1.1em;">Te retiraste como los grandes con:</p>
+            <span class="texto-destacado" id="premio-final" style="font-size: 1.6em;">Premio</span>
             
-            <div style="background: #222; padding: 15px; border-radius: 10px; margin-top: 20px;">
-                <p style="font-size: 0.85em; margin: 0; color: #aaa;">Muestra esta pantalla a tu mesero para reclamar tu premio.</p>
-                <p style="font-size: 0.7em; color: #666; margin-top: 10px;">Válido solo hoy. 1 por mesa/cuenta.</p>
+            <div style="background: #1a1a1a; padding: 15px; border-radius: 12px; border: 1px dashed #555; margin-top: 25px;">
+                <p style="font-size: 0.9em; margin: 0; color: #ddd;">Muestra esta pantalla a tu mesero para reclamar tu premio.</p>
+                <p style="font-size: 0.8em; color: #777; margin-top: 10px;">Válido solo hoy. 1 por mesa/cuenta.</p>
             </div>
             
-            <button class="btn btn-secundario" style="margin-top: 20px;" onclick="volverAlInicio()">FINALIZAR JUEGO</button>
+            <button class="btn btn-secundario" style="margin-top: 25px;" onclick="volverAlInicio()">FINALIZAR JUEGO</button>
         </div>
     </div>
 
@@ -232,49 +240,47 @@
     <div id="modal-info" class="modal-fondo">
         <div class="modal-contenido">
             
-            <!-- Bloque de Reglas -->
             <div id="contenido-reglas" class="seccion-modal">
                 <h3>REGLAS DE LA CASA</h3>
-                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">⏱️ <strong>Contra reloj:</strong> Tienes 5 segundos por pregunta. Si sales de la pantalla o cambias de app, pierdes por abandono automático.</p>
-                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🎯 <strong>Riesgo:</strong> Una respuesta incorrecta y pierdes todos los puntos acumulados en la sesión.</p>
-                <p style="font-size: 0.9em; color: #ccc; line-height: 1.4;">🎁 <strong>Canje Único:</strong> Válido 1 premio por mesa/cuenta. Si te sobran puntos al momento de canjear, NO son acumulables para otra visita ni puedes llevarte múltiples premios. ¡Elige sabiamente un solo premio!</p>
+                <p style="font-size: 0.95em; color: #ccc; line-height: 1.5;">⏱️ <strong>Contra reloj:</strong> Tienes 10 segundos por pregunta. Si sales de la pantalla o cambias de app, pierdes por abandono.</p>
+                <p style="font-size: 0.95em; color: #ccc; line-height: 1.5;">🎯 <strong>Riesgo total:</strong> Una respuesta incorrecta y pierdes todos los puntos acumulados.</p>
+                <p style="font-size: 0.95em; color: #ccc; line-height: 1.5;">🎁 <strong>Canje Único:</strong> Válido 1 premio por mesa. Si te sobran puntos al canjear, NO son acumulables ni puedes pedir múltiples premios. ¡Elige un solo premio!</p>
             </div>
 
-            <!-- Bloque de Premios (Informativo) -->
             <div id="contenido-premios" class="seccion-modal">
                 <h3>CATÁLOGO DE PREMIOS</h3>
                 <ul class="lista-premios">
                     <li><span>⭐ Sticker Estrella CW</span> <span class="costo-premio-chico">100 pts</span></li>
-                    <li><span>📸 Selfie con el Staff</span> <span class="costo-premio-chico">200 pts</span></li>
-                    <li><span>🎟️ Membresía Descuento</span> <span class="costo-premio-chico">300 pts</span></li>
-                    <li><span>🍟 Aderezo sin costo</span> <span class="costo-premio-chico">400 pts</span></li>
+                    <li><span>📸 Selfie con Staff</span> <span class="costo-premio-chico">200 pts</span></li>
+                    <li><span>🎟️ Membresía Dto.</span> <span class="costo-premio-chico">300 pts</span></li>
+                    <li><span>🍟 Aderezo extra</span> <span class="costo-premio-chico">400 pts</span></li>
                     <li><span>📉 5% de Descuento</span> <span class="costo-premio-chico">500 pts</span></li>
-                    <li><span>🥃 Ronda de Shots (5)</span> <span class="costo-premio-chico">700 pts</span></li>
-                    <li><span>🍨 1 Bola de Helado</span> <span class="costo-premio-chico">900 pts</span></li>
-                    <li><span>🍻 2 Tarros de Cerveza</span> <span class="costo-premio-chico">1200 pts</span></li>
-                    <li><span>🧢 Gorra Edición CW</span> <span class="costo-premio-chico">1500 pts</span></li>
-                    <li><span>💸 10% de Descuento</span> <span class="costo-premio-chico">2000 pts</span></li>
-                    <li class="premio-top"><span>💳 Tarjeta PRIORITY +</span> <span class="costo-premio-chico">3000 pts</span></li>
+                    <li><span>🥃 5 Shots</span> <span class="costo-premio-chico">700 pts</span></li>
+                    <li><span>🍨 1 Bola Helado</span> <span class="costo-premio-chico">900 pts</span></li>
+                    <li><span>🍻 2 Tarros Cerveza</span> <span class="costo-premio-chico">1200 pts</span></li>
+                    <li><span>🧢 Gorra CW</span> <span class="costo-premio-chico">1500 pts</span></li>
+                    <li><span>💸 10% Descuento</span> <span class="costo-premio-chico">2000 pts</span></li>
+                    <li class="premio-top"><span>💳 Tarjeta PRIORITY+</span> <span class="costo-premio-chico">3000 pts</span></li>
                 </ul>
             </div>
             
-            <button class="btn btn-primario" style="margin-top: 20px;" onclick="cerrarModalInfo()">ENTENDIDO</button>
+            <button class="btn btn-primario" style="margin-top: 25px;" onclick="cerrarModalInfo()">ENTENDIDO</button>
         </div>
     </div>
 
 
     <!-- MODAL TIENDA DE CANJE (DURANTE EL JUEGO) -->
     <div id="modal-tienda" class="modal-fondo">
-        <div class="modal-contenido">
+        <div class="modal-contenido" style="max-width: 380px;">
             <h3>CANJEAR PUNTOS</h3>
-            <p style="font-size: 0.8em; color:#aaa; text-align:center;">Puntos actuales: <strong id="puntos-tienda">0</strong></p>
-            <p style="font-size: 0.75em; color: #d32f2f; text-align:center; margin-top: -5px;">Recuerda: Solo puedes elegir UN premio. Los puntos sobrantes se pierden.</p>
+            <p style="font-size: 0.9em; color:#ddd; text-align:center;">Puntos actuales: <strong id="puntos-tienda" style="color: #FFD700; font-size: 1.2em;">0</strong></p>
+            <p style="font-size: 0.8em; color: #f44336; text-align:center; margin-top: -5px; line-height: 1.3;">Recuerda: Solo puedes elegir UN premio. Los puntos sobrantes se pierden.</p>
             
-            <ul class="lista-tienda" id="contenedor-premios">
+            <ul class="lista-tienda" id="contenedor-premios" style="margin-top: 20px;">
                 <!-- Se llena con JS -->
             </ul>
             
-            <button class="btn btn-secundario" style="margin-top: 15px;" onclick="cerrarTienda()">SEGUIR JUGANDO</button>
+            <button class="btn btn-secundario" style="margin-top: 20px;" onclick="cerrarTienda()">VOLVER AL JUEGO</button>
         </div>
     </div>
 
@@ -284,11 +290,10 @@
         let baseDeDatos = {};
         let puntosAcumulados = 0;
         let temporizador;
-        let tiempoRestante = 5;
+        let tiempoRestante = 10;
         let puntosEnJuego = 0;
         let juegoActivo = false;
 
-        // Catálogo de Premios estilo Recórcholis
         const catalogoPremios = [
             { nombre: "Sticker Estrella CW", costo: 100, icono: "⭐" },
             { nombre: "Selfie con el Staff", costo: 200, icono: "📸" },
@@ -332,7 +337,7 @@
         setInterval(actualizarReloj, 1000);
         actualizarReloj();
 
-        // --- SEGURIDAD: DETECTAR CAMBIO DE PESTAÑA (ANTI-TRAMPAS) ---
+        // --- SEGURIDAD: DETECTAR CAMBIO DE PESTAÑA ---
         document.addEventListener("visibilitychange", () => {
             if (document.hidden && juegoActivo) {
                 clearInterval(temporizador);
@@ -340,7 +345,7 @@
             }
         });
 
-        // --- NAVEGACIÓN DE MODALES INICIALES ---
+        // --- NAVEGACIÓN ---
         function abrirModal(tipo) {
             document.getElementById('modal-info').style.display = 'flex';
             document.getElementById('contenido-reglas').style.display = (tipo === 'reglas') ? 'block' : 'none';
@@ -353,8 +358,6 @@
         function mostrarPantalla(idPantalla) {
             document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
             document.getElementById(idPantalla).classList.add('activa');
-            
-            // La marca de agua SOLO sale en la victoria
             document.getElementById('reloj-marca-agua').style.display = (idPantalla === 'pantalla-victoria') ? 'block' : 'none';
         }
 
@@ -383,18 +386,22 @@
 
         function cargarPregunta(dificultad, puntos) {
             puntosEnJuego = puntos;
-            juegoActivo = true; // Activa el anti-trampas
+            juegoActivo = true; 
             
             const preguntasNivel = baseDeDatos[dificultad];
             const indiceAleatorio = Math.floor(Math.random() * preguntasNivel.length);
             const pregunta = preguntasNivel[indiceAleatorio];
 
-            // Estilos
             const estilo = configCategorias[pregunta.categoria] || configCategorias["default"];
             document.body.style.backgroundColor = estilo.color;
             document.getElementById('siluetas-juego').innerText = estilo.icono.repeat(60);
 
-            // Llenar datos
+            // Reiniciar la animación de la caja de preguntas para el efecto de transición
+            const cajaPregunta = document.getElementById('caja-pregunta');
+            cajaPregunta.classList.remove('animar-cambio');
+            void cajaPregunta.offsetWidth; // Truco para reiniciar CSS animation
+            cajaPregunta.classList.add('animar-cambio');
+
             document.getElementById('categoria-texto').innerText = `${pregunta.categoria} (Por ${puntos} pts)`;
             document.getElementById('pregunta-texto').innerText = pregunta.pregunta;
 
@@ -415,23 +422,30 @@
         }
 
         function iniciarTemporizador() {
-            tiempoRestante = 5;
-            document.getElementById('tiempo-display').innerText = tiempoRestante;
+            tiempoRestante = 10; // Subimos a 10 segundos
+            const displayTiempo = document.getElementById('tiempo-display');
+            displayTiempo.innerText = tiempoRestante;
+            displayTiempo.style.color = "#fff"; // Reseteamos el color
             
             temporizador = setInterval(() => {
                 tiempoRestante--;
-                document.getElementById('tiempo-display').innerText = tiempoRestante;
+                displayTiempo.innerText = tiempoRestante;
+                
+                // Efecto visual: se pone rojo cuando quedan 3 segundos
+                if (tiempoRestante <= 3) {
+                    displayTiempo.style.color = "#f44336";
+                }
                 
                 if (tiempoRestante <= 0) {
                     clearInterval(temporizador);
-                    lanzarDerrota("¡TIEMPO AGOTADO!", "Tardaste más de 5 segundos. Pierdes todos tus puntos.");
+                    lanzarDerrota("¡TIEMPO AGOTADO!", "Tardaste más de 10 segundos. Pierdes todos tus puntos.");
                 }
             }, 1000);
         }
 
         function validarRespuesta(opcionElegida, opcionCorrecta) {
             clearInterval(temporizador);
-            juegoActivo = false; // Desactiva anti-trampas temporalmente
+            juegoActivo = false; 
             
             if (opcionElegida === opcionCorrecta) {
                 puntosAcumulados += puntosEnJuego;
@@ -453,7 +467,7 @@
             mostrarPantalla('pantalla-derrota');
         }
 
-        // --- TIENDA DE CANJE DURANTE EL JUEGO ---
+        // --- TIENDA DE CANJE ---
         function abrirTienda(modoCanje) {
             document.getElementById('modal-tienda').style.display = 'flex';
             document.getElementById('puntos-tienda').innerText = modoCanje ? puntosAcumulados : 0;
@@ -468,9 +482,9 @@
                 let btnHTML = '';
                 if(modoCanje) {
                     if(alcanza) {
-                        btnHTML = `<button class="btn btn-primario" style="padding: 8px; font-size: 0.7em; width: auto;" onclick="canjearPremio('${premio.icono} ${premio.nombre}')">CANJEAR</button>`;
+                        btnHTML = `<button class="btn btn-primario" style="padding: 10px; font-size: 0.8em; width: auto;" onclick="canjearPremio('${premio.icono} ${premio.nombre}')">CANJEAR</button>`;
                     } else {
-                        btnHTML = `<button class="btn" style="padding: 8px; font-size: 0.7em; width: auto; background:#333; color:#666;" disabled>FALTAN PTS</button>`;
+                        btnHTML = `<button class="btn" style="padding: 10px; font-size: 0.8em; width: auto; background:#333; color:#666;" disabled>FALTAN PTS</button>`;
                     }
                 }
 
@@ -485,9 +499,7 @@
             });
         }
 
-        function cerrarTienda() { 
-            document.getElementById('modal-tienda').style.display = 'none'; 
-        }
+        function cerrarTienda() { document.getElementById('modal-tienda').style.display = 'none'; }
 
         function canjearPremio(nombrePremio) {
             cerrarTienda();
@@ -499,4 +511,4 @@
     </script>
 
 </body>
-</html> 
+</html>
