@@ -1,514 +1,1092 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trivia - Central Wings</title>
-    
-    <style>
-        /* --- ESTILOS GENERALES Y ANIMACIONES --- */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #0d0d0d; 
-            color: #ffffff; 
-            margin: 0;
-            overflow: hidden; 
-            transition: background-color 0.6s ease-in-out; 
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CENTR☆L WINGS — Trivia Deportiva</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cw-green: #8cc63f;
+      --cw-green-glow: rgba(140, 198, 63, 0.45);
+      --cw-bg: #07140d;
+      --cw-card: #0e1e15;
+    }
 
-        @keyframes gradienteDinamico {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* Efecto de transición suave (Fade In) para las pantallas y cajas */
-        @keyframes aparecerSuave {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-        .fondo-animado {
-            background: linear-gradient(-45deg, #0d0d0d, #141414, #1b381f, #0a200d);
-            background-size: 400% 400%;
-            animation: gradienteDinamico 12s ease infinite;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 0%, #143623 0%, #091810 55%, #040b07 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      overflow-x: hidden;
+      margin: 0;
+    }
 
-        .patron-siluetas {
-            position: absolute; top: -20%; left: -20%; width: 140%; height: 140%;
-            font-size: 4em; opacity: 0.12; line-height: 1.8; letter-spacing: 25px;
-            text-align: justify; z-index: 0; pointer-events: none; overflow: hidden;
-            transform: rotate(-15deg); display: flex; flex-wrap: wrap; align-content: flex-start;
-        }
+    .font-display {
+      font-family: 'Anton', sans-serif;
+      letter-spacing: 0.04em;
+    }
 
-        /* --- CONTENEDORES DE PANTALLAS --- */
-        .pantalla {
-            width: 100vw; height: 100vh; display: none; 
-            flex-direction: column; justify-content: center; align-items: center;
-            padding: 20px; box-sizing: border-box; text-align: center; position: relative;
-        }
-        /* Al activarse la pantalla, entra la animación */
-        .pantalla.activa { display: flex; animation: aparecerSuave 0.4s ease-out forwards; } 
-        
-        .contenido-frente { z-index: 1; width: 100%; max-width: 380px; }
+    /* Fondo dinámico tipo marca de agua por deporte */
+    #sport-watermark-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.055;
+      background-size: 90px 90px;
+      transition: opacity 0.4s ease;
+    }
 
-        /* --- MARCA DE AGUA ANTI-TRAMPAS --- */
-        #reloj-marca-agua {
-            position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 4.5em; font-weight: 900; color: #ffffff; opacity: 0.15; 
-            white-space: nowrap; pointer-events: none; z-index: 9999; text-align: center;
-            line-height: 1.1; width: 100vw; display: none; 
-        }
+    /* Modo Enrachado (3+ aciertos seguidos) */
+    body.on-fire {
+      box-shadow: inset 0 0 60px rgba(140, 198, 63, 0.35);
+    }
+    body.on-fire .fire-border {
+      border-color: var(--cw-green) !important;
+      box-shadow: 0 0 28px var(--cw-green-glow), inset 0 0 18px rgba(140, 198, 63, 0.14);
+    }
 
-        /* --- ELEMENTOS VISUALES --- */
-        .logo-portada { width: 90%; max-width: 330px; margin-bottom: 25px; filter: drop-shadow(0px 0px 15px rgba(76, 175, 80, 0.5)); }
-        .texto-bienvenida { font-size: 1.1em; color: #e0e0e0; margin-bottom: 30px; line-height: 1.5; }
-        
-        .caja-central {
-            background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(10px);
-            border-radius: 15px; padding: 25px 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.8); 
-            border: 1px solid #333; position: relative;
-        }
+    /* Reloj marca de agua anti-trampa */
+    #reloj-marca-agua {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-25deg);
+      font-size: clamp(1.6rem, 6vw, 3.2rem);
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.16);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 60;
+      user-select: none;
+      text-align: center;
+      line-height: 1.15;
+    }
 
-        /* El contenedor de las preguntas también se anima para no cambiar "en seco" */
-        .animar-cambio { animation: aparecerSuave 0.3s ease-out forwards; }
+    /* Animaciones de estadio */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px) rotate(-1deg); }
+      40% { transform: translateX(8px) rotate(1deg); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    .animate-shake {
+      animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+    }
 
-        /* --- MARCADOR Y TIEMPO --- */
-        .marcador-puntos {
-            background: #1a1a1a; border: 2px solid #4CAF50; color: #FFD700;
-            padding: 12px; border-radius: 12px; font-weight: bold; font-size: 1.3em; margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
-        }
-        .temporizador {
-            font-size: 3.5em; font-weight: 900; color: #fff; margin-bottom: 10px;
-            text-shadow: 0 0 15px #d32f2f;
-            transition: color 0.3s;
-        }
+    @keyframes redCardUp {
+      0% { transform: translateY(60px) scale(0.7) rotate(-12deg); opacity: 0; }
+      70% { transform: translateY(-6px) scale(1.06) rotate(3deg); opacity: 1; }
+      100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+    }
+    .animate-red-card {
+      animation: redCardUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
 
-        /* --- BOTONES --- */
-        .contenedor-botones-duo { display: flex; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 15px; }
-        .btn { 
-            padding: 15px; font-size: 1em; font-weight: bold; border-radius: 12px; 
-            cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); width: 100%; 
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            text-transform: uppercase; letter-spacing: 1px; border: none;
-        }
-        .btn:active { transform: scale(0.93); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; background: #333 !important; color: #666 !important; box-shadow: none !important;}
-        
-        .btn-primario { background: linear-gradient(135deg, #4CAF50, #388E3C); color: #fff; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); text-shadow: 1px 1px 2px rgba(0,0,0,0.5);}
-        .btn-peligro { background: linear-gradient(135deg, #f44336, #c62828); color: #fff; }
-        .btn-secundario { background-color: rgba(255, 255, 255, 0.05); border: 2px solid #555; color: #ddd; font-size: 0.9em; backdrop-filter: blur(5px);}
-        
-        .btn-opcion-juego { background-color: rgba(255,255,255,0.05); border: 2px solid #555; color: #fff; margin-bottom: 10px; font-size: 0.95em; }
-        .btn-opcion-juego:active { background-color: #4CAF50; border-color: #4CAF50; color: #000; }
-        
-        /* Botones de Dificultad (Vibrantes y coloridos) */
-        .btn-facil { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); margin-bottom: 12px;}
-        .btn-medio { background: linear-gradient(135deg, #FF9800, #EF6C00); color: white; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3); margin-bottom: 12px;}
-        .btn-dificil { background: linear-gradient(135deg, #f44336, #c62828); color: white; box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3); margin-bottom: 12px;}
-        
-        .icono-estrella { width: 22px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.5));}
+    @keyframes pulseUrgent {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.09); }
+    }
+    .timer-urgent {
+      animation: pulseUrgent 0.55s ease-in-out infinite;
+    }
 
-        /* --- VENTANA FLOTANTE (MODAL) --- */
-        .modal-fondo {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 100; justify-content: center; align-items: center; padding: 15px;
-        }
-        .modal-contenido {
-            background: #1a1a1a; padding: 25px 20px; border-radius: 20px;
-            width: 100%; max-width: 340px; text-align: left; border: 1px solid #4CAF50;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
-            animation: aparecerSuave 0.3s ease-out forwards;
-        }
-        .modal-contenido h3 { color: #4CAF50; margin-top: 0; text-align: center; }
-        .seccion-modal { display: none; } 
+    /* Ticker inferior estilo transmisión deportiva */
+    @keyframes tickerMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: tickerMove 28s linear infinite;
+    }
 
-        /* --- LISTAS DE PREMIOS --- */
-        .lista-premios, .lista-tienda { margin: 0; padding-left: 0; list-style: none; max-height: 50vh; overflow-y: auto;}
-        
-        .lista-premios li { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; color: #ddd;}
-        .costo-premio-chico { background: #333; color: #FFD700; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em; white-space: nowrap; box-shadow: inset 0 0 5px rgba(0,0,0,0.5);}
-        
-        .lista-tienda li { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;}
-        .costo-premio { font-weight: bold; color: #FFD700; font-size: 0.9em; background: #222; padding: 6px 10px; border-radius: 6px; box-shadow: inset 0 0 5px rgba(0,0,0,0.8);}
-        .nombre-premio { font-size: 0.9em; color: #fff; max-width: 60%; line-height: 1.3;}
-        .premio-top { color: #FFD700; font-weight: bold; }
+    /* Confeti ligero */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 70;
+    }
 
-        .etiqueta-nivel { color: #aaa; font-size: 0.85em; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
-        .pregunta-texto { font-size: 1.15em; margin-bottom: 25px; line-height: 1.4; min-height: 80px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);}
-        .texto-destacado { color: #FFD700; font-size: 1.5em; font-weight: bold; margin: 15px 0; display: block; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);}
-    </style>
+    .hidden-screen {
+      display: none !important;
+    }
+  </style>
 </head>
-<body class="fondo-animado">
+<body class="flex flex-col min-h-screen relative">
+  <!-- Fondo de marcas de agua dinámicas -->
+  <div id="sport-watermark-bg"></div>
+  <canvas id="confetti-canvas"></canvas>
 
-    <!-- RELOJ MARCA DE AGUA (Victoria) -->
-    <div id="reloj-marca-agua"></div>
+  <!-- Marca de agua en vivo anti-trampa (solo visible en pantalla de victoria/canje) -->
+  <div id="reloj-marca-agua"></div>
 
-    <!-- PANTALLA 1: PORTADA -->
-    <div id="pantalla-inicio" class="pantalla activa">
-        <div class="patron-siluetas">⚽ 🏈 🏀 ⚾ 🎾 🥊</div>
-        <div class="contenido-frente">
-            <img src="CW_BCO_HORIZONTAL.png" alt="Central Wings" class="logo-portada" onerror="this.style.display='none'">
-            <p class="texto-bienvenida">Acumula puntos respondiendo trivias en <strong>10 segundos</strong>. ¡Canjéalos por premios exclusivos!</p>
-            
-            <button class="btn btn-primario" onclick="iniciarJuego()" style="margin-bottom: 20px; font-size: 1.1em; padding: 18px;">
-                <img src="Icono_EstrellaCW_BCO.png" alt="☆" class="icono-estrella" onerror="this.style.display='none'"> INICIAR JUEGO
+  <!-- Barra superior fija tipo Marcador TV -->
+  <header class="sticky top-0 z-30 bg-black/75 backdrop-blur-md border-b border-emerald-500/25 px-3 py-2.5">
+    <div class="max-w-xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <img
+          src="https://priority-cw-altacia.github.io/Trivia-CW/Icono_EstrellaCW_BCO.png"
+          alt="☆"
+          class="w-7 h-7 object-contain shrink-0"
+          onerror="this.style.display='none'; document.getElementById('fallback-star').classList.remove('hidden');"
+        />
+        <!-- Estrella contorno fino line-art -->
+        <svg id="fallback-star" class="hidden w-7 h-7 shrink-0 text-[#8cc63f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+        <div class="leading-tight truncate">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#8cc63f]">En Vivo</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-[#8cc63f] animate-pulse"></span>
+          </div>
+          <p class="text-xs font-bold text-slate-200 truncate">ALTACIA · TRIVIA CW</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <div id="streak-pill" class="hidden items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs font-extrabold">
+          <span>🔥</span>
+          <span id="streak-count">0</span>
+        </div>
+
+        <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/90 border border-[#8cc63f]/50">
+          <span class="text-[10px] uppercase tracking-wider text-slate-300 font-semibold">Pts</span>
+          <span id="header-points" class="text-sm font-black text-amber-300 tabular-nums">0</span>
+        </div>
+
+        <button
+          id="btn-sound-toggle"
+          type="button"
+          title="Sonido"
+          class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 border border-white/15 flex items-center justify-center text-sm transition"
+        >
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor principal -->
+  <main class="relative z-10 flex-1 w-full max-w-xl mx-auto px-4 pt-4 pb-16 flex flex-col justify-center">
+
+    <!-- ==================== 1. PANTALLA DE INICIO ==================== -->
+    <section id="pantalla-inicio" class="space-y-5 text-center">
+      <div class="relative rounded-3xl bg-gradient-to-b from-[#10291b]/95 to-[#08150e]/95 border border-[#8cc63f]/35 p-6 shadow-2xl overflow-hidden">
+        <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#8cc63f]/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Logo Principal CW -->
+        <div class="relative flex justify-center mb-4">
+          <img
+            src="https://priority-cw-altacia.github.io/Trivia-CW/CW_BCO_HORIZONTAL.png"
+            alt="CENTRAL WINGS"
+            class="max-h-20 w-auto object-contain drop-shadow-lg"
+            onerror="this.style.display='none'; document.getElementById('fallback-logo').classList.remove('hidden');"
+          />
+          <div id="fallback-logo" class="hidden flex-col items-center leading-none select-none">
+            <div class="font-display text-4xl tracking-wider text-white flex items-center gap-0.5">
+              <span>CENTR</span>
+              <svg class="w-8 h-8 text-[#8cc63f] inline-block -mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+              <span>L</span>
+            </div>
+            <div class="font-display text-2xl tracking-[0.28em] text-[#8cc63f] mt-0.5">WINGS</div>
+          </div>
+        </div>
+
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8cc63f]/15 border border-[#8cc63f]/40 text-[#8cc63f] text-[11px] font-extrabold tracking-widest uppercase mb-3">
+          ⚡ Juega mientras esperas tus alimentos
+        </span>
+
+        <h1 class="font-display text-3xl sm:text-4xl text-white tracking-wide leading-tight mb-2">
+          LA CANCHA ES TUYA
+        </h1>
+        <p class="text-sm text-slate-300 max-w-sm mx-auto leading-relaxed">
+          Demuestra cuánto sabes de deportes, arma tu racha contra reloj y canjea tus puntos por premios reales en tu mesa.
+        </p>
+
+        <!-- Mini resumen de dinámicas -->
+        <div class="grid grid-cols-3 gap-2 mt-5 text-left">
+          <div class="rounded-xl bg-black/40 border border-white/10 p-2.5">
+            <p class="text-base">⏱️</p>
+            <p class="text-[11px] font-bold text-white mt-0.5">10 Segundos</p>
+            <p class="text-[10px] text-slate-400">Por jugada</p>
+          </div>
+          <div class="rounded-xl bg-black/40 border border-white/10 p-2.5">
+            <p class="text-base">📺</p>
+            <p class="text-[11px] font-bold text-white mt-0.5">2 Comodines</p>
+            <p class="text-[10px] text-slate-400">VAR y Tiempo</p>
+          </div>
+          <div class="rounded-xl bg-black/40 border border-white/10 p-2.5">
+            <p class="text-base">🎁</p>
+            <p class="text-[11px] font-bold text-white mt-0.5">7 Premios</p>
+            <p class="text-[10px] text-slate-400">Desde 150 pts</p>
+          </div>
+        </div>
+
+        <!-- Botones principales -->
+        <div class="mt-6 space-y-2.5">
+          <button
+            id="btn-iniciar"
+            type="button"
+            class="w-full py-4 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] active:scale-[0.98] text-slate-950 font-black text-base tracking-wider uppercase shadow-lg shadow-[#8cc63f]/25 transition flex items-center justify-center gap-2"
+          >
+            <span>⚽</span> SALTAR A LA CANCHA
+          </button>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <button
+              id="btn-reglas"
+              type="button"
+              class="py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-[#8cc63f]/40 text-xs font-bold uppercase tracking-wider text-white transition flex items-center justify-center gap-1.5"
+            >
+              <span>📖</span> Reglas
             </button>
-            
-            <div class="contenedor-botones-duo">
-                <button class="btn btn-secundario" onclick="abrirModal('reglas')">📖 REGLAS</button>
-                <button class="btn btn-secundario" onclick="abrirModal('premios')">🎁 PREMIOS</button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- PANTALLA 2: ELEGIR DIFICULTAD -->
-    <div id="pantalla-dificultad" class="pantalla">
-        <div class="patron-siluetas">🎯 🎯 🎯 🎯 🎯</div>
-        <div class="contenido-frente caja-central">
-            <div class="marcador-puntos">PUNTOS ACUMULADOS:<br><span id="puntos-display" style="font-size: 1.4em; display: inline-block; margin-top: 5px;">0</span></div>
-            <h3 style="margin-top:0;">Elige tu riesgo</h3>
-            <p style="font-size: 0.9em; color: #ccc; margin-bottom: 25px;">Una respuesta incorrecta y pierdes todos tus puntos. ¡Decide bien!</p>
-            
-            <button class="btn btn-facil" onclick="cargarPregunta('facil', 20)">🎯 FÁCIL (+20 pts)</button>
-            <button class="btn btn-medio" onclick="cargarPregunta('medio', 50)">🔥 MEDIO (+50 pts)</button>
-            <button class="btn btn-dificil" onclick="cargarPregunta('dificil', 100)">💀 DIFÍCIL (+100 pts)</button>
-            
-            <hr style="border-color: #333; margin: 25px 0;">
-            <button class="btn btn-secundario" style="background-color: rgba(76, 175, 80, 0.1); border-color: #4CAF50; color: #4CAF50;" onclick="abrirTienda(true)">
-                🛒 CANJEAR MIS PUNTOS
+            <button
+              id="btn-premios"
+              type="button"
+              class="py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-[#8cc63f]/40 text-xs font-bold uppercase tracking-wider text-white transition flex items-center justify-center gap-1.5"
+            >
+              <span>🎁</span> Premios
             </button>
+          </div>
         </div>
-    </div>
+      </div>
 
+      <p id="db-status-msg" class="text-[11px] text-slate-400"></p>
+    </section>
 
-    <!-- PANTALLA 3: JUEGO -->
-    <div id="pantalla-juego" class="pantalla">
-        <div class="patron-siluetas" id="siluetas-juego">🏆</div>
-        <div class="contenido-frente caja-central" id="caja-pregunta">
-            <div class="temporizador" id="tiempo-display">10</div>
-            <div class="etiqueta-nivel" id="categoria-texto">Categoría</div>
-            <div class="pregunta-texto" id="pregunta-texto">Cargando...</div>
-            <div id="contenedor-opciones"></div>
+    <!-- ==================== 2. PANTALLA SELECCIÓN DE RIESGO ==================== -->
+    <section id="pantalla-riesgo" class="hidden-screen space-y-4">
+      <!-- Barra de progreso hacia el siguiente premio -->
+      <div class="rounded-2xl bg-[#0d1f15]/95 border border-white/10 p-4 shadow-xl fire-border">
+        <div class="flex items-center justify-between text-xs mb-1.5">
+          <span class="font-bold text-slate-300 uppercase tracking-wider">Siguiente Premio</span>
+          <span id="next-reward-label" class="font-extrabold text-[#8cc63f]">🍹 Bebida de la casa (150 pts)</span>
         </div>
-    </div>
-
-
-    <!-- PANTALLA 4: ACIERTO -->
-    <div id="pantalla-acierto" class="pantalla">
-        <div class="patron-siluetas">⭐ ⭐ ⭐ ⭐ ⭐</div>
-        <div class="contenido-frente caja-central" style="border-color: #4CAF50; box-shadow: 0 0 30px rgba(76, 175, 80, 0.3);">
-            <h2 style="color: #4CAF50; margin-top: 0; font-size: 2em;">¡TIRO PERFECTO!</h2>
-            <p style="color: #ccc; font-size: 1.1em;">Sumaste <span id="puntos-ganados" class="texto-destacado" style="display:inline; font-size:1.4em;"></span> puntos.</p>
-            <button class="btn btn-primario" onclick="mostrarPantalla('pantalla-dificultad')" style="margin-top: 25px;">CONTINUAR JUGANDO</button>
+        <div class="w-full h-2.5 rounded-full bg-black/60 overflow-hidden border border-white/10">
+          <div id="next-reward-bar" class="h-full rounded-full bg-gradient-to-r from-[#8cc63f] to-amber-300 transition-all duration-500" style="width: 0%"></div>
         </div>
-    </div>
-
-
-    <!-- PANTALLA 5: DERROTA -->
-    <div id="pantalla-derrota" class="pantalla">
-        <div class="patron-siluetas">🟥 🟥 🟥 🟥 🟥</div>
-        <div class="contenido-frente caja-central" style="border-color: #d32f2f; box-shadow: 0 0 30px rgba(211, 47, 47, 0.3);">
-            <h2 style="color: #f44336; margin-top: 0; font-size: 2em;" id="titulo-derrota">¡TARJETA ROJA!</h2>
-            <p style="color: #ccc; font-size: 1.1em;" id="mensaje-derrota">Respuesta incorrecta. Perdiste todo.</p>
-            <p style="font-size: 0.9em; color: #888;">Ni modo carnal, pide algo de tomar y vuelve a intentarlo.</p>
-            <button class="btn btn-secundario" style="margin-top: 25px;" onclick="volverAlInicio()">VOLVER AL INICIO</button>
+        <div class="flex items-center justify-between text-[11px] text-slate-400 mt-1.5">
+          <span id="next-reward-hint">Te faltan 150 pts para desbloquearlo</span>
+          <span id="unlocked-count" class="font-semibold text-amber-300">0/7 disponibles</span>
         </div>
-    </div>
+      </div>
 
+      <div class="text-center pt-1">
+        <h2 class="font-display text-2xl sm:text-3xl text-white tracking-wide">ELIGE TU JUGADA</h2>
+        <p class="text-xs text-slate-300 mt-0.5">Mayor riesgo, más puntos. Si fallas pierdes todo el marcador.</p>
+      </div>
 
-    <!-- PANTALLA 6: VICTORIA (CANJE) -->
-    <div id="pantalla-victoria" class="pantalla">
-        <div class="contenido-frente caja-central" style="border-color: #FFD700; background: rgba(20,20,20,0.95); box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);">
-            <h2 style="color: #FFD700; margin-top: 0; font-size: 2em;">¡CANJE EXITOSO!</h2>
-            <p style="color: #ccc; font-size: 1.1em;">Te retiraste como los grandes con:</p>
-            <span class="texto-destacado" id="premio-final" style="font-size: 1.6em;">Premio</span>
-            
-            <div style="background: #1a1a1a; padding: 15px; border-radius: 12px; border: 1px dashed #555; margin-top: 25px;">
-                <p style="font-size: 0.9em; margin: 0; color: #ddd;">Muestra esta pantalla a tu mesero para reclamar tu premio.</p>
-                <p style="font-size: 0.8em; color: #777; margin-top: 10px;">Válido solo hoy. 1 por mesa/cuenta.</p>
+      <!-- 3 Tarjetas de riesgo -->
+      <div class="space-y-3">
+        <button
+          data-level="facil"
+          type="button"
+          class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-emerald-950/90 to-[#0e2418] hover:from-emerald-900/90 border border-emerald-400/50 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 group"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-xl">🎯</div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-black text-base text-white tracking-wide">FÁCIL</span>
+                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">Pase Seguro</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5">Calentamiento ideal para sumar seguro</p>
             </div>
-            
-            <button class="btn btn-secundario" style="margin-top: 25px;" onclick="volverAlInicio()">FINALIZAR JUEGO</button>
-        </div>
-    </div>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="font-display text-2xl text-emerald-300">+25</span>
+            <p class="text-[10px] font-bold text-slate-400 uppercase">PTS</p>
+          </div>
+        </button>
 
-
-    <!-- MODAL COMPACTO (REGLAS Y PREMIOS DE INICIO) -->
-    <div id="modal-info" class="modal-fondo">
-        <div class="modal-contenido">
-            
-            <div id="contenido-reglas" class="seccion-modal">
-                <h3>REGLAS DE LA CASA</h3>
-                <p style="font-size: 0.95em; color: #ccc; line-height: 1.5;">⏱️ <strong>Contra reloj:</strong> Tienes 10 segundos por pregunta. Si sales de la pantalla o cambias de app, pierdes por abandono.</p>
-                <p style="font-size: 0.95em; color: #ccc; line-height: 1.5;">🎯 <strong>Riesgo total:</strong> Una respuesta incorrecta y pierdes todos los puntos acumulados.</p>
-                <p style="font-size: 0.95em; color: #ccc; line-height: 1.5;">🎁 <strong>Canje Único:</strong> Válido 1 premio por mesa. Si te sobran puntos al canjear, NO son acumulables ni puedes pedir múltiples premios. ¡Elige un solo premio!</p>
+        <button
+          data-level="medio"
+          type="button"
+          class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-amber-950/75 to-[#1c160b] hover:from-amber-900/75 border border-amber-400/55 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 group"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-xl">🔥</div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-black text-base text-white tracking-wide">MEDIO</span>
+                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300">Tiro de Media</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5">Para los que sí ven los partidos</p>
             </div>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="font-display text-2xl text-amber-300">+50</span>
+            <p class="text-[10px] font-bold text-slate-400 uppercase">PTS</p>
+          </div>
+        </button>
 
-            <div id="contenido-premios" class="seccion-modal">
-                <h3>CATÁLOGO DE PREMIOS</h3>
-                <ul class="lista-premios">
-                    <li><span>⭐ Sticker Estrella CW</span> <span class="costo-premio-chico">100 pts</span></li>
-                    <li><span>📸 Selfie con Staff</span> <span class="costo-premio-chico">200 pts</span></li>
-                    <li><span>🎟️ Membresía Access.</span> <span class="costo-premio-chico">300 pts</span></li>
-                    <li><span>🍟 Aderezo extra</span> <span class="costo-premio-chico">400 pts</span></li>
-                    <li><span>📉 5% de Descuento</span> <span class="costo-premio-chico">500 pts</span></li>
-                    <li><span>🥃 5 Shots</span> <span class="costo-premio-chico">700 pts</span></li>
-                    <li><span>🍨 1 Bola Helado</span> <span class="costo-premio-chico">900 pts</span></li>
-                    <li><span>🍻 2 Tarros Cerveza</span> <span class="costo-premio-chico">1200 pts</span></li>
-                    <li><span>🧢 Gorra CW</span> <span class="costo-premio-chico">1500 pts</span></li>
-                    <li><span>💸 10% Descuento</span> <span class="costo-premio-chico">2000 pts</span></li>
-                    <li class="premio-top"><span>💳 Tarjeta MVP+</span> <span class="costo-premio-chico">3000 pts</span></li>
-                </ul>
+        <button
+          data-level="dificil"
+          type="button"
+          class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-rose-950/80 to-[#1f0c11] hover:from-rose-900/80 border border-rose-500/60 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 group"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-xl">💀</div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-black text-base text-white tracking-wide">DIFÍCIL</span>
+                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300">Tiempo Extra</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5">Solo cracks y enciclopedias</p>
             </div>
-            
-            <button class="btn btn-primario" style="margin-top: 25px;" onclick="cerrarModalInfo()">ENTENDIDO</button>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="font-display text-2xl text-rose-400">+100</span>
+            <p class="text-[10px] font-bold text-slate-400 uppercase">PTS</p>
+          </div>
+        </button>
+      </div>
+
+      <!-- Botón de Canje -->
+      <div class="pt-2">
+        <button
+          id="btn-ir-canje"
+          type="button"
+          disabled
+          class="w-full py-3.5 rounded-2xl bg-amber-400 disabled:bg-white/10 disabled:text-slate-500 disabled:border-white/10 text-slate-950 font-black text-sm tracking-wider uppercase border border-amber-300 transition flex items-center justify-center gap-2 shadow-lg"
+        >
+          <span>🛒</span> PLANTARME Y CANJEAR PUNTOS
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== 3. PANTALLA DE PREGUNTA ==================== -->
+    <section id="pantalla-pregunta" class="hidden-screen space-y-4">
+      <div class="rounded-3xl bg-[#0c1d14]/95 border border-white/15 p-5 shadow-2xl fire-border relative overflow-hidden">
+        <!-- Encabezado de categoría + reloj circular -->
+        <div class="flex items-center justify-between gap-3 mb-4">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span id="q-category-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8cc63f]/15 border border-[#8cc63f]/40 text-[#8cc63f] text-xs font-extrabold uppercase tracking-wider">
+              ⚽ Fútbol
+            </span>
+            <span id="q-points-badge" class="px-2.5 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 text-xs font-black">
+              +25 PTS
+            </span>
+          </div>
+
+          <!-- Reloj Circular SVG -->
+          <div id="timer-wrapper" class="relative w-14 h-14 flex items-center justify-center shrink-0">
+            <svg class="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="5" />
+              <circle
+                id="timer-ring"
+                cx="28"
+                cy="28"
+                r="24"
+                fill="none"
+                stroke="#8cc63f"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-dasharray="150.8"
+                stroke-dashoffset="0"
+                class="transition-all duration-1000 linear"
+              />
+            </svg>
+            <span id="timer-text" class="absolute font-display text-xl text-white">10</span>
+          </div>
         </div>
-    </div>
 
+        <!-- Texto de la pregunta -->
+        <h3 id="q-text" class="text-lg sm:text-xl font-bold text-white leading-snug mb-5">
+          Cargando pregunta...
+        </h3>
 
-    <!-- MODAL TIENDA DE CANJE (DURANTE EL JUEGO) -->
-    <div id="modal-tienda" class="modal-fondo">
-        <div class="modal-contenido" style="max-width: 380px;">
-            <h3>CANJEAR PUNTOS</h3>
-            <p style="font-size: 0.9em; color:#ddd; text-align:center;">Puntos actuales: <strong id="puntos-tienda" style="color: #FFD700; font-size: 1.2em;">0</strong></p>
-            <p style="font-size: 0.8em; color: #f44336; text-align:center; margin-top: -5px; line-height: 1.3;">Recuerda: Solo puedes elegir UN premio. Los puntos sobrantes se pierden.</p>
-            
-            <ul class="lista-tienda" id="contenedor-premios" style="margin-top: 20px;">
-                <!-- Se llena con JS -->
-            </ul>
-            
-            <button class="btn btn-secundario" style="margin-top: 20px;" onclick="cerrarTienda()">VOLVER AL JUEGO</button>
+        <!-- Opciones de respuesta -->
+        <div id="q-options" class="space-y-2.5"></div>
+
+        <!-- Comodines de la Casa -->
+        <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Comodines:</span>
+          <div class="flex items-center gap-2">
+            <button
+              id="btn-var"
+              type="button"
+              class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-[#8cc63f]/20 border border-white/15 hover:border-[#8cc63f]/50 text-xs font-bold text-slate-200 transition disabled:opacity-35 disabled:pointer-events-none flex items-center gap-1"
+            >
+              <span>📺</span> VAR (50/50)
+            </button>
+            <button
+              id="btn-timeout"
+              type="button"
+              class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-amber-400/20 border border-white/15 hover:border-amber-400/50 text-xs font-bold text-slate-200 transition disabled:opacity-35 disabled:pointer-events-none flex items-center gap-1"
+            >
+              <span>⏸️</span> +5 seg
+            </button>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. PANTALLA DE CANJE / BOLETO ==================== -->
+    <section id="pantalla-victoria" class="hidden-screen space-y-4">
+      <div class="rounded-3xl bg-gradient-to-b from-[#112a1c] to-[#08140d] border border-[#8cc63f]/50 p-5 shadow-2xl">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#8cc63f]">Canje en Mesa</span>
+            <h2 class="font-display text-2xl text-white tracking-wide">ELIGE TU PREMIO</h2>
+          </div>
+          <div class="text-right">
+            <p class="text-[10px] uppercase text-slate-400 font-bold">Tu Marcador</p>
+            <p id="canje-puntos" class="font-display text-3xl text-amber-300">0 PTS</p>
+          </div>
+        </div>
+
+        <p class="text-xs text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-xl px-3 py-2 mb-4">
+          ⚠️ Solo puedes elegir <strong>1 premio por mesa</strong>. Sujeto a disponibilidad; no acumulable ni válido con otras promociones.
+        </p>
+
+        <!-- Lista de premios para canjear -->
+        <div id="canje-lista" class="space-y-2 max-h-[50vh] overflow-y-auto pr-1"></div>
+
+        <!-- Ticket de premio seleccionado (aparece al elegir uno) -->
+        <div id="ticket-victoria" class="hidden mt-4 rounded-2xl bg-black/75 border-2 border-dashed border-[#8cc63f] p-4 text-center space-y-2">
+          <span class="inline-block px-3 py-0.5 rounded-full bg-[#8cc63f] text-slate-950 text-[10px] font-black uppercase tracking-widest">
+            Boleto Oficial CW · Válido en Vivo
+          </span>
+          <div id="ticket-icono" class="text-4xl pt-1">🎁</div>
+          <h3 id="ticket-nombre" class="font-display text-2xl text-white">Premio</h3>
+          <p id="ticket-detalle" class="text-xs text-slate-300">Presenta esta pantalla activa a tu mesero para validar.</p>
+          <p id="ticket-timestamp" class="text-[11px] font-mono text-[#8cc63f] pt-1"></p>
+        </div>
+
+        <button
+          id="btn-volver-inicio-victoria"
+          type="button"
+          class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-bold uppercase tracking-wider text-white transition"
+        >
+          Volver al Inicio (Reiniciar)
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Ticker inferior estilo ESPN -->
+  <footer class="fixed bottom-0 inset-x-0 z-20 bg-black/85 border-t border-[#8cc63f]/30 py-1.5 overflow-hidden">
+    <div class="ticker-track text-[11px] font-bold tracking-wide text-slate-300 whitespace-nowrap">
+      <span class="mx-6">🔥 <span class="text-[#8cc63f]">CENTR☆L WINGS ALTACIA</span> · JUEGA MIENTRAS ESPERAS TUS ALIMENTOS</span>
+      <span class="mx-6">📺 ¿DUDAS? USA TU COMODÍN <span class="text-amber-300">VAR</span> UNA VEZ POR PARTIDA</span>
+      <span class="mx-6">🚫 NO CAMBIES DE PESTAÑA O PIERDES EL MARCADOR POR ABANDONO</span>
+      <span class="mx-6">⚡ METE 3 SEGUIDAS PARA ACTIVAR EL <span class="text-[#8cc63f]">MODO ENRACHADO</span></span>
+      <span class="mx-6">🔥 <span class="text-[#8cc63f]">CENTR☆L WINGS ALTACIA</span> · JUEGA MIENTRAS ESPERAS TUS ALIMENTOS</span>
+      <span class="mx-6">📺 ¿DUDAS? USA TU COMODÍN <span class="text-amber-300">VAR</span> UNA VEZ POR PARTIDA</span>
+      <span class="mx-6">🚫 NO CAMBIES DE PESTAÑA O PIERDES EL MARCADOR POR ABANDONO</span>
+      <span class="mx-6">⚡ METE 3 SEGUIDAS PARA ACTIVAR EL <span class="text-[#8cc63f]">MODO ENRACHADO</span></span>
     </div>
+  </footer>
 
+  <!-- ==================== MODALES ==================== -->
+  <!-- Modal Reglas -->
+  <div id="modal-reglas" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-md rounded-3xl bg-[#0c1d14] border border-[#8cc63f]/60 p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display text-2xl text-white">📖 REGLAS DE LA CASA</h3>
+        <button id="close-reglas" type="button" class="w-8 h-8 rounded-full bg-white/10 text-white font-bold">✕</button>
+      </div>
+      <div class="space-y-3 text-sm text-slate-200">
+        <div class="flex gap-3 p-3 rounded-xl bg-black/40 border border-white/10">
+          <span class="text-xl">⏱️</span>
+          <div>
+            <p class="font-bold text-white">Contra reloj</p>
+            <p class="text-xs text-slate-300">Tienes 10 segundos por pregunta. Salir de la pantalla o cambiar de app anula tus puntos.</p>
+          </div>
+        </div>
+        <div class="flex gap-3 p-3 rounded-xl bg-black/40 border border-white/10">
+          <span class="text-xl">🎯</span>
+          <div>
+            <p class="font-bold text-white">Riesgo total</p>
+            <p class="text-xs text-slate-300">Una respuesta incorrecta reinicia tu marcador a cero. ¡Plantate a tiempo si ya aseguraste premio!</p>
+          </div>
+        </div>
+        <div class="flex gap-3 p-3 rounded-xl bg-black/40 border border-white/10">
+          <span class="text-xl">🎁</span>
+          <div>
+            <p class="font-bold text-white">Canje único</p>
+            <p class="text-xs text-slate-300">Máximo 1 premio por mesa. Los puntos no son acumulables entre visitas ni transferibles.</p>
+          </div>
+        </div>
+      </div>
+      <button id="ok-reglas" type="button" class="w-full py-3 rounded-xl bg-[#8cc63f] text-slate-950 font-black uppercase text-sm">
+        ENTENDIDO
+      </button>
+    </div>
+  </div>
 
-    <!-- MOTOR LÓGICO -->
-    <script>
-        let baseDeDatos = {};
-        let puntosAcumulados = 0;
-        let temporizador;
-        let tiempoRestante = 10;
-        let puntosEnJuego = 0;
-        let juegoActivo = false;
+  <!-- Modal Catálogo de Premios -->
+  <div id="modal-premios" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-md rounded-3xl bg-[#0c1d14] border border-[#8cc63f]/60 p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display text-2xl text-white">🎁 CATÁLOGO DE PREMIOS</h3>
+        <button id="close-premios" type="button" class="w-8 h-8 rounded-full bg-white/10 text-white font-bold">✕</button>
+      </div>
+      <div id="lista-modal-premios" class="space-y-2 max-h-[55vh] overflow-y-auto pr-1"></div>
+      <button id="ok-premios" type="button" class="w-full py-3 rounded-xl bg-[#8cc63f] text-slate-950 font-black uppercase text-sm">
+        A JUGAR
+      </button>
+    </div>
+  </div>
 
-        const catalogoPremios = [
-            { nombre: "Sticker Estrella CW", costo: 100, icono: "⭐" },
-            { nombre: "Selfie con el Staff", costo: 200, icono: "📸" },
-            { nombre: "Membresía ACCESS", costo: 300, icono: "🎟️" },
-            { nombre: "Aderezo sin costo", costo: 400, icono: "🍟" },
-            { nombre: "5% de descuento", costo: 500, icono: "📉" },
-            { nombre: "Ronda de Shots (5)", costo: 700, icono: "🥃" },
-            { nombre: "1 Bola de Helado", costo: 900, icono: "🍨" },
-            { nombre: "2 Tarros de Cerveza", costo: 1200, icono: "🍻" },
-            { nombre: "Gorra Edición CW", costo: 1500, icono: "🧢" },
-            { nombre: "10% de descuento", costo: 2000, icono: "💸" },
-            { nombre: "Tarjeta MVP +", costo: 3000, icono: "💳" }
-        ];
+  <!-- Modal Acierto (¡Tiro Perfecto!) -->
+  <div id="modal-acierto" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-[#0c1d14] border-2 border-[#8cc63f] p-6 text-center shadow-2xl space-y-4">
+      <div class="text-5xl">🎯</div>
+      <div>
+        <span id="acierto-fire-tag" class="hidden inline-block px-3 py-0.5 rounded-full bg-amber-400/20 border border-amber-400 text-amber-300 text-[11px] font-black uppercase mb-2">
+          🔥 ¡MODO ENRACHADO ACTIVO!
+        </span>
+        <h3 class="font-display text-3xl text-[#8cc63f]">¡TIRO PERFECTO!</h3>
+        <p id="acierto-pts-msg" class="text-lg font-extrabold text-amber-300 mt-1">+25 puntos</p>
+      </div>
+      <p id="acierto-next-msg" class="text-xs text-slate-300"></p>
+      <button id="btn-continuar" type="button" class="w-full py-3.5 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950 font-black uppercase tracking-wider text-sm">
+        CONTINUAR JUGANDO
+      </button>
+    </div>
+  </div>
 
-        const configCategorias = {
-            "Fútbol": { color: "#0a2e13", icono: "⚽ " },
-            "NBA": { color: "#3d1804", icono: "🏀 " },
-            "NFL": { color: "#2e1b0a", icono: "🏈 " },
-            "Boxeo": { color: "#380808", icono: "🥊 " },
-            "UFC": { color: "#222222", icono: "🥋 " },
-            "MLB": { color: "#061a30", icono: "⚾ " },
-            "Tenis": { color: "#1f3308", icono: "🎾 " },
-            "default": { color: "#121212", icono: "🏆 " }
-        };
+  <!-- Modal Derrota (¡Tarjeta Roja!) -->
+  <div id="modal-derrota" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="derrota-card" class="w-full max-w-sm rounded-3xl bg-[#1a0a0e] border-2 border-rose-500 p-6 text-center shadow-2xl space-y-4">
+      <div class="mx-auto w-14 h-20 rounded-lg bg-gradient-to-b from-rose-500 to-red-600 shadow-lg shadow-rose-600/40 border border-rose-300/60 animate-red-card"></div>
+      <div>
+        <h3 id="derrota-titulo" class="font-display text-3xl text-rose-400">¡TARJETA ROJA!</h3>
+        <p id="derrota-mensaje" class="text-sm text-slate-200 mt-2 leading-relaxed">
+          Respuesta incorrecta. Pierdes todos tus puntos. Ni modo carnal, pide algo de tomar y vuelve a intentarlo.
+        </p>
+      </div>
+      <button id="btn-reiniciar" type="button" class="w-full py-3.5 rounded-2xl bg-rose-500 hover:bg-rose-400 text-white font-black uppercase tracking-wider text-sm">
+        VOLVER AL INICIO
+      </button>
+    </div>
+  </div>
 
-        // --- RELOJ MARCA DE AGUA ---
-        function actualizarReloj() {
-            const ahora = new Date();
-            const horas = String(ahora.getHours()).padStart(2, '0');
-            const minutos = String(ahora.getMinutes()).padStart(2, '0');
-            const segundos = String(ahora.getSeconds()).padStart(2, '0');
-            const dia = String(ahora.getDate()).padStart(2, '0');
-            const mes = String(ahora.getMonth() + 1).padStart(2, '0'); 
-            const anio = ahora.getFullYear();
+  <script>
+    // ==================== DATOS Y FALLBACK LOCAL ====================
+    const fallbackPreguntas = {
+      facil: [
+        { id: 1, categoria: "Fútbol", pregunta: "¿Cada cuántos años se celebra la Copa Mundial de la FIFA?", opciones: ["2 años", "4 años", "5 años", "Cada año"], respuesta_correcta: "4 años" },
+        { id: 2, categoria: "Boxeo", pregunta: "¿De qué país es originario Saúl 'Canelo' Álvarez?", opciones: ["Estados Unidos", "Puerto Rico", "México", "Colombia"], respuesta_correcta: "México" },
+        { id: 3, categoria: "NFL", pregunta: "¿Cómo se llama el partido final del campeonato de la NFL?", opciones: ["World Series", "Super Bowl", "Pro Bowl", "Stanley Cup"], respuesta_correcta: "Super Bowl" },
+        { id: 4, categoria: "NBA", pregunta: "¿Cuántos jugadores por equipo están en la duela al mismo tiempo en la NBA?", opciones: ["5", "6", "7", "11"], respuesta_correcta: "5" }
+      ],
+      medio: [
+        { id: 101, categoria: "UFC", pregunta: "¿Quién fue el primer peleador en sostener dos cinturones de UFC al mismo tiempo?", opciones: ["Jon Jones", "Conor McGregor", "Khabib Nurmagomedov", "Israel Adesanya"], respuesta_correcta: "Conor McGregor" },
+        { id: 102, categoria: "Fútbol", pregunta: "¿Qué club mexicano es conocido como 'La Fiera'?", opciones: ["Cruz Azul", "Pumas", "Club León", "Atlas"], respuesta_correcta: "Club León" },
+        { id: 103, categoria: "MLB", pregunta: "¿Cuántos outs se necesitan para completar una entrada completa en béisbol?", opciones: ["3 outs", "6 outs", "9 outs", "4 outs"], respuesta_correcta: "6 outs" },
+        { id: 104, categoria: "Tenis", pregunta: "¿Cuál Grand Slam se juega sobre superficie de arcilla?", opciones: ["Wimbledon", "US Open", "Roland Garros", "Australian Open"], respuesta_correcta: "Roland Garros" }
+      ],
+      dificil: [
+        { id: 201, categoria: "NFL", pregunta: "¿Qué quarterback ha ganado más anillos de Super Bowl en la historia?", opciones: ["Joe Montana", "Peyton Manning", "Tom Brady", "Patrick Mahomes"], respuesta_correcta: "Tom Brady" },
+        { id: 202, categoria: "UFC", pregunta: "¿En qué división de peso compitió originalmente Alex Pereira al llegar a UFC?", opciones: ["Peso Welter", "Peso Medio", "Peso Ligero", "Peso Gallo"], respuesta_correcta: "Peso Medio" },
+        { id: 203, categoria: "Fútbol", pregunta: "¿En qué año ganó México la medalla de oro olímpica en fútbol varonil?", opciones: ["2008", "2012", "2016", "2020"], respuesta_correcta: "2012" },
+        { id: 204, categoria: "NBA", pregunta: "¿Qué equipo logró una temporada regular de 73 victorias y 9 derrotas?", opciones: ["Chicago Bulls", "Los Angeles Lakers", "Golden State Warriors", "Boston Celtics"], respuesta_correcta: "Golden State Warriors" }
+      ]
+    };
 
-            const elementoReloj = document.getElementById('reloj-marca-agua');
-            if(elementoReloj) {
-                elementoReloj.innerHTML = `${horas}:${minutos}:${segundos}<br><span style="font-size: 0.35em;">${dia}/${mes}/${anio}</span>`;
-            }
-        }
-        setInterval(actualizarReloj, 1000);
-        actualizarReloj();
+    const catalogoPremios = [
+      { icono: "🍹", nombre: "Bebida de la casa", nota: "Selección del bartender según disponibilidad", costo: 150 },
+      { icono: "🍟", nombre: "Media orden de papas o aros", nota: "A elegir según disponibilidad en cocina", costo: 200 },
+      { icono: "📉", nombre: "10% de descuento en tu cuenta hoy", nota: "No aplica en promociones ni es acumulable", costo: 300 },
+      { icono: "🍻", nombre: "2x1 en bebidas participantes", nota: "Válido en tu próxima visita (Lun a Jue)", costo: 400 },
+      { icono: "🎟️", nombre: "Membresía MVP ACCESS", nota: "Bebida de bienvenida en cada visita", costo: 500 },
+      { icono: "🧢", nombre: "Gorra Edición CW", nota: "Sujeto a existencias en sucursal", costo: 650 },
+      { icono: "💳", nombre: "Tarjeta Priority+ / MVP+", nota: "Beneficios totalmente exclusivos", costo: 800 }
+    ];
 
-        // --- SEGURIDAD: DETECTAR CAMBIO DE PESTAÑA ---
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden && juegoActivo) {
-                clearInterval(temporizador);
-                lanzarDerrota("¡TRAMPA DETECTADA!", "Te saliste de la pantalla. En esta cancha se juega limpio. Pierdes todo.");
-            }
+    const categoriaMeta = {
+      "Fútbol": { emoji: "⚽", color: "#8cc63f" },
+      "Boxeo": { emoji: "🥊", color: "#ef4444" },
+      "NFL": { emoji: "🏈", color: "#f59e0b" },
+      "NBA": { emoji: "🏀", color: "#fb923c" },
+      "UFC": { emoji: "🥋", color: "#f43f5e" },
+      "MLB": { emoji: "⚾", color: "#38bdf8" },
+      "Tenis": { emoji: "🎾", color: "#a3e635" }
+    };
+
+    const valorNivel = { facil: 25, medio: 50, dificil: 100 };
+
+    // Estado del juego
+    let baseDatos = fallbackPreguntas;
+    let usadasIds = new Set();
+    let puntosAcumulados = 0;
+    let rachaActual = 0;
+    let temporizador = null;
+    let tiempoRestante = 10;
+    let puntosEnJuego = 25;
+    let juegoActivo = false;
+    let preguntaActual = null;
+    let varUsado = false;
+    let timeoutUsado = false;
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    // ==================== AUDIO SINTETIZADO ====================
+    function initAudio() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (Ctx) audioCtx = new Ctx();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+    }
+
+    function playTone(freq, duration, type = 'sine', gainVal = 0.08, delay = 0) {
+      if (!soundEnabled || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + delay);
+        osc.stop(audioCtx.currentTime + delay + duration);
+      } catch (_) {}
+    }
+
+    function sfxWhistle() {
+      playTone(2200, 0.12, 'triangle', 0.07, 0);
+      playTone(2550, 0.18, 'triangle', 0.07, 0.11);
+    }
+    function sfxTick() { playTone(880, 0.06, 'square', 0.04, 0); }
+    function sfxWin() {
+      playTone(523.25, 0.12, 'triangle', 0.09, 0);
+      playTone(659.25, 0.12, 'triangle', 0.09, 0.1);
+      playTone(783.99, 0.25, 'triangle', 0.1, 0.2);
+    }
+    function sfxFail() {
+      playTone(220, 0.2, 'sawtooth', 0.09, 0);
+      playTone(150, 0.35, 'sawtooth', 0.09, 0.18);
+    }
+
+    // ==================== CONFETI ====================
+    function lanzarConfeti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const colors = ['#8cc63f', '#fbbf24', '#ffffff', '#34d399'];
+      const particles = Array.from({ length: 55 }, () => ({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * 80,
+        r: 4 + Math.random() * 5,
+        dx: (Math.random() - 0.5) * 4,
+        dy: 3 + Math.random() * 4.5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rot: Math.random() * 360
+      }));
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.dx;
+          p.y += p.dy;
+          p.rot += 6;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot * Math.PI / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.6);
+          ctx.restore();
         });
+        frame++;
+        if (frame < 75) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      requestAnimationFrame(draw);
+    }
 
-        // --- NAVEGACIÓN ---
-        function abrirModal(tipo) {
-            document.getElementById('modal-info').style.display = 'flex';
-            document.getElementById('contenido-reglas').style.display = (tipo === 'reglas') ? 'block' : 'none';
-            document.getElementById('contenido-premios').style.display = (tipo === 'premios') ? 'block' : 'none';
+    // ==================== CARGA DE PREGUNTAS ====================
+    async function cargarPreguntas() {
+      const statusEl = document.getElementById('db-status-msg');
+      try {
+        const res = await fetch('preguntas.json');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (data && data.facil && data.medio && data.dificil) {
+          baseDatos = data;
+          const total = data.facil.length + data.medio.length + data.dificil.length;
+          statusEl.textContent = `✅ Banco oficial cargado (${total} preguntas listas)`;
+          return;
         }
-        function cerrarModalInfo() { 
-            document.getElementById('modal-info').style.display = 'none'; 
+      } catch (_) {}
+      statusEl.textContent = '⚡ Modo demostración activo (compatible con preguntas.json)';
+    }
+
+    // ==================== NAVEGACIÓN Y HUD ====================
+    function mostrarPantalla(id) {
+      ['pantalla-inicio', 'pantalla-riesgo', 'pantalla-pregunta', 'pantalla-victoria'].forEach(s => {
+        document.getElementById(s).classList.toggle('hidden-screen', s !== id);
+      });
+      document.getElementById('reloj-marca-agua').style.display = (id === 'pantalla-victoria') ? 'block' : 'none';
+      if (id !== 'pantalla-pregunta') {
+        setWatermarkEmoji('');
+      }
+    }
+
+    function setWatermarkEmoji(emoji) {
+      const bg = document.getElementById('sport-watermark-bg');
+      if (!emoji) {
+        bg.style.backgroundImage = 'none';
+        return;
+      }
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90"><text x="20" y="55" font-size="34">${emoji}</text></svg>`;
+      bg.style.backgroundImage = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+    }
+
+    function actualizarHUD() {
+      document.getElementById('header-points').textContent = puntosAcumulados.toLocaleString('es-MX');
+      const streakPill = document.getElementById('streak-pill');
+      if (rachaActual > 0) {
+        streakPill.classList.remove('hidden');
+        streakPill.classList.add('flex');
+        document.getElementById('streak-count').textContent = rachaActual;
+      } else {
+        streakPill.classList.add('hidden');
+        streakPill.classList.remove('flex');
+      }
+      document.body.classList.toggle('on-fire', rachaActual >= 3);
+
+      // Progreso hacia siguiente premio
+      const siguiente = catalogoPremios.find(p => p.costo > puntosAcumulados);
+      const desbloqueados = catalogoPremios.filter(p => p.costo <= puntosAcumulados).length;
+      document.getElementById('unlocked-count').textContent = `${desbloqueados}/${catalogoPremios.length} disponibles`;
+
+      const bar = document.getElementById('next-reward-bar');
+      const label = document.getElementById('next-reward-label');
+      const hint = document.getElementById('next-reward-hint');
+
+      if (siguiente) {
+        const pct = Math.min(100, Math.round((puntosAcumulados / siguiente.costo) * 100));
+        bar.style.width = `${pct}%`;
+        label.textContent = `${siguiente.icono} ${siguiente.nombre} (${siguiente.costo} pts)`;
+        hint.textContent = `Te faltan ${siguiente.costo - puntosAcumulados} pts para desbloquearlo`;
+      } else {
+        bar.style.width = '100%';
+        label.textContent = '💳 ¡NIVEL MÁXIMO ALCANZADO!';
+        hint.textContent = 'Ya desbloqueaste todo el catálogo';
+      }
+
+      const btnCanje = document.getElementById('btn-ir-canje');
+      btnCanje.disabled = puntosAcumulados < 150;
+    }
+
+    // ==================== FLUJO DEL JUEGO ====================
+    function iniciarJuego() {
+      initAudio();
+      sfxWhistle();
+      puntosAcumulados = 0;
+      rachaActual = 0;
+      usadasIds.clear();
+      varUsado = false;
+      timeoutUsado = false;
+      juegoActivo = true;
+      actualizarHUD();
+      mostrarPantalla('pantalla-riesgo');
+    }
+
+    function cargarNuevaPregunta(nivel) {
+      const lista = baseDatos[nivel] || [];
+      let disponibles = lista.filter(p => !usadasIds.has(`${nivel}-${p.id}`));
+      if (disponibles.length === 0) {
+        disponibles = lista;
+      }
+      if (disponibles.length === 0) return;
+
+      preguntaActual = disponibles[Math.floor(Math.random() * disponibles.length)];
+      usadasIds.add(`${nivel}-${preguntaActual.id}`);
+      puntosEnJuego = valorNivel[nivel];
+
+      const meta = categoriaMeta[preguntaActual.categoria] || { emoji: "🏆", color: "#8cc63f" };
+      setWatermarkEmoji(meta.emoji);
+
+      document.getElementById('q-category-badge').textContent = `${meta.emoji} ${preguntaActual.categoria}`;
+      document.getElementById('q-points-badge').textContent = `+${puntosEnJuego} PTS`;
+      document.getElementById('q-text').textContent = preguntaActual.pregunta;
+
+      // Botones de comodines
+      document.getElementById('btn-var').disabled = varUsado;
+      document.getElementById('btn-timeout').disabled = timeoutUsado;
+
+      // Opciones
+      const contOpciones = document.getElementById('q-options');
+      contOpciones.innerHTML = '';
+      const letras = ['A', 'B', 'C', 'D'];
+      preguntaActual.opciones.forEach((op, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option-btn w-full text-left px-4 py-3.5 rounded-2xl bg-black/45 hover:bg-[#8cc63f]/15 border border-white/15 hover:border-[#8cc63f]/60 text-sm font-semibold text-white transition flex items-center gap-3 active:scale-[0.99]';
+        btn.innerHTML = `<span class="w-7 h-7 rounded-lg bg-white/10 text-xs font-black flex items-center justify-center shrink-0 text-[#8cc63f]">${letras[idx] || ''}</span><span>${op}</span>`;
+        btn.addEventListener('click', () => validarRespuesta(op, btn));
+        contOpciones.appendChild(btn);
+      });
+
+      mostrarPantalla('pantalla-pregunta');
+      iniciarTemporizador();
+    }
+
+    function iniciarTemporizador() {
+      clearInterval(temporizador);
+      tiempoRestante = 10;
+      actualizarRelojUI();
+      temporizador = setInterval(() => {
+        tiempoRestante--;
+        if (tiempoRestante <= 3 && tiempoRestante > 0) sfxTick();
+        actualizarRelojUI();
+        if (tiempoRestante <= 0) {
+          clearInterval(temporizador);
+          lanzarDerrota('¡SE ACABÓ EL TIEMPO!', 'Sonó la chicharra antes de que soltaras el tiro. Pierdes tus puntos.');
         }
+      }, 1000);
+    }
 
-        function mostrarPantalla(idPantalla) {
-            document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
-            document.getElementById(idPantalla).classList.add('activa');
-            document.getElementById('reloj-marca-agua').style.display = (idPantalla === 'pantalla-victoria') ? 'block' : 'none';
+    function actualizarRelojUI() {
+      const ring = document.getElementById('timer-ring');
+      const txt = document.getElementById('timer-text');
+      const wrap = document.getElementById('timer-wrapper');
+      const maxDash = 150.8;
+      const ratio = Math.max(0, Math.min(1, tiempoRestante / 10));
+      ring.style.strokeDashoffset = maxDash * (1 - ratio);
+      txt.textContent = tiempoRestante;
+
+      if (tiempoRestante <= 3) {
+        ring.style.stroke = '#f43f5e';
+        txt.classList.add('text-rose-400');
+        wrap.classList.add('timer-urgent');
+      } else {
+        ring.style.stroke = '#8cc63f';
+        txt.classList.remove('text-rose-400');
+        wrap.classList.remove('timer-urgent');
+      }
+    }
+
+    function validarRespuesta(opcion, btn) {
+      if (!juegoActivo) return;
+      clearInterval(temporizador);
+
+      const allBtns = document.querySelectorAll('.option-btn');
+      allBtns.forEach(b => (b.disabled = true));
+
+      if (opcion === preguntaActual.respuesta_correcta) {
+        btn.classList.remove('border-white/15', 'bg-black/45');
+        btn.classList.add('border-[#8cc63f]', 'bg-[#8cc63f]/25');
+        puntosAcumulados += puntosEnJuego;
+        rachaActual += 1;
+        actualizarHUD();
+        sfxWin();
+        lanzarConfeti();
+
+        document.getElementById('acierto-pts-msg').textContent = `+${puntosEnJuego} puntos`;
+        const fireTag = document.getElementById('acierto-fire-tag');
+        fireTag.classList.toggle('hidden', rachaActual < 3);
+
+        const sig = catalogoPremios.find(p => p.costo > puntosAcumulados);
+        document.getElementById('acierto-next-msg').textContent = sig
+          ? `Llevas ${puntosAcumulados} pts. Te faltan ${sig.costo - puntosAcumulados} pts para ${sig.icono} ${sig.nombre}.`
+          : `¡Llevas ${puntosAcumulados} pts y ya desbloqueaste todo el catálogo!`;
+
+        setTimeout(() => {
+          document.getElementById('modal-acierto').classList.remove('hidden');
+        }, 280);
+      } else {
+        btn.classList.remove('border-white/15', 'bg-black/45');
+        btn.classList.add('border-rose-500', 'bg-rose-500/25');
+        setTimeout(() => {
+          lanzarDerrota('¡TARJETA ROJA!', 'Respuesta incorrecta. Pierdes todos tus puntos. Ni modo carnal, pide algo de tomar y vuelve a intentarlo.');
+        }, 300);
+      }
+    }
+
+    function lanzarDerrota(titulo, mensaje) {
+      clearInterval(temporizador);
+      juegoActivo = false;
+      puntosAcumulados = 0;
+      rachaActual = 0;
+      actualizarHUD();
+      sfxFail();
+
+      document.getElementById('derrota-titulo').textContent = titulo;
+      document.getElementById('derrota-mensaje').textContent = mensaje;
+      const modal = document.getElementById('modal-derrota');
+      const card = document.getElementById('derrota-card');
+      modal.classList.remove('hidden');
+      card.classList.remove('animate-shake');
+      void card.offsetWidth;
+      card.classList.add('animate-shake');
+    }
+
+    function lanzarVictoria() {
+      clearInterval(temporizador);
+      juegoActivo = false;
+      document.getElementById('canje-puntos').textContent = `${puntosAcumulados} PTS`;
+      document.getElementById('ticket-victoria').classList.add('hidden');
+
+      const cont = document.getElementById('canje-lista');
+      cont.innerHTML = '';
+      catalogoPremios.forEach(premio => {
+        const alcanzado = puntosAcumulados >= premio.costo;
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between gap-2 p-3 rounded-xl border ${alcanzado ? 'bg-emerald-950/60 border-[#8cc63f]/50' : 'bg-black/35 border-white/10 opacity-60'}`;
+        row.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="text-xl shrink-0">${premio.icono}</span>
+            <div class="min-w-0">
+              <p class="text-xs font-bold text-white truncate">${premio.nombre}</p>
+              <p class="text-[10px] text-slate-300 truncate">${premio.nota || ''}</p>
+              <p class="text-[11px] font-extrabold text-amber-300">${premio.costo} pts</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            ${alcanzado ? '' : 'disabled'}
+            class="px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-wider shrink-0 transition ${alcanzado ? 'bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950' : 'bg-white/10 text-slate-400 cursor-not-allowed'}"
+          >
+            ${alcanzado ? 'ELEGIR' : 'FALTAN PTS'}
+          </button>
+        `;
+        if (alcanzado) {
+          row.querySelector('button').addEventListener('click', () => {
+            document.getElementById('ticket-icono').textContent = premio.icono;
+            document.getElementById('ticket-nombre').textContent = premio.nombre;
+            document.getElementById('ticket-detalle').textContent = `${premio.nota ? premio.nota + ' · ' : ''}Canjeado con ${puntosAcumulados} pts. Muestra esta pantalla viva a tu mesero.`;
+            document.getElementById('ticket-timestamp').textContent = `VALIDADO: ${new Date().toLocaleString('es-MX')}`;
+            document.getElementById('ticket-victoria').classList.remove('hidden');
+            lanzarConfeti();
+            sfxWin();
+          });
         }
+        cont.appendChild(row);
+      });
 
-        function volverAlInicio() {
-            juegoActivo = false;
-            document.body.className = "fondo-animado"; document.body.style.backgroundColor = "";
-            mostrarPantalla('pantalla-inicio');
-        }
+      mostrarPantalla('pantalla-victoria');
+    }
 
-        // --- LÓGICA PRINCIPAL ---
-        async function iniciarJuego() {
-            puntosAcumulados = 0;
-            document.getElementById('puntos-display').innerText = puntosAcumulados;
-            
-            if (Object.keys(baseDeDatos).length === 0) {
-                try {
-                    const respuesta = await fetch('preguntas.json');
-                    baseDeDatos = await respuesta.json();
-                } catch (error) {
-                    alert("Error cargando JSON."); return;
-                }
-            }
-            document.body.className = ""; document.body.style.backgroundColor = "#121212";
-            mostrarPantalla('pantalla-dificultad');
-        }
+    // ==================== RELOJ MARCA DE AGUA ANTI-TRAMPA ====================
+    function actualizarReloj() {
+      const ahora = new Date();
+      const fecha = ahora.toLocaleDateString('es-MX', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const hora = ahora.toLocaleTimeString('es-MX', { hour12: false });
+      document.getElementById('reloj-marca-agua').innerHTML = `${hora}<br>${fecha}`;
+    }
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
 
-        function cargarPregunta(dificultad, puntos) {
-            puntosEnJuego = puntos;
-            juegoActivo = true; 
-            
-            const preguntasNivel = baseDeDatos[dificultad];
-            const indiceAleatorio = Math.floor(Math.random() * preguntasNivel.length);
-            const pregunta = preguntasNivel[indiceAleatorio];
+    // ==================== DETECCIÓN DE CAMBIO DE PESTAÑA ====================
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && juegoActivo) {
+        lanzarDerrota('¡TRAMPA DETECTADA!', 'Te saliste de la pantalla. En esta cancha se juega limpio. Pierdes todos tus puntos.');
+      }
+    });
 
-            const estilo = configCategorias[pregunta.categoria] || configCategorias["default"];
-            document.body.style.backgroundColor = estilo.color;
-            document.getElementById('siluetas-juego').innerText = estilo.icono.repeat(60);
+    // ==================== EVENTOS UI ====================
+    function renderModalPremios() {
+      const cont = document.getElementById('lista-modal-premios');
+      cont.innerHTML = catalogoPremios.map(p => `
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-white/10">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <span class="text-lg shrink-0">${p.icono}</span>
+            <div class="min-w-0">
+              <p class="text-xs font-bold text-white truncate">${p.nombre}</p>
+              <p class="text-[10px] text-slate-400 truncate">${p.nota || ''}</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 text-[11px] font-black">${p.costo} pts</span>
+        </div>
+      `).join('');
+    }
 
-            // Reiniciar la animación de la caja de preguntas para el efecto de transición
-            const cajaPregunta = document.getElementById('caja-pregunta');
-            cajaPregunta.classList.remove('animar-cambio');
-            void cajaPregunta.offsetWidth; // Truco para reiniciar CSS animation
-            cajaPregunta.classList.add('animar-cambio');
+    document.getElementById('btn-iniciar').addEventListener('click', iniciarJuego);
+    document.querySelectorAll('.btn-riesgo').forEach(btn => {
+      btn.addEventListener('click', () => cargarNuevaPregunta(btn.dataset.level));
+    });
+    document.getElementById('btn-ir-canje').addEventListener('click', lanzarVictoria);
 
-            document.getElementById('categoria-texto').innerText = `${pregunta.categoria} (Por ${puntos} pts)`;
-            document.getElementById('pregunta-texto').innerText = pregunta.pregunta;
+    document.getElementById('btn-continuar').addEventListener('click', () => {
+      document.getElementById('modal-acierto').classList.add('hidden');
+      mostrarPantalla('pantalla-riesgo');
+    });
 
-            const contenedorOpciones = document.getElementById('contenedor-opciones');
-            contenedorOpciones.innerHTML = ''; 
-            
-            let opcionesMezcladas = [...pregunta.opciones].sort(() => Math.random() - 0.5);
-            opcionesMezcladas.forEach(opcion => {
-                const boton = document.createElement('button');
-                boton.className = 'btn btn-opcion-juego';
-                boton.innerText = opcion;
-                boton.onclick = () => validarRespuesta(opcion, pregunta.respuesta_correcta);
-                contenedorOpciones.appendChild(boton);
-            });
+    document.getElementById('btn-reiniciar').addEventListener('click', () => {
+      document.getElementById('modal-derrota').classList.add('hidden');
+      mostrarPantalla('pantalla-inicio');
+    });
 
-            mostrarPantalla('pantalla-juego');
-            iniciarTemporizador();
-        }
+    document.getElementById('btn-volver-inicio-victoria').addEventListener('click', () => {
+      puntosAcumulados = 0;
+      rachaActual = 0;
+      actualizarHUD();
+      mostrarPantalla('pantalla-inicio');
+    });
 
-        function iniciarTemporizador() {
-            tiempoRestante = 10; // Subimos a 10 segundos
-            const displayTiempo = document.getElementById('tiempo-display');
-            displayTiempo.innerText = tiempoRestante;
-            displayTiempo.style.color = "#fff"; // Reseteamos el color
-            
-            temporizador = setInterval(() => {
-                tiempoRestante--;
-                displayTiempo.innerText = tiempoRestante;
-                
-                // Efecto visual: se pone rojo cuando quedan 3 segundos
-                if (tiempoRestante <= 3) {
-                    displayTiempo.style.color = "#f44336";
-                }
-                
-                if (tiempoRestante <= 0) {
-                    clearInterval(temporizador);
-                    lanzarDerrota("¡TIEMPO AGOTADO!", "Tardaste más de 10 segundos. Pierdes todos tus puntos.");
-                }
-            }, 1000);
-        }
+    // Comodines
+    document.getElementById('btn-var').addEventListener('click', () => {
+      if (varUsado || !preguntaActual) return;
+      varUsado = true;
+      document.getElementById('btn-var').disabled = true;
+      const btns = Array.from(document.querySelectorAll('.option-btn')).filter(b => {
+        const text = b.querySelector('span:last-child').textContent;
+        return text !== preguntaActual.respuesta_correcta;
+      });
+      btns.sort(() => Math.random() - 0.5).slice(0, 2).forEach(b => {
+        b.disabled = true;
+        b.classList.add('opacity-25', 'line-through');
+      });
+    });
 
-        function validarRespuesta(opcionElegida, opcionCorrecta) {
-            clearInterval(temporizador);
-            juegoActivo = false; 
-            
-            if (opcionElegida === opcionCorrecta) {
-                puntosAcumulados += puntosEnJuego;
-                document.getElementById('puntos-ganados').innerText = `+${puntosEnJuego}`;
-                document.getElementById('puntos-display').innerText = puntosAcumulados;
-                
-                document.body.style.backgroundColor = "#1a1a1a";
-                mostrarPantalla('pantalla-acierto');
-            } else {
-                lanzarDerrota("¡TARJETA ROJA!", "Respuesta incorrecta. Pierdes todos tus puntos.");
-            }
-        }
+    document.getElementById('btn-timeout').addEventListener('click', () => {
+      if (timeoutUsado || !juegoActivo) return;
+      timeoutUsado = true;
+      document.getElementById('btn-timeout').disabled = true;
+      tiempoRestante = Math.min(15, tiempoRestante + 5);
+      actualizarRelojUI();
+    });
 
-        function lanzarDerrota(titulo, mensaje) {
-            juegoActivo = false;
-            document.getElementById('titulo-derrota').innerText = titulo;
-            document.getElementById('mensaje-derrota').innerText = mensaje;
-            document.body.style.backgroundColor = "#3d0b0b";
-            mostrarPantalla('pantalla-derrota');
-        }
+    // Sonido toggle
+    document.getElementById('btn-sound-toggle').addEventListener('click', (e) => {
+      initAudio();
+      soundEnabled = !soundEnabled;
+      e.currentTarget.textContent = soundEnabled ? '🔊' : '🔇';
+    });
 
-        // --- TIENDA DE CANJE ---
-        function abrirTienda(modoCanje) {
-            document.getElementById('modal-tienda').style.display = 'flex';
-            document.getElementById('puntos-tienda').innerText = modoCanje ? puntosAcumulados : 0;
-            
-            const contenedor = document.getElementById('contenedor-premios');
-            contenedor.innerHTML = '';
+    // Modales Reglas / Premios
+    const toggleModal = (id, show) => document.getElementById(id).classList.toggle('hidden', !show);
+    document.getElementById('btn-reglas').addEventListener('click', () => toggleModal('modal-reglas', true));
+    document.getElementById('close-reglas').addEventListener('click', () => toggleModal('modal-reglas', false));
+    document.getElementById('ok-reglas').addEventListener('click', () => toggleModal('modal-reglas', false));
 
-            catalogoPremios.forEach(premio => {
-                const li = document.createElement('li');
-                const alcanza = puntosAcumulados >= premio.costo;
-                
-                let btnHTML = '';
-                if(modoCanje) {
-                    if(alcanza) {
-                        btnHTML = `<button class="btn btn-primario" style="padding: 10px; font-size: 0.8em; width: auto;" onclick="canjearPremio('${premio.icono} ${premio.nombre}')">CANJEAR</button>`;
-                    } else {
-                        btnHTML = `<button class="btn" style="padding: 10px; font-size: 0.8em; width: auto; background:#333; color:#666;" disabled>FALTAN PTS</button>`;
-                    }
-                }
+    document.getElementById('btn-premios').addEventListener('click', () => toggleModal('modal-premios', true));
+    document.getElementById('close-premios').addEventListener('click', () => toggleModal('modal-premios', false));
+    document.getElementById('ok-premios').addEventListener('click', () => toggleModal('modal-premios', false));
 
-                li.innerHTML = `
-                    <div style="display:flex; flex-direction:column; gap:5px;">
-                        <span class="nombre-premio">${premio.icono} ${premio.nombre}</span>
-                        <span class="costo-premio">${premio.costo} pts</span>
-                    </div>
-                    ${btnHTML}
-                `;
-                contenedor.appendChild(li);
-            });
-        }
-
-        function cerrarTienda() { document.getElementById('modal-tienda').style.display = 'none'; }
-
-        function canjearPremio(nombrePremio) {
-            cerrarTienda();
-            juegoActivo = false;
-            document.getElementById('premio-final').innerText = nombrePremio;
-            document.body.style.backgroundColor = "#121212";
-            mostrarPantalla('pantalla-victoria');
-        }
-    </script>
-
+    // Inicializar
+    renderModalPremios();
+    cargarPreguntas();
+    actualizarHUD();
+  </script>
 </body>
 </html>
