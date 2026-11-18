@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CENTR☆L WINGS — Trivia Deportiva</title>
+  <title>CENTR☆L WINGS — Trivia Deportiva en Vivo</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q824XS285B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Q824XS285B');
+  </script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -626,6 +634,38 @@
     };
 
     const valorNivel = { facil: 25, medio: 50, dificil: 100 };
+    const SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxHFQQU6IAc1y_HjL40aDF0_Tm-ID-Vqyjt1GT5uwp0swpRbEMyurVQUZNuSXIEnQ/exec";
+    const sessionId = "CW-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 6);
+
+    function registrarEvento(evento, detalle = "", premio = "", puntosOverride = null) {
+      const pts = puntosOverride !== null ? puntosOverride : puntosAcumulados;
+      try {
+        if (typeof gtag === "function") {
+          gtag("event", evento, {
+            detalle: detalle,
+            puntos: pts,
+            racha: rachaActual,
+            premio: premio
+          });
+        }
+      } catch (_) {}
+      try {
+        fetch(SHEETS_WEBHOOK_URL, {
+          method: "POST",
+          mode: "no-cors",
+          keepalive: true,
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            session_id: sessionId,
+            evento: evento,
+            detalle: detalle,
+            puntos: pts,
+            racha: rachaActual,
+            premio: premio
+          })
+        }).catch(() => {});
+      } catch (_) {}
+    }
 
     // Estado del juego
     let baseDatos = fallbackPreguntas;
@@ -807,6 +847,7 @@
       timeoutUsado = false;
       juegoActivo = true;
       actualizarHUD();
+      registrarEvento('inicio_juego', 'Nueva partida');
       mostrarPantalla('pantalla-riesgo');
     }
 
@@ -821,6 +862,7 @@
       preguntaActual = disponibles[Math.floor(Math.random() * disponibles.length)];
       usadasIds.add(`${nivel}-${preguntaActual.id}`);
       puntosEnJuego = valorNivel[nivel];
+      registrarEvento('nivel_elegido', `${nivel} (${preguntaActual.categoria})`);
 
       const meta = categoriaMeta[preguntaActual.categoria] || { emoji: "🏆", color: "#8cc63f" };
       setWatermarkEmoji(meta.emoji);
@@ -860,7 +902,7 @@
         actualizarRelojUI();
         if (tiempoRestante <= 0) {
           clearInterval(temporizador);
-          lanzarDerrota('¡SE ACABÓ EL TIEMPO!', 'Sonó la chicharra antes de que soltaras el tiro. Pierdes tus puntos.');
+          lanzarDerrota('¡SE ACABÓ EL TIEMPO!', 'Sonó la chicharra antes de que soltaras el tiro. Pierdes tus puntos.', 'tiempo');
         }
       }, 1000);
     }
@@ -898,6 +940,7 @@
         puntosAcumulados += puntosEnJuego;
         rachaActual += 1;
         actualizarHUD();
+        registrarEvento('respuesta_correcta', preguntaActual.categoria);
         sfxWin();
         lanzarConfeti();
 
@@ -917,13 +960,14 @@
         btn.classList.remove('border-white/15', 'bg-black/45');
         btn.classList.add('border-rose-500', 'bg-rose-500/25');
         setTimeout(() => {
-          lanzarDerrota('¡TARJETA ROJA!', 'Respuesta incorrecta. Pierdes todos tus puntos. Ni modo carnal, pide algo de tomar y vuelve a intentarlo.');
+          lanzarDerrota('¡TARJETA ROJA!', 'Respuesta incorrecta. Pierdes todos tus puntos. Ni modo carnal, pide algo de tomar y vuelve a intentarlo.', 'error');
         }, 300);
       }
     }
 
-    function lanzarDerrota(titulo, mensaje) {
+    function lanzarDerrota(titulo, mensaje, motivo = 'error') {
       clearInterval(temporizador);
+      registrarEvento('derrota', motivo, '', puntosAcumulados);
       juegoActivo = false;
       puntosAcumulados = 0;
       rachaActual = 0;
@@ -976,6 +1020,7 @@
             document.getElementById('ticket-detalle').textContent = `${premio.nota ? premio.nota + ' · ' : ''}Canjeado con ${puntosAcumulados} pts. Muestra esta pantalla viva a tu mesero.`;
             document.getElementById('ticket-timestamp').textContent = `VALIDADO: ${new Date().toLocaleString('es-MX')}`;
             document.getElementById('ticket-victoria').classList.remove('hidden');
+            registrarEvento('canje_premio', `${puntosAcumulados} pts`, premio.nombre);
             lanzarConfeti();
             sfxWin();
           });
@@ -999,7 +1044,7 @@
     // ==================== DETECCIÓN DE CAMBIO DE PESTAÑA ====================
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && juegoActivo) {
-        lanzarDerrota('¡TRAMPA DETECTADA!', 'Te saliste de la pantalla. En esta cancha se juega limpio. Pierdes todos tus puntos.');
+        lanzarDerrota('¡TRAMPA DETECTADA!', 'Te saliste de la pantalla. En esta cancha se juega limpio. Pierdes todos tus puntos.', 'trampa');
       }
     });
 
@@ -1047,6 +1092,7 @@
     document.getElementById('btn-var').addEventListener('click', () => {
       if (varUsado || !preguntaActual) return;
       varUsado = true;
+      registrarEvento('comodin_usado', 'VAR');
       document.getElementById('btn-var').disabled = true;
       const btns = Array.from(document.querySelectorAll('.option-btn')).filter(b => {
         const text = b.querySelector('span:last-child').textContent;
@@ -1061,6 +1107,7 @@
     document.getElementById('btn-timeout').addEventListener('click', () => {
       if (timeoutUsado || !juegoActivo) return;
       timeoutUsado = true;
+      registrarEvento('comodin_usado', '+5 seg');
       document.getElementById('btn-timeout').disabled = true;
       tiempoRestante = Math.min(15, tiempoRestante + 5);
       actualizarRelojUI();
@@ -1087,6 +1134,7 @@
     renderModalPremios();
     cargarPreguntas();
     actualizarHUD();
+    registrarEvento('qr_abierto', 'Visita');
   </script>
 </body>
 </html>
