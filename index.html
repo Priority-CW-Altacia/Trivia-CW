@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CENTR☆L WINGS — Trivia Deportiva en Vivo</title>
+  <title>CENTR☆L WINGS — Trivia Deportiva</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q824XS285B"></script>
   <script>
@@ -462,7 +462,7 @@
         </div>
 
         <p class="text-xs text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-xl px-3 py-2 mb-4">
-          ⚠️ Solo puedes elegir <strong>1 premio por mesa</strong>. Sujeto a disponibilidad; no acumulable ni válido con otras promociones.
+          ⚠️ Solo puedes elegir <strong>1 premio por visita</strong>. Sujeto a disponibilidad; no acumulable ni válido con otras promociones.
         </p>
 
         <!-- Lista de premios para canjear -->
@@ -532,7 +532,7 @@
           <span class="text-xl">🎁</span>
           <div>
             <p class="font-bold text-white">Canje único</p>
-            <p class="text-xs text-slate-300">Máximo 1 premio por mesa. Los puntos no son acumulables entre visitas ni transferibles.</p>
+            <p class="text-xs text-slate-300">Máximo 1 premio por visita. Los puntos no son acumulables entre visitas ni transferibles.</p>
           </div>
         </div>
       </div>
@@ -650,19 +650,18 @@
         }
       } catch (_) {}
       try {
-        fetch(SHEETS_WEBHOOK_URL, {
-          method: "POST",
+        const params = new URLSearchParams({
+          session_id: sessionId,
+          evento: evento,
+          detalle: detalle,
+          puntos: String(pts),
+          racha: String(rachaActual),
+          premio: premio
+        });
+        fetch(`${SHEETS_WEBHOOK_URL}?${params.toString()}`, {
+          method: "GET",
           mode: "no-cors",
-          keepalive: true,
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({
-            session_id: sessionId,
-            evento: evento,
-            detalle: detalle,
-            puntos: pts,
-            racha: rachaActual,
-            premio: premio
-          })
+          keepalive: true
         }).catch(() => {});
       } catch (_) {}
     }
