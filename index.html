@@ -76,7 +76,7 @@
       letter-spacing: 0.08em;
       white-space: nowrap;
       pointer-events: none;
-      z-index: 60;
+      z-index: 80;
       user-select: none;
       text-align: center;
       line-height: 1.15;
@@ -109,6 +109,15 @@
     }
     .timer-urgent {
       animation: pulseUrgent 0.55s ease-in-out infinite;
+    }
+
+    @keyframes scorePop {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(140,198,63,0); }
+      40% { transform: scale(1.03); box-shadow: 0 0 28px rgba(140,198,63,0.55); border-color: #8cc63f; }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(140,198,63,0); }
+    }
+    .animate-score-pop {
+      animation: scorePop 0.7s ease-out;
     }
 
     /* Ticker inferior estilo transmisión deportiva */
@@ -247,8 +256,29 @@
           </div>
         </div>
 
-        <!-- Botones principales -->
-        <div class="mt-6 space-y-2.5">
+        <!-- Botones principales (Reglas y Premios arriba para lectura rápida) -->
+        <div class="mt-5 space-y-3">
+          <div class="grid grid-cols-2 gap-2.5">
+            <button
+              id="btn-reglas"
+              type="button"
+              class="py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-[#8cc63f]/55 text-xs font-extrabold uppercase tracking-wider text-white transition flex items-center justify-center gap-1.5"
+            >
+              <span>📖</span> Ver Reglas
+            </button>
+            <button
+              id="btn-premios"
+              type="button"
+              class="py-3 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/55 text-xs font-extrabold uppercase tracking-wider text-amber-200 transition flex items-center justify-center gap-1.5"
+            >
+              <span>🎁</span> Ver Premios
+            </button>
+          </div>
+
+          <p class="text-[11px] font-semibold text-slate-300 bg-black/35 border border-white/10 rounded-xl py-2 px-3">
+            ⏱️ 10 seg/pregunta · 💀 Si fallas pierdes todo · 🎁 Premios desde 150 pts
+          </p>
+
           <button
             id="btn-iniciar"
             type="button"
@@ -256,23 +286,6 @@
           >
             <span>⚽</span> SALTAR A LA CANCHA
           </button>
-
-          <div class="grid grid-cols-2 gap-2.5">
-            <button
-              id="btn-reglas"
-              type="button"
-              class="py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-[#8cc63f]/40 text-xs font-bold uppercase tracking-wider text-white transition flex items-center justify-center gap-1.5"
-            >
-              <span>📖</span> Reglas
-            </button>
-            <button
-              id="btn-premios"
-              type="button"
-              class="py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-[#8cc63f]/40 text-xs font-bold uppercase tracking-wider text-white transition flex items-center justify-center gap-1.5"
-            >
-              <span>🎁</span> Premios
-            </button>
-          </div>
         </div>
       </div>
 
@@ -282,23 +295,26 @@
     <!-- ==================== 2. PANTALLA SELECCIÓN DE RIESGO ==================== -->
     <section id="pantalla-riesgo" class="hidden-screen space-y-4">
       <!-- Barra de progreso hacia el siguiente premio -->
-      <div class="rounded-2xl bg-[#0d1f15]/95 border border-white/10 p-4 shadow-xl fire-border">
-        <div class="flex items-center justify-between text-xs mb-1.5">
-          <span class="font-bold text-slate-300 uppercase tracking-wider">Siguiente Premio</span>
-          <span id="next-reward-label" class="font-extrabold text-[#8cc63f]">🍹 Bebida de la casa (150 pts)</span>
+      <div id="progress-box" class="rounded-2xl bg-[#0d1f15]/95 border border-white/15 p-4 shadow-xl fire-border transition-all">
+        <div class="flex items-center justify-between gap-2 text-xs mb-2">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-slate-300 uppercase tracking-wider">Tu Marcador:</span>
+            <span id="progress-pts-badge" class="px-2.5 py-0.5 rounded-full bg-amber-400/20 border border-amber-400/50 text-amber-300 font-black tabular-nums">0 PTS</span>
+          </div>
+          <span id="unlocked-count" class="font-bold text-[#8cc63f]">0/7 premios</span>
         </div>
-        <div class="w-full h-2.5 rounded-full bg-black/60 overflow-hidden border border-white/10">
-          <div id="next-reward-bar" class="h-full rounded-full bg-gradient-to-r from-[#8cc63f] to-amber-300 transition-all duration-500" style="width: 0%"></div>
+        <div class="w-full h-3 rounded-full bg-black/70 overflow-hidden border border-white/10">
+          <div id="next-reward-bar" class="h-full rounded-full bg-gradient-to-r from-[#8cc63f] via-emerald-300 to-amber-300 transition-all duration-700" style="width: 0%"></div>
         </div>
-        <div class="flex items-center justify-between text-[11px] text-slate-400 mt-1.5">
-          <span id="next-reward-hint">Te faltan 150 pts para desbloquearlo</span>
-          <span id="unlocked-count" class="font-semibold text-amber-300">0/7 disponibles</span>
+        <div class="flex items-center justify-between gap-2 text-[11px] mt-2">
+          <span id="next-reward-hint" class="text-slate-300">Te faltan 150 pts para tu primer premio</span>
+          <span id="next-reward-label" class="font-extrabold text-[#8cc63f] text-right">🍹 Bebida de la casa</span>
         </div>
       </div>
 
       <div class="text-center pt-1">
-        <h2 class="font-display text-2xl sm:text-3xl text-white tracking-wide">ELIGE TU JUGADA</h2>
-        <p class="text-xs text-slate-300 mt-0.5">Mayor riesgo, más puntos. Si fallas pierdes todo el marcador.</p>
+        <h2 id="riesgo-titulo" class="font-display text-2xl sm:text-3xl text-white tracking-wide">RONDA 1 · ELIGE TU JUGADA</h2>
+        <p id="riesgo-subtitulo" class="text-xs text-slate-300 mt-0.5">Elige la dificultad de tu pregunta. Si fallas pierdes todo el marcador.</p>
       </div>
 
       <!-- 3 Tarjetas de riesgo -->
@@ -424,23 +440,23 @@
         <!-- Opciones de respuesta -->
         <div id="q-options" class="space-y-2.5"></div>
 
-        <!-- Comodines de la Casa -->
-        <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-2">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Comodines:</span>
-          <div class="flex items-center gap-2">
+        <!-- Comodines de la Casa (más visibles bajo presión) -->
+        <div class="mt-5 pt-4 border-t border-white/15 space-y-2">
+          <p class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 text-center">⚡ Comodines disponibles (1 uso por partida)</p>
+          <div class="grid grid-cols-2 gap-2.5">
             <button
               id="btn-var"
               type="button"
-              class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-[#8cc63f]/20 border border-white/15 hover:border-[#8cc63f]/50 text-xs font-bold text-slate-200 transition disabled:opacity-35 disabled:pointer-events-none flex items-center gap-1"
+              class="py-2.5 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/70 text-xs font-black text-sky-200 transition disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1.5 shadow-md shadow-sky-500/10"
             >
-              <span>📺</span> VAR (50/50)
+              <span>📺</span> VAR · Quita 2
             </button>
             <button
               id="btn-timeout"
               type="button"
-              class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-amber-400/20 border border-white/15 hover:border-amber-400/50 text-xs font-bold text-slate-200 transition disabled:opacity-35 disabled:pointer-events-none flex items-center gap-1"
+              class="py-2.5 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/70 text-xs font-black text-amber-200 transition disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/10"
             >
-              <span>⏸️</span> +5 seg
+              <span>⏸️</span> +5 SEG · Tiempo
             </button>
           </div>
         </div>
@@ -467,17 +483,6 @@
 
         <!-- Lista de premios para canjear -->
         <div id="canje-lista" class="space-y-2 max-h-[50vh] overflow-y-auto pr-1"></div>
-
-        <!-- Ticket de premio seleccionado (aparece al elegir uno) -->
-        <div id="ticket-victoria" class="hidden mt-4 rounded-2xl bg-black/75 border-2 border-dashed border-[#8cc63f] p-4 text-center space-y-2">
-          <span class="inline-block px-3 py-0.5 rounded-full bg-[#8cc63f] text-slate-950 text-[10px] font-black uppercase tracking-widest">
-            Boleto Oficial CW · Válido en Vivo
-          </span>
-          <div id="ticket-icono" class="text-4xl pt-1">🎁</div>
-          <h3 id="ticket-nombre" class="font-display text-2xl text-white">Premio</h3>
-          <p id="ticket-detalle" class="text-xs text-slate-300">Presenta esta pantalla activa a tu mesero para validar.</p>
-          <p id="ticket-timestamp" class="text-[11px] font-mono text-[#8cc63f] pt-1"></p>
-        </div>
 
         <button
           id="btn-volver-inicio-victoria"
@@ -571,6 +576,32 @@
       <button id="btn-continuar" type="button" class="w-full py-3.5 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950 font-black uppercase tracking-wider text-sm">
         CONTINUAR JUGANDO
       </button>
+    </div>
+  </div>
+
+  <!-- Modal Cupón Oficial de Canje -->
+  <div id="modal-cupon" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative w-full max-w-sm rounded-3xl bg-gradient-to-b from-[#133120] to-[#08150e] border-2 border-[#8cc63f] p-6 text-center shadow-2xl space-y-4">
+      <span class="inline-block px-3 py-1 rounded-full bg-[#8cc63f] text-slate-950 text-[10px] font-black uppercase tracking-widest">
+        Boleto Oficial CW · Válido en Vivo
+      </span>
+      <div id="ticket-icono" class="text-5xl">🎁</div>
+      <div>
+        <h3 id="ticket-nombre" class="font-display text-3xl text-white leading-tight">Premio</h3>
+        <p id="ticket-detalle" class="text-xs text-slate-300 mt-2 leading-relaxed"></p>
+      </div>
+      <div class="rounded-xl bg-black/55 border border-[#8cc63f]/40 py-2.5 px-3">
+        <p class="text-[11px] font-black text-amber-300 uppercase tracking-wider">📲 Muestra esta pantalla viva a tu mesero</p>
+        <p id="ticket-timestamp" class="text-[11px] font-mono text-[#8cc63f] mt-1"></p>
+      </div>
+      <div class="space-y-2 pt-1">
+        <button id="btn-cupon-volver" type="button" class="w-full py-3 rounded-xl bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950 font-black uppercase text-xs tracking-wider">
+          Finalizar y volver al inicio
+        </button>
+        <button id="btn-cupon-cerrar" type="button" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 font-bold uppercase text-[11px] tracking-wider">
+          Elegir otro premio
+        </button>
+      </div>
     </div>
   </div>
 
@@ -814,11 +845,14 @@
       // Progreso hacia siguiente premio
       const siguiente = catalogoPremios.find(p => p.costo > puntosAcumulados);
       const desbloqueados = catalogoPremios.filter(p => p.costo <= puntosAcumulados).length;
-      document.getElementById('unlocked-count').textContent = `${desbloqueados}/${catalogoPremios.length} disponibles`;
+      document.getElementById('progress-pts-badge').textContent = `${puntosAcumulados.toLocaleString('es-MX')} PTS`;
+      document.getElementById('unlocked-count').textContent = `${desbloqueados}/${catalogoPremios.length} premios`;
 
       const bar = document.getElementById('next-reward-bar');
       const label = document.getElementById('next-reward-label');
       const hint = document.getElementById('next-reward-hint');
+      const tituloR = document.getElementById('riesgo-titulo');
+      const subR = document.getElementById('riesgo-subtitulo');
 
       if (siguiente) {
         const pct = Math.min(100, Math.round((puntosAcumulados / siguiente.costo) * 100));
@@ -827,12 +861,25 @@
         hint.textContent = `Te faltan ${siguiente.costo - puntosAcumulados} pts para desbloquearlo`;
       } else {
         bar.style.width = '100%';
-        label.textContent = '💳 ¡NIVEL MÁXIMO ALCANZADO!';
+        label.textContent = '💳 ¡NIVEL MÁXIMO!';
         hint.textContent = 'Ya desbloqueaste todo el catálogo';
+      }
+
+      if (puntosAcumulados === 0) {
+        tituloR.textContent = 'RONDA 1 · ELIGE TU JUGADA';
+        subR.textContent = 'Elige la dificultad de tu pregunta. Si fallas pierdes todo el marcador.';
+      } else if (puntosAcumulados < 150) {
+        tituloR.textContent = `¡LLEVAS ${puntosAcumulados} PTS!`;
+        subR.textContent = 'Elige otra dificultad para seguir sumando hacia tu primer premio.';
+      } else {
+        tituloR.textContent = '🎉 ¡YA TIENES PREMIO DESBLOQUEADO!';
+        subR.textContent = `Llevas ${puntosAcumulados} pts. Arriesga otra pregunta o canjea abajo.`;
       }
 
       const btnCanje = document.getElementById('btn-ir-canje');
       btnCanje.disabled = puntosAcumulados < 150;
+      btnCanje.classList.toggle('ring-2', puntosAcumulados >= 150);
+      btnCanje.classList.toggle('ring-amber-300/70', puntosAcumulados >= 150);
     }
 
     // ==================== FLUJO DEL JUEGO ====================
@@ -987,7 +1034,7 @@
       clearInterval(temporizador);
       juegoActivo = false;
       document.getElementById('canje-puntos').textContent = `${puntosAcumulados} PTS`;
-      document.getElementById('ticket-victoria').classList.add('hidden');
+      document.getElementById('modal-cupon').classList.add('hidden');
 
       const cont = document.getElementById('canje-lista');
       cont.innerHTML = '';
@@ -1018,7 +1065,7 @@
             document.getElementById('ticket-nombre').textContent = premio.nombre;
             document.getElementById('ticket-detalle').textContent = `${premio.nota ? premio.nota + ' · ' : ''}Canjeado con ${puntosAcumulados} pts. Muestra esta pantalla viva a tu mesero.`;
             document.getElementById('ticket-timestamp').textContent = `VALIDADO: ${new Date().toLocaleString('es-MX')}`;
-            document.getElementById('ticket-victoria').classList.remove('hidden');
+            document.getElementById('modal-cupon').classList.remove('hidden');
             registrarEvento('canje_premio', `${puntosAcumulados} pts`, premio.nombre);
             lanzarConfeti();
             sfxWin();
@@ -1073,6 +1120,22 @@
     document.getElementById('btn-continuar').addEventListener('click', () => {
       document.getElementById('modal-acierto').classList.add('hidden');
       mostrarPantalla('pantalla-riesgo');
+      const box = document.getElementById('progress-box');
+      box.classList.remove('animate-score-pop');
+      void box.offsetWidth;
+      box.classList.add('animate-score-pop');
+    });
+
+    document.getElementById('btn-cupon-cerrar').addEventListener('click', () => {
+      document.getElementById('modal-cupon').classList.add('hidden');
+    });
+
+    document.getElementById('btn-cupon-volver').addEventListener('click', () => {
+      document.getElementById('modal-cupon').classList.add('hidden');
+      puntosAcumulados = 0;
+      rachaActual = 0;
+      actualizarHUD();
+      mostrarPantalla('pantalla-inicio');
     });
 
     document.getElementById('btn-reiniciar').addEventListener('click', () => {
