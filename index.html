@@ -214,7 +214,7 @@
           Gana premios reales en tu mesa jugando en cualquiera de nuestros retos. Máximo 1 premio por visita.
         </p>
 
-        <!-- Tarjetas de los 3 juegos -->
+        <!-- Tarjetas de los 2 juegos -->
         <div class="space-y-3 text-left">
           <button
             id="btn-go-trivia"
@@ -282,7 +282,7 @@
 
         <h2 class="font-display text-3xl sm:text-4xl text-white tracking-wide leading-tight mb-2">
           TRIVIA DEPORTIVA
-        </h2>
+        </h1>
         <p class="text-sm text-slate-300 max-w-sm mx-auto leading-relaxed">
           Demuestra cuánto sabes de deportes, arma tu racha contra reloj y canjea tus puntos por premios reales.
         </p>
@@ -489,13 +489,16 @@
         </div>
       </div>
 
+      <!-- Canvas container -->
       <div id="flappy-stage" class="relative w-full h-[calc(100dvh-155px)] min-h-[460px] rounded-2xl overflow-hidden border-2 border-[#8cc63f]/50 shadow-2xl bg-[#07150d] select-none touch-manipulation">
         <canvas id="flappy-canvas" class="block w-full h-full"></canvas>
 
+        <!-- Marcador flotante dentro del canvas -->
         <div class="pointer-events-none absolute top-3 inset-x-0 flex justify-center">
           <div id="flappy-live-score" class="font-display text-5xl text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)]">0</div>
         </div>
 
+        <!-- Overlay inicial antes del primer tap -->
         <div id="flappy-start-overlay" class="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex flex-col items-center justify-center p-5 text-center space-y-3">
           <div class="text-5xl animate-bounce">🍗</div>
           <h2 class="font-display text-3xl text-white tracking-wide">FLAPPY WINGS</h2>
@@ -563,7 +566,7 @@
       <span class="mx-6">⚽ <span class="text-[#8cc63f]">TRIVIA DEPORTIVA</span> · HASTA TARJETA PRIORITY+ / MVP+</span>
       <span class="mx-6">🎁 MÁXIMO 1 PREMIO POR VISITA · SUJETO A DISPONIBILIDAD</span>
       <span class="mx-6">🔥 <span class="text-[#8cc63f]">CENTR☆L WINGS ALTACIA</span> · JUEGA MIENTRAS ESPERAS TUS ALIMENTOS</span>
-      <span class="mx-6">🍗 <span class="text-amber-300">FLAPPY WINGS</span> · DESDE 25 PTS EN UNA CORRIDA TE LLEVAS PREMIO</span>
+      <span class="mx-6">🍗 <span class="text-amber-300">FLAPPY WINGS</span> · DESDE 15 PTS EN UNA CORRIDA TE LLEVAS PREMIO</span>
       <span class="mx-6">⚽ <span class="text-[#8cc63f]">TRIVIA DEPORTIVA</span> · HASTA TARJETA PRIORITY+ / MVP+</span>
       <span class="mx-6">🎁 MÁXIMO 1 PREMIO POR VISITA · SUJETO A DISPONIBILIDAD</span>
     </div>
@@ -644,7 +647,7 @@
     </div>
   </div>
 
-  <!-- Modal Game Over Flappy / Runner -->
+  <!-- Modal Game Over Flappy -->
   <div id="modal-flappy-gameover" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-sm rounded-3xl bg-[#0d1f15] border-2 border-amber-400/70 p-6 text-center shadow-2xl space-y-4">
       <div id="flappy-go-icon" class="text-5xl">💥</div>
@@ -655,7 +658,7 @@
       </div>
       <div class="space-y-2">
         <button id="btn-flappy-claim" type="button" class="hidden w-full py-3.5 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950 font-black uppercase tracking-wider text-sm">
-          🎁 ELEGIR PREMIO
+          🎁 RECLAMAR PREMIO
         </button>
         <button id="btn-flappy-retry" type="button" class="w-full py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black uppercase tracking-wider text-sm">
           🔄 INTENTAR DE NUEVO
@@ -667,7 +670,7 @@
     </div>
   </div>
 
-  <!-- Modal Cupón Oficial Compartido -->
+  <!-- Modal Cupón Oficial Compartido (Trivia y Flappy) -->
   <div id="modal-cupon" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
     <div class="relative w-full max-w-sm rounded-3xl bg-gradient-to-b from-[#133120] to-[#08150e] border-2 border-[#8cc63f] p-6 text-center shadow-2xl space-y-4">
       <span class="inline-block px-3 py-1 rounded-full bg-[#8cc63f] text-slate-950 text-[10px] font-black uppercase tracking-widest">
@@ -1118,6 +1121,7 @@
     let fWing = { x: 85, y: 200, vy: 0, r: 16, rot: 0 };
     let fPipes = [];
     let fFrame = 0;
+    let fLastTime = 0;
 
     function resizeFlappyCanvas() {
       const stage = document.getElementById('flappy-stage');
@@ -1176,7 +1180,8 @@
         flappyState = 'playing';
         document.getElementById('flappy-start-overlay').classList.add('hidden');
         registrarEvento('flappy_inicio', 'Flappy Wings');
-        flappyLoop();
+        fLastTime = performance.now();
+        flappyRaf = requestAnimationFrame(flappyLoop);
       }
       fWing.vy = -5.6;
       sfxFlap();
@@ -1192,6 +1197,7 @@
     }
 
     function drawBeerPipe(x, y, w, h, isTop) {
+      // Bat de béisbol realista de madera + cinta de agarre
       const cx = x + w / 2;
       const grad = fCtx.createLinearGradient(x, 0, x + w, 0);
       grad.addColorStop(0, '#78350f');
@@ -1205,6 +1211,7 @@
       fCtx.lineWidth = 2;
 
       if (isTop) {
+        // Bat apuntando hacia abajo (barril grueso abajo, mango arriba)
         const barrelH = Math.min(h * 0.55, 110);
         const handleW = w * 0.42;
         fCtx.beginPath();
@@ -1214,13 +1221,16 @@
         fCtx.quadraticCurveTo(x + w, y + h, cx, y + h);
         fCtx.quadraticCurveTo(x, y + h, x, y + h - 16);
         fCtx.closePath();
-        fCtx.fill(); fCtx.stroke();
+        fCtx.fill();
+        fCtx.stroke();
 
+        // Anillo verde CW y cinta negra en el mango
         fCtx.fillStyle = '#8cc63f';
         fCtx.fillRect(cx - handleW * 0.65, y + Math.max(8, h - barrelH - 12), handleW * 1.3, 6);
         fCtx.fillStyle = '#1e293b';
         fCtx.fillRect(cx - handleW / 2, y, handleW, Math.max(0, h - barrelH - 14));
       } else {
+        // Bat apuntando hacia arriba (barril grueso arriba, mango abajo)
         const barrelH = Math.min(h * 0.55, 110);
         const handleW = w * 0.42;
         fCtx.beginPath();
@@ -1231,8 +1241,10 @@
         fCtx.lineTo(x, y + 16);
         fCtx.quadraticCurveTo(x, y, cx, y);
         fCtx.closePath();
-        fCtx.fill(); fCtx.stroke();
+        fCtx.fill();
+        fCtx.stroke();
 
+        // Anillo verde CW y cinta negra en el mango
         fCtx.fillStyle = '#8cc63f';
         fCtx.fillRect(cx - handleW * 0.65, y + barrelH + 6, handleW * 1.3, 6);
         fCtx.fillStyle = '#1e293b';
@@ -1246,6 +1258,7 @@
       fCtx.translate(fWing.x, fWing.y);
       fCtx.rotate(fWing.rot);
 
+      // Huesito de muslo con nudillos
       fCtx.fillStyle = '#f8fafc';
       fCtx.strokeStyle = '#cbd5e1';
       fCtx.lineWidth = 1.5;
@@ -1257,6 +1270,7 @@
       fCtx.arc(-25, 4, 4.5, 0, Math.PI * 2);
       fCtx.fill();
 
+      // Cuerpo del muslito dorado crujiente
       const bodyGrad = fCtx.createRadialGradient(4, -3, 3, 2, 0, 20);
       bodyGrad.addColorStop(0, '#fbbf24');
       bodyGrad.addColorStop(0.65, '#ea580c');
@@ -1270,8 +1284,10 @@
       fCtx.quadraticCurveTo(23, 0, 17, 10);
       fCtx.quadraticCurveTo(2, 17, -12, 5);
       fCtx.closePath();
-      fCtx.fill(); fCtx.stroke();
+      fCtx.fill();
+      fCtx.stroke();
 
+      // Textura crujiente
       fCtx.fillStyle = 'rgba(124, 45, 18, 0.5)';
       fCtx.beginPath();
       fCtx.arc(2, 7, 2.2, 0, Math.PI * 2);
@@ -1279,11 +1295,13 @@
       fCtx.arc(9, 5, 1.8, 0, Math.PI * 2);
       fCtx.fill();
 
+      // Cinta deportiva verde CW
       fCtx.fillStyle = '#8cc63f';
       fCtx.beginPath();
       fCtx.roundRect(-2, -13, 18, 4.5, 2);
       fCtx.fill();
 
+      // Ojo expresivo
       fCtx.fillStyle = '#ffffff';
       fCtx.beginPath();
       fCtx.arc(11, -3, 4.5, 0, Math.PI * 2);
@@ -1293,13 +1311,15 @@
       fCtx.arc(12.5, -3, 2.2, 0, Math.PI * 2);
       fCtx.fill();
 
+      // Alita lateral que aletea
       const flapOffset = Math.sin(fFrame * 0.35) * 4;
       fCtx.fillStyle = '#f59e0b';
       fCtx.strokeStyle = '#fef08a';
       fCtx.lineWidth = 1.5;
       fCtx.beginPath();
       fCtx.ellipse(-1, 2 + flapOffset * 0.4, 7, 4.5, -0.3 + flapOffset * 0.06, 0, Math.PI * 2);
-      fCtx.fill(); fCtx.stroke();
+      fCtx.fill();
+      fCtx.stroke();
 
       fCtx.restore();
     }
@@ -1307,6 +1327,7 @@
     function drawFlappyScene() {
       const W = flappyCanvas.width;
       const H = flappyCanvas.height;
+      // Fondo estadio de béisbol nocturno tenue
       const bg = fCtx.createLinearGradient(0, 0, 0, H);
       bg.addColorStop(0, '#06150d');
       bg.addColorStop(0.65, '#0b2416');
@@ -1315,6 +1336,7 @@
       fCtx.fillRect(0, 0, W, H);
 
       fCtx.save();
+      // Reflectores tenues del estadio
       [W * 0.22, W * 0.78].forEach(lx => {
         const glow = fCtx.createRadialGradient(lx, 24, 4, lx, 24, 130);
         glow.addColorStop(0, 'rgba(254, 249, 195, 0.14)');
@@ -1323,9 +1345,11 @@
         fCtx.fillRect(lx - 130, 0, 260, 160);
       });
 
+      // Silueta tenue de gradas
       fCtx.fillStyle = 'rgba(255, 255, 255, 0.03)';
       fCtx.fillRect(0, H * 0.52, W, H * 0.14);
 
+      // Arco de diamante de béisbol + líneas de foul tenues
       fCtx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
       fCtx.lineWidth = 2;
       fCtx.beginPath();
@@ -1334,10 +1358,13 @@
 
       fCtx.strokeStyle = 'rgba(140, 198, 63, 0.10)';
       fCtx.beginPath();
-      fCtx.moveTo(W / 2, H); fCtx.lineTo(0, H * 0.65);
-      fCtx.moveTo(W / 2, H); fCtx.lineTo(W, H * 0.65);
+      fCtx.moveTo(W / 2, H);
+      fCtx.lineTo(0, H * 0.65);
+      fCtx.moveTo(W / 2, H);
+      fCtx.lineTo(W, H * 0.65);
       fCtx.stroke();
 
+      // Nubes tenues en movimiento
       fCtx.fillStyle = 'rgba(255, 255, 255, 0.06)';
       for (let c = 0; c < 4; c++) {
         const cx = ((W + 140) - ((fFrame * 0.45 + c * 150) % (W + 180))) - 40;
@@ -1349,6 +1376,7 @@
         fCtx.fill();
       }
 
+      // Home plate tenue abajo
       fCtx.fillStyle = 'rgba(255, 255, 255, 0.07)';
       fCtx.beginPath();
       fCtx.moveTo(W / 2, H - 6);
@@ -1360,6 +1388,7 @@
       fCtx.fill();
       fCtx.restore();
 
+      // Obstáculos
       fPipes.forEach(p => {
         drawBeerPipe(p.x, 0, p.w, p.topH, true);
         drawBeerPipe(p.x, p.topH + p.gap, p.w, H - (p.topH + p.gap), false);
@@ -1401,17 +1430,19 @@
       document.getElementById('modal-flappy-gameover').classList.remove('hidden');
     }
 
-    function flappyLoop() {
+    function flappyLoop(now) {
       if (flappyState !== 'playing') return;
-      fFrame++;
+      const dt = Math.min(2.5, Math.max(0.25, ((now || performance.now()) - fLastTime) / 16.667));
+      fLastTime = now || performance.now();
+      fFrame += dt;
 
-      const speed = 2.15 + Math.min(2.6, fScore * 0.042);
-      if (fFrame === 1 || (fPipes.length && fPipes[fPipes.length - 1].x < flappyCanvas.width - 215)) {
+      const speed = 4.0 + Math.min(2.6, fScore * 0.045);
+      if (fPipes.length === 0 || fPipes[fPipes.length - 1].x < flappyCanvas.width - 215) {
         spawnPipe();
       }
 
-      fWing.vy += 0.25;
-      fWing.y += fWing.vy;
+      fWing.vy += 0.25 * dt;
+      fWing.y += fWing.vy * dt;
       fWing.rot = Math.max(-0.4, Math.min(0.55, fWing.vy * 0.055));
 
       if (fWing.y - fWing.r < 0 || fWing.y + fWing.r > flappyCanvas.height) {
@@ -1422,8 +1453,9 @@
 
       for (let i = fPipes.length - 1; i >= 0; i--) {
         const p = fPipes[i];
-        p.x -= speed;
+        p.x -= speed * dt;
 
+        // Colisión con margen amigable
         const hitX = fWing.x + fWing.r - 4 > p.x && fWing.x - fWing.r + 4 < p.x + p.w;
         const hitY = fWing.y - fWing.r + 4 < p.topH || fWing.y + fWing.r - 4 > p.topH + p.gap;
         if (hitX && hitY) {
@@ -1485,6 +1517,8 @@
     let runnerState = 'idle'; // idle | playing | over
     let rScore = 0;
     let rFrame = 0;
+    let rLastTime = 0;
+    let rScoreAcc = 0;
     let rGroundY = 260;
     let rPlayer = { x: 68, y: 220, vy: 0, w: 34, h: 34, onGround: true, jumpsLeft: 2 };
     let rObstacles = [];
@@ -1518,7 +1552,7 @@
     function resetRunner() {
       stopRunnerLoop();
       runnerState = 'idle';
-      rScore = 0; rFrame = 0; rObstacles = [];
+      rScore = 0; rFrame = 0; rScoreAcc = 0; rObstacles = [];
       resizeRunnerCanvas();
       rPlayer = { x: 64, y: rGroundY - 34, vy: 0, w: 34, h: 34, onGround: true, jumpsLeft: 2 };
       document.getElementById('runner-live-score').textContent = '0000';
@@ -1535,7 +1569,8 @@
         runnerState = 'playing';
         document.getElementById('runner-start-overlay').classList.add('hidden');
         registrarEvento('runner_inicio', 'Run Wings');
-        runnerLoop();
+        rLastTime = performance.now();
+        runnerRaf = requestAnimationFrame(runnerLoop);
       }
       if (rPlayer.jumpsLeft > 0) {
         rPlayer.vy = rPlayer.onGround ? -10.5 : -9.0;
@@ -1571,6 +1606,7 @@
       rCtx.fillStyle = bg;
       rCtx.fillRect(0, 0, W, H);
 
+      // Reflectores y gradas tenues de estadio
       rCtx.save();
       [W * 0.2, W * 0.8].forEach(lx => {
         const glow = rCtx.createRadialGradient(lx, 18, 3, lx, 18, 110);
@@ -1582,6 +1618,7 @@
       rCtx.fillStyle = 'rgba(255, 255, 255, 0.03)';
       rCtx.fillRect(0, rGroundY - 58, W, 58);
 
+      // Nubes tenues en movimiento
       rCtx.fillStyle = 'rgba(255, 255, 255, 0.07)';
       for (let c = 0; c < 4; c++) {
         const cx = ((W + 140) - ((rFrame * 0.65 + c * 155) % (W + 180))) - 40;
@@ -1594,6 +1631,7 @@
       }
       rCtx.restore();
 
+      // Pista / pasto de estadio (mitad inferior despejada para el pulgar)
       rCtx.fillStyle = '#0d2b18';
       rCtx.fillRect(0, rGroundY, W, H - rGroundY);
       rCtx.fillStyle = 'rgba(140, 198, 63, 0.22)';
@@ -1607,6 +1645,7 @@
       rCtx.lineTo(W, rGroundY);
       rCtx.stroke();
 
+      // Líneas de movimiento en el pasto
       rCtx.strokeStyle = 'rgba(255,255,255,0.12)';
       rCtx.lineWidth = 2;
       const offset = (rFrame * 5) % 48;
@@ -1617,6 +1656,7 @@
         rCtx.stroke();
       }
 
+      // Obstáculos deportivos (cono, casco, balón, bat alto)
       rObstacles.forEach(o => {
         if (o.type === 'tallbat') {
           const cx = o.x + o.w / 2;
@@ -1639,6 +1679,7 @@
           rCtx.fillStyle = '#8cc63f';
           rCtx.fillRect(cx - 6, o.y + 42, 12, 4);
         } else if (o.type === 'helmet') {
+          // Casco de fútbol americano
           rCtx.fillStyle = '#10b981';
           rCtx.strokeStyle = '#d1fae5';
           rCtx.lineWidth = 1.8;
@@ -1648,11 +1689,14 @@
           rCtx.lineTo(o.x + 4, o.y + 29);
           rCtx.closePath();
           rCtx.fill(); rCtx.stroke();
+          // Careta metálica
           rCtx.strokeStyle = '#e2e8f0';
           rCtx.lineWidth = 2;
           rCtx.beginPath();
-          rCtx.moveTo(o.x + 2, o.y + 19); rCtx.lineTo(o.x + 12, o.y + 19);
-          rCtx.moveTo(o.x + 2, o.y + 25); rCtx.lineTo(o.x + 12, o.y + 25);
+          rCtx.moveTo(o.x + 2, o.y + 19);
+          rCtx.lineTo(o.x + 12, o.y + 19);
+          rCtx.moveTo(o.x + 2, o.y + 25);
+          rCtx.lineTo(o.x + 12, o.y + 25);
           rCtx.stroke();
         } else if (o.type === 'cone') {
           rCtx.fillStyle = '#f97316';
@@ -1665,6 +1709,7 @@
           rCtx.fillStyle = '#ffffff';
           rCtx.fillRect(o.x + 6, o.y + 15, o.w - 12, 5);
         } else {
+          // Balón de fútbol
           rCtx.fillStyle = '#f8fafc';
           rCtx.strokeStyle = '#0f172a';
           rCtx.lineWidth = 2;
@@ -1678,26 +1723,63 @@
         }
       });
 
+      // Jugador: Alita corredora con cinta CW
       rCtx.save();
       rCtx.translate(rPlayer.x + rPlayer.w / 2, rPlayer.y + rPlayer.h / 2);
-      const runBob = rPlayer.onGround ? Math.sin(rFrame * 0.4) * 2 : -0.15;
+      const runBob = rPlayer.onGround ? Math.sin(rFrame * 0.45) * 2.2 : -0.15;
       rCtx.rotate(runBob * 0.05);
+
       rCtx.fillStyle = '#f8fafc';
+      rCtx.strokeStyle = '#cbd5e1';
+      rCtx.lineWidth = 1.5;
       rCtx.beginPath();
-      rCtx.roundRect(-20, -4, 10, 7, 3);
+      rCtx.roundRect(-24, -4, 14, 8, 4);
       rCtx.fill();
-      rCtx.fillStyle = '#ea580c';
+      rCtx.beginPath();
+      rCtx.arc(-25, -4, 4.5, 0, Math.PI * 2);
+      rCtx.arc(-25, 4, 4.5, 0, Math.PI * 2);
+      rCtx.fill();
+
+      const rBodyGrad = rCtx.createRadialGradient(4, -3, 3, 2, 0, 20);
+      rBodyGrad.addColorStop(0, '#fbbf24');
+      rBodyGrad.addColorStop(0.65, '#ea580c');
+      rBodyGrad.addColorStop(1, '#9a3412');
+      rCtx.fillStyle = rBodyGrad;
       rCtx.strokeStyle = '#fef08a';
       rCtx.lineWidth = 2;
       rCtx.beginPath();
-      rCtx.ellipse(2, 0, 15, 13, 0, 0, Math.PI * 2);
+      rCtx.moveTo(-12, -5);
+      rCtx.quadraticCurveTo(2, -18, 17, -9);
+      rCtx.quadraticCurveTo(23, 0, 17, 10);
+      rCtx.quadraticCurveTo(2, 17, -12, 5);
+      rCtx.closePath();
       rCtx.fill(); rCtx.stroke();
+
+      rCtx.fillStyle = 'rgba(124, 45, 18, 0.5)';
+      rCtx.beginPath();
+      rCtx.arc(2, 7, 2.2, 0, Math.PI * 2);
+      rCtx.arc(-3, -6, 1.8, 0, Math.PI * 2);
+      rCtx.arc(9, 5, 1.8, 0, Math.PI * 2);
+      rCtx.fill();
+
       rCtx.fillStyle = '#8cc63f';
-      rCtx.fillRect(-4, -11, 16, 4);
+      rCtx.beginPath();
+      rCtx.roundRect(-2, -13, 18, 4.5, 2);
+      rCtx.fill();
+
       rCtx.fillStyle = '#ffffff';
-      rCtx.beginPath(); rCtx.arc(9, -3, 4, 0, Math.PI * 2); rCtx.fill();
+      rCtx.beginPath(); rCtx.arc(11, -3, 4.5, 0, Math.PI * 2); rCtx.fill();
       rCtx.fillStyle = '#0f172a';
-      rCtx.beginPath(); rCtx.arc(10.5, -3, 2, 0, Math.PI * 2); rCtx.fill();
+      rCtx.beginPath(); rCtx.arc(12.5, -3, 2.2, 0, Math.PI * 2); rCtx.fill();
+
+      const rFlap = Math.sin(rFrame * 0.4) * 3.5;
+      rCtx.fillStyle = '#f59e0b';
+      rCtx.strokeStyle = '#fef08a';
+      rCtx.lineWidth = 1.5;
+      rCtx.beginPath();
+      rCtx.ellipse(-1, 2 + rFlap * 0.4, 7, 4.5, -0.3 + rFlap * 0.06, 0, Math.PI * 2);
+      rCtx.fill(); rCtx.stroke();
+
       rCtx.restore();
     }
 
@@ -1730,24 +1812,29 @@
       document.getElementById('modal-flappy-gameover').classList.remove('hidden');
     }
 
-    function runnerLoop() {
+    function runnerLoop(now) {
       if (runnerState !== 'playing') return;
-      rFrame++;
-      if (rFrame % 3 === 0) {
-        rScore++;
+      const dt = Math.min(2.5, Math.max(0.25, ((now || performance.now()) - rLastTime) / 16.667));
+      rLastTime = now || performance.now();
+      rFrame += dt;
+      rScoreAcc += dt;
+      if (rScoreAcc >= 3) {
+        const inc = Math.floor(rScoreAcc / 3);
+        rScoreAcc -= inc * 3;
+        rScore += inc;
         document.getElementById('runner-live-score').textContent = String(rScore).padStart(4, '0');
         if (rScore % 100 === 0) sfxScore();
         updateRunnerPrizePill();
       }
 
-      const speed = 4.6 + Math.min(4.8, rScore * 0.006);
+      const speed = 6.0 + Math.min(5.0, rScore * 0.007);
       const minGap = Math.max(190, 270 - rScore * 0.08);
-      if (rFrame === 15 || (rObstacles.length === 0 && rFrame > 25) || (rObstacles.length && rObstacles[rObstacles.length - 1].x < runnerCanvas.width - minGap - Math.random() * 90)) {
+      if ((rObstacles.length === 0 && rFrame > 20) || (rObstacles.length && rObstacles[rObstacles.length - 1].x < runnerCanvas.width - minGap - Math.random() * 90)) {
         spawnRunnerObstacle();
       }
 
-      rPlayer.vy += 0.56;
-      rPlayer.y += rPlayer.vy;
+      rPlayer.vy += 0.56 * dt;
+      rPlayer.y += rPlayer.vy * dt;
       if (rPlayer.y >= rGroundY - rPlayer.h) {
         rPlayer.y = rGroundY - rPlayer.h;
         rPlayer.vy = 0;
@@ -1757,7 +1844,7 @@
 
       for (let i = rObstacles.length - 1; i >= 0; i--) {
         const o = rObstacles[i];
-        o.x -= speed;
+        o.x -= speed * dt;
         const hitX = rPlayer.x + rPlayer.w - 6 > o.x + 3 && rPlayer.x + 6 < o.x + o.w - 3;
         const hitY = rPlayer.y + rPlayer.h - 4 > o.y + 3 && rPlayer.y + 4 < o.y + o.h - 3;
         if (hitX && hitY) {
@@ -1805,6 +1892,7 @@
       `).join('');
     }
 
+    // Navegación Portal
     document.getElementById('btn-header-home').addEventListener('click', () => {
       clearInterval(temporizador); juegoActivo = false;
       mostrarPantalla('pantalla-portal');
@@ -1841,6 +1929,7 @@
       document.getElementById('modal-arcade-elegir').classList.add('hidden');
     });
 
+    // Controles Flappy (Pointer + Teclado)
     document.getElementById('flappy-stage').addEventListener('pointerdown', (e) => {
       e.preventDefault();
       flapAction();
@@ -1861,6 +1950,7 @@
       resizeRunnerCanvas();
     });
 
+    // Trivia eventos
     document.getElementById('btn-iniciar').addEventListener('click', iniciarJuego);
     document.querySelectorAll('.btn-riesgo').forEach(btn => btn.addEventListener('click', () => cargarNuevaPregunta(btn.dataset.level)));
     document.getElementById('btn-ir-canje').addEventListener('click', lanzarVictoria);
