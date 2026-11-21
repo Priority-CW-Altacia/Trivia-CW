@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CENTR☆L WINGS — Trivia Deportiva</title>
+  <title>CENTR☆L WINGS — Arcade CW</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q824XS285B"></script>
   <script>
@@ -20,8 +20,6 @@
     :root {
       --cw-green: #8cc63f;
       --cw-green-glow: rgba(140, 198, 63, 0.45);
-      --cw-bg: #07140d;
-      --cw-card: #0e1e15;
     }
 
     * {
@@ -43,7 +41,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* Fondo dinámico tipo marca de agua por deporte */
     #sport-watermark-bg {
       position: fixed;
       inset: 0;
@@ -54,7 +51,6 @@
       transition: opacity 0.4s ease;
     }
 
-    /* Modo Enrachado (3+ aciertos seguidos) */
     body.on-fire {
       box-shadow: inset 0 0 60px rgba(140, 198, 63, 0.35);
     }
@@ -63,7 +59,7 @@
       box-shadow: 0 0 28px var(--cw-green-glow), inset 0 0 18px rgba(140, 198, 63, 0.14);
     }
 
-    /* Reloj marca de agua anti-trampa */
+    /* Marca de agua en vivo anti-trampa */
     #reloj-marca-agua {
       display: none;
       position: fixed;
@@ -72,7 +68,7 @@
       transform: translate(-50%, -50%) rotate(-25deg);
       font-size: clamp(1.6rem, 6vw, 3.2rem);
       font-weight: 900;
-      color: rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.17);
       letter-spacing: 0.08em;
       white-space: nowrap;
       pointer-events: none;
@@ -82,7 +78,6 @@
       line-height: 1.15;
     }
 
-    /* Animaciones de estadio */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20% { transform: translateX(-8px) rotate(-1deg); }
@@ -90,37 +85,28 @@
       60% { transform: translateX(-6px); }
       80% { transform: translateX(6px); }
     }
-    .animate-shake {
-      animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
-    }
+    .animate-shake { animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both; }
 
     @keyframes redCardUp {
       0% { transform: translateY(60px) scale(0.7) rotate(-12deg); opacity: 0; }
       70% { transform: translateY(-6px) scale(1.06) rotate(3deg); opacity: 1; }
       100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
     }
-    .animate-red-card {
-      animation: redCardUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
+    .animate-red-card { animation: redCardUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
     @keyframes pulseUrgent {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.09); }
     }
-    .timer-urgent {
-      animation: pulseUrgent 0.55s ease-in-out infinite;
-    }
+    .timer-urgent { animation: pulseUrgent 0.55s ease-in-out infinite; }
 
     @keyframes scorePop {
       0% { transform: scale(1); box-shadow: 0 0 0 rgba(140,198,63,0); }
       40% { transform: scale(1.03); box-shadow: 0 0 28px rgba(140,198,63,0.55); border-color: #8cc63f; }
       100% { transform: scale(1); box-shadow: 0 0 0 rgba(140,198,63,0); }
     }
-    .animate-score-pop {
-      animation: scorePop 0.7s ease-out;
-    }
+    .animate-score-pop { animation: scorePop 0.7s ease-out; }
 
-    /* Ticker inferior estilo transmisión deportiva */
     @keyframes tickerMove {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
@@ -131,7 +117,6 @@
       animation: tickerMove 28s linear infinite;
     }
 
-    /* Confeti ligero */
     #confetti-canvas {
       position: fixed;
       inset: 0;
@@ -139,30 +124,24 @@
       z-index: 70;
     }
 
-    .hidden-screen {
-      display: none !important;
-    }
+    .hidden-screen { display: none !important; }
   </style>
 </head>
 <body class="flex flex-col min-h-screen relative">
-  <!-- Fondo de marcas de agua dinámicas -->
   <div id="sport-watermark-bg"></div>
   <canvas id="confetti-canvas"></canvas>
-
-  <!-- Marca de agua en vivo anti-trampa (solo visible en pantalla de victoria/canje) -->
   <div id="reloj-marca-agua"></div>
 
-  <!-- Barra superior fija tipo Marcador TV -->
+  <!-- Barra superior fija -->
   <header class="sticky top-0 z-30 bg-black/75 backdrop-blur-md border-b border-emerald-500/25 px-3 py-2.5">
     <div class="max-w-xl mx-auto flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 min-w-0">
+      <button id="btn-header-home" type="button" class="flex items-center gap-2 min-w-0 text-left">
         <img
           src="https://priority-cw-altacia.github.io/Trivia-CW/Icono_EstrellaCW_BCO.png"
           alt="☆"
           class="w-7 h-7 object-contain shrink-0"
           onerror="this.style.display='none'; document.getElementById('fallback-star').classList.remove('hidden');"
         />
-        <!-- Estrella contorno fino line-art -->
         <svg id="fallback-star" class="hidden w-7 h-7 shrink-0 text-[#8cc63f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
@@ -171,9 +150,9 @@
             <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#8cc63f]">En Vivo</span>
             <span class="w-1.5 h-1.5 rounded-full bg-[#8cc63f] animate-pulse"></span>
           </div>
-          <p class="text-xs font-bold text-slate-200 truncate">ALTACIA · TRIVIA CW</p>
+          <p class="text-xs font-bold text-slate-200 truncate">ALTACIA · ARCADE CW</p>
         </div>
-      </div>
+      </button>
 
       <div class="flex items-center gap-2 shrink-0">
         <div id="streak-pill" class="hidden items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs font-extrabold">
@@ -181,7 +160,7 @@
           <span id="streak-count">0</span>
         </div>
 
-        <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/90 border border-[#8cc63f]/50">
+        <div id="header-pts-box" class="hidden items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/90 border border-[#8cc63f]/50">
           <span class="text-[10px] uppercase tracking-wider text-slate-300 font-semibold">Pts</span>
           <span id="header-points" class="text-sm font-black text-amber-300 tabular-nums">0</span>
         </div>
@@ -198,23 +177,21 @@
     </div>
   </header>
 
-  <!-- Contenedor principal -->
-  <main class="relative z-10 flex-1 w-full max-w-xl mx-auto px-4 pt-4 pb-16 flex flex-col justify-center">
+  <main class="relative z-10 flex-1 w-full max-w-2xl mx-auto px-3 pt-2 pb-12 flex flex-col justify-center">
 
-    <!-- ==================== 1. PANTALLA DE INICIO ==================== -->
-    <section id="pantalla-inicio" class="space-y-5 text-center">
-      <div class="relative rounded-3xl bg-gradient-to-b from-[#10291b]/95 to-[#08150e]/95 border border-[#8cc63f]/35 p-6 shadow-2xl overflow-hidden">
+    <!-- ==================== 0. MINI PORTAL HUB ==================== -->
+    <section id="pantalla-portal" class="space-y-4 text-center">
+      <div class="relative rounded-3xl bg-gradient-to-b from-[#10291b]/95 to-[#08150e]/95 border border-[#8cc63f]/40 p-6 shadow-2xl overflow-hidden">
         <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#8cc63f]/15 rounded-full blur-3xl pointer-events-none"></div>
 
-        <!-- Logo Principal CW -->
         <div class="relative flex justify-center mb-4">
           <img
             src="https://priority-cw-altacia.github.io/Trivia-CW/CW_BCO_HORIZONTAL.png"
             alt="CENTRAL WINGS"
             class="max-h-20 w-auto object-contain drop-shadow-lg"
-            onerror="this.style.display='none'; document.getElementById('fallback-logo').classList.remove('hidden');"
+            onerror="this.style.display='none'; document.getElementById('fallback-logo-portal').classList.remove('hidden');"
           />
-          <div id="fallback-logo" class="hidden flex-col items-center leading-none select-none">
+          <div id="fallback-logo-portal" class="hidden flex-col items-center leading-none select-none">
             <div class="font-display text-4xl tracking-wider text-white flex items-center gap-0.5">
               <span>CENTR</span>
               <svg class="w-8 h-8 text-[#8cc63f] inline-block -mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
@@ -230,14 +207,86 @@
           ⚡ Juega mientras esperas tus alimentos
         </span>
 
-        <h1 class="font-display text-3xl sm:text-4xl text-white tracking-wide leading-tight mb-2">
-          LA CANCHA ES TUYA
+        <h1 class="font-display text-3xl sm:text-4xl text-white tracking-wide leading-tight">
+          ELIGE TU RETO
         </h1>
-        <p class="text-sm text-slate-300 max-w-sm mx-auto leading-relaxed">
-          Demuestra cuánto sabes de deportes, arma tu racha contra reloj y canjea tus puntos por premios reales en tu mesa.
+        <p class="text-xs sm:text-sm text-slate-300 mt-1 mb-5">
+          Gana premios reales en tu mesa jugando en cualquiera de nuestros retos. Máximo 1 premio por visita.
         </p>
 
-        <!-- Mini resumen de dinámicas -->
+        <!-- Tarjetas de los 3 juegos -->
+        <div class="space-y-3 text-left">
+          <button
+            id="btn-go-trivia"
+            type="button"
+            class="w-full rounded-2xl bg-gradient-to-r from-emerald-950/95 to-[#0d2217] hover:from-emerald-900/95 border border-[#8cc63f]/60 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 shadow-lg"
+          >
+            <div class="flex items-center gap-3.5 min-w-0">
+              <div class="w-12 h-12 rounded-2xl bg-[#8cc63f]/20 border border-[#8cc63f]/50 flex items-center justify-center text-2xl shrink-0">⚽</div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-display text-xl text-white tracking-wide">TRIVIA DEPORTIVA</span>
+                  <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#8cc63f]/20 text-[#8cc63f]">7 Premios</span>
+                </div>
+                <p class="text-xs text-slate-300 mt-0.5">10 seg/pregunta · Hasta Tarjeta Priority+ / MVP+</p>
+              </div>
+            </div>
+            <span class="text-[#8cc63f] font-black text-lg shrink-0">▶</span>
+          </button>
+
+          <button
+            id="btn-go-flappy"
+            type="button"
+            class="w-full rounded-2xl bg-gradient-to-r from-amber-950/80 to-[#1f160a] hover:from-amber-900/80 border border-amber-400/60 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 shadow-lg"
+          >
+            <div class="flex items-center gap-3.5 min-w-0">
+              <div class="w-12 h-12 rounded-2xl bg-amber-400/20 border border-amber-400/50 flex items-center justify-center text-2xl shrink-0">🍗</div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-display text-xl text-white tracking-wide">FLAPPY WINGS</span>
+                  <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300">Nuevo · 4 Premios</span>
+                </div>
+                <p class="text-xs text-slate-300 mt-0.5">Toca para volar entre bats · Premios desde 25 pts</p>
+              </div>
+            </div>
+            <span class="text-amber-300 font-black text-lg shrink-0">▶</span>
+          </button>
+
+          <button
+            id="btn-go-runner"
+            type="button"
+            class="w-full rounded-2xl bg-gradient-to-r from-sky-950/85 to-[#0b1924] hover:from-sky-900/85 border border-sky-400/60 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 shadow-lg"
+          >
+            <div class="flex items-center gap-3.5 min-w-0">
+              <div class="w-12 h-12 rounded-2xl bg-sky-400/20 border border-sky-400/50 flex items-center justify-center text-2xl shrink-0">🏃</div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-display text-xl text-white tracking-wide">RUN WINGS</span>
+                  <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-sky-400/20 text-sky-300">Nuevo · Tipo Dino</span>
+                </div>
+                <p class="text-xs text-slate-300 mt-0.5">Salta conos, cascos, balones y bats · Premios desde 400 pts</p>
+              </div>
+            </div>
+            <span class="text-sky-300 font-black text-lg shrink-0">▶</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 1. TRIVIA: PANTALLA DE INICIO ==================== -->
+    <section id="pantalla-inicio" class="hidden-screen space-y-4 text-center">
+      <div class="relative rounded-3xl bg-gradient-to-b from-[#10291b]/95 to-[#08150e]/95 border border-[#8cc63f]/35 p-6 shadow-2xl overflow-hidden">
+        <button id="btn-trivia-back-portal" type="button" class="text-[11px] font-bold text-slate-300 hover:text-white flex items-center gap-1 mb-3">
+          ← Volver al Arcade
+        </button>
+
+        <h2 class="font-display text-3xl sm:text-4xl text-white tracking-wide leading-tight mb-2">
+          TRIVIA DEPORTIVA
+        </h2>
+        <p class="text-sm text-slate-300 max-w-sm mx-auto leading-relaxed">
+          Demuestra cuánto sabes de deportes, arma tu racha contra reloj y canjea tus puntos por premios reales.
+        </p>
+
         <div class="grid grid-cols-3 gap-2 mt-5 text-left">
           <div class="rounded-xl bg-black/40 border border-white/10 p-2.5">
             <p class="text-base">⏱️</p>
@@ -256,21 +305,12 @@
           </div>
         </div>
 
-        <!-- Botones principales (Reglas y Premios arriba para lectura rápida) -->
         <div class="mt-5 space-y-3">
           <div class="grid grid-cols-2 gap-2.5">
-            <button
-              id="btn-reglas"
-              type="button"
-              class="py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-[#8cc63f]/55 text-xs font-extrabold uppercase tracking-wider text-white transition flex items-center justify-center gap-1.5"
-            >
+            <button id="btn-reglas" type="button" class="py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-[#8cc63f]/55 text-xs font-extrabold uppercase tracking-wider text-white transition flex items-center justify-center gap-1.5">
               <span>📖</span> Ver Reglas
             </button>
-            <button
-              id="btn-premios"
-              type="button"
-              class="py-3 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/55 text-xs font-extrabold uppercase tracking-wider text-amber-200 transition flex items-center justify-center gap-1.5"
-            >
+            <button id="btn-premios" type="button" class="py-3 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/55 text-xs font-extrabold uppercase tracking-wider text-amber-200 transition flex items-center justify-center gap-1.5">
               <span>🎁</span> Ver Premios
             </button>
           </div>
@@ -279,11 +319,7 @@
             ⏱️ 10 seg/pregunta · 💀 Si fallas pierdes todo · 🎁 Premios desde 150 pts
           </p>
 
-          <button
-            id="btn-iniciar"
-            type="button"
-            class="w-full py-4 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] active:scale-[0.98] text-slate-950 font-black text-base tracking-wider uppercase shadow-lg shadow-[#8cc63f]/25 transition flex items-center justify-center gap-2"
-          >
+          <button id="btn-iniciar" type="button" class="w-full py-4 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] active:scale-[0.98] text-slate-950 font-black text-base tracking-wider uppercase shadow-lg shadow-[#8cc63f]/25 transition flex items-center justify-center gap-2">
             <span>⚽</span> SALTAR A LA CANCHA
           </button>
         </div>
@@ -292,9 +328,8 @@
       <p id="db-status-msg" class="text-[11px] text-slate-400"></p>
     </section>
 
-    <!-- ==================== 2. PANTALLA SELECCIÓN DE RIESGO ==================== -->
+    <!-- ==================== 2. TRIVIA: SELECCIÓN DE RIESGO ==================== -->
     <section id="pantalla-riesgo" class="hidden-screen space-y-4">
-      <!-- Barra de progreso hacia el siguiente premio -->
       <div id="progress-box" class="rounded-2xl bg-[#0d1f15]/95 border border-white/15 p-4 shadow-xl fire-border transition-all">
         <div class="flex items-center justify-between gap-2 text-xs mb-2">
           <div class="flex items-center gap-2">
@@ -317,13 +352,8 @@
         <p id="riesgo-subtitulo" class="text-xs text-slate-300 mt-0.5">Elige la dificultad de tu pregunta. Si fallas pierdes todo el marcador.</p>
       </div>
 
-      <!-- 3 Tarjetas de riesgo -->
       <div class="space-y-3">
-        <button
-          data-level="facil"
-          type="button"
-          class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-emerald-950/90 to-[#0e2418] hover:from-emerald-900/90 border border-emerald-400/50 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 group"
-        >
+        <button data-level="facil" type="button" class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-emerald-950/90 to-[#0e2418] hover:from-emerald-900/90 border border-emerald-400/50 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-xl">🎯</div>
             <div>
@@ -340,11 +370,7 @@
           </div>
         </button>
 
-        <button
-          data-level="medio"
-          type="button"
-          class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-amber-950/75 to-[#1c160b] hover:from-amber-900/75 border border-amber-400/55 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 group"
-        >
+        <button data-level="medio" type="button" class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-amber-950/75 to-[#1c160b] hover:from-amber-900/75 border border-amber-400/55 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-xl">🔥</div>
             <div>
@@ -361,11 +387,7 @@
           </div>
         </button>
 
-        <button
-          data-level="dificil"
-          type="button"
-          class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-rose-950/80 to-[#1f0c11] hover:from-rose-900/80 border border-rose-500/60 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3 group"
-        >
+        <button data-level="dificil" type="button" class="btn-riesgo w-full text-left rounded-2xl bg-gradient-to-r from-rose-950/80 to-[#1f0c11] hover:from-rose-900/80 border border-rose-500/60 p-4 transition active:scale-[0.98] flex items-center justify-between gap-3">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-xl">💀</div>
             <div>
@@ -383,79 +405,41 @@
         </button>
       </div>
 
-      <!-- Botón de Canje -->
       <div class="pt-2">
-        <button
-          id="btn-ir-canje"
-          type="button"
-          disabled
-          class="w-full py-3.5 rounded-2xl bg-amber-400 disabled:bg-white/10 disabled:text-slate-500 disabled:border-white/10 text-slate-950 font-black text-sm tracking-wider uppercase border border-amber-300 transition flex items-center justify-center gap-2 shadow-lg"
-        >
+        <button id="btn-ir-canje" type="button" disabled class="w-full py-3.5 rounded-2xl bg-amber-400 disabled:bg-white/10 disabled:text-slate-500 disabled:border-white/10 text-slate-950 font-black text-sm tracking-wider uppercase border border-amber-300 transition flex items-center justify-center gap-2 shadow-lg">
           <span>🛒</span> PLANTARME Y CANJEAR PUNTOS
         </button>
       </div>
     </section>
 
-    <!-- ==================== 3. PANTALLA DE PREGUNTA ==================== -->
+    <!-- ==================== 3. TRIVIA: PREGUNTA ==================== -->
     <section id="pantalla-pregunta" class="hidden-screen space-y-4">
       <div class="rounded-3xl bg-[#0c1d14]/95 border border-white/15 p-5 shadow-2xl fire-border relative overflow-hidden">
-        <!-- Encabezado de categoría + reloj circular -->
         <div class="flex items-center justify-between gap-3 mb-4">
           <div class="flex items-center gap-2 flex-wrap">
-            <span id="q-category-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8cc63f]/15 border border-[#8cc63f]/40 text-[#8cc63f] text-xs font-extrabold uppercase tracking-wider">
-              ⚽ Fútbol
-            </span>
-            <span id="q-points-badge" class="px-2.5 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 text-xs font-black">
-              +25 PTS
-            </span>
+            <span id="q-category-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8cc63f]/15 border border-[#8cc63f]/40 text-[#8cc63f] text-xs font-extrabold uppercase tracking-wider">⚽ Fútbol</span>
+            <span id="q-points-badge" class="px-2.5 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 text-xs font-black">+25 PTS</span>
           </div>
 
-          <!-- Reloj Circular SVG -->
           <div id="timer-wrapper" class="relative w-14 h-14 flex items-center justify-center shrink-0">
             <svg class="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
               <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="5" />
-              <circle
-                id="timer-ring"
-                cx="28"
-                cy="28"
-                r="24"
-                fill="none"
-                stroke="#8cc63f"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-dasharray="150.8"
-                stroke-dashoffset="0"
-                class="transition-all duration-1000 linear"
-              />
+              <circle id="timer-ring" cx="28" cy="28" r="24" fill="none" stroke="#8cc63f" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="0" class="transition-all duration-1000 linear" />
             </svg>
             <span id="timer-text" class="absolute font-display text-xl text-white">10</span>
           </div>
         </div>
 
-        <!-- Texto de la pregunta -->
-        <h3 id="q-text" class="text-lg sm:text-xl font-bold text-white leading-snug mb-5">
-          Cargando pregunta...
-        </h3>
-
-        <!-- Opciones de respuesta -->
+        <h3 id="q-text" class="text-lg sm:text-xl font-bold text-white leading-snug mb-5">Cargando pregunta...</h3>
         <div id="q-options" class="space-y-2.5"></div>
 
-        <!-- Comodines de la Casa (más visibles bajo presión) -->
         <div class="mt-5 pt-4 border-t border-white/15 space-y-2">
           <p class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 text-center">⚡ Comodines disponibles (1 uso por partida)</p>
           <div class="grid grid-cols-2 gap-2.5">
-            <button
-              id="btn-var"
-              type="button"
-              class="py-2.5 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/70 text-xs font-black text-sky-200 transition disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1.5 shadow-md shadow-sky-500/10"
-            >
+            <button id="btn-var" type="button" class="py-2.5 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/70 text-xs font-black text-sky-200 transition disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1.5 shadow-md shadow-sky-500/10">
               <span>📺</span> VAR · Quita 2
             </button>
-            <button
-              id="btn-timeout"
-              type="button"
-              class="py-2.5 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/70 text-xs font-black text-amber-200 transition disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/10"
-            >
+            <button id="btn-timeout" type="button" class="py-2.5 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/70 text-xs font-black text-amber-200 transition disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/10">
               <span>⏸️</span> +5 SEG · Tiempo
             </button>
           </div>
@@ -463,7 +447,7 @@
       </div>
     </section>
 
-    <!-- ==================== 4. PANTALLA DE CANJE / BOLETO ==================== -->
+    <!-- ==================== 4. TRIVIA: CANJE ==================== -->
     <section id="pantalla-victoria" class="hidden-screen space-y-4">
       <div class="rounded-3xl bg-gradient-to-b from-[#112a1c] to-[#08140d] border border-[#8cc63f]/50 p-5 shadow-2xl">
         <div class="flex items-center justify-between mb-3">
@@ -481,37 +465,111 @@
           ⚠️ Solo puedes elegir <strong>1 premio por visita</strong>. Sujeto a disponibilidad; no acumulable ni válido con otras promociones.
         </p>
 
-        <!-- Lista de premios para canjear -->
         <div id="canje-lista" class="space-y-2 max-h-[50vh] overflow-y-auto pr-1"></div>
 
-        <button
-          id="btn-volver-inicio-victoria"
-          type="button"
-          class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-bold uppercase tracking-wider text-white transition"
-        >
-          Volver al Inicio (Reiniciar)
+        <button id="btn-volver-inicio-victoria" type="button" class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-bold uppercase tracking-wider text-white transition">
+          Volver al Arcade
         </button>
       </div>
     </section>
 
+    <!-- ==================== 5. FLAPPY WINGS ==================== -->
+    <section id="pantalla-flappy" class="hidden-screen space-y-3">
+      <div class="flex items-center justify-between gap-2">
+        <button id="btn-flappy-back" type="button" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-bold text-slate-200">
+          ← Arcade
+        </button>
+        <div class="flex items-center gap-2">
+          <span id="flappy-prize-pill" class="px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/50 text-amber-300 text-[11px] font-extrabold">
+            🎯 Meta 1: 25 pts (Bebida)
+          </span>
+          <button id="btn-flappy-premios" type="button" class="px-2.5 py-1 rounded-xl bg-white/10 border border-white/15 text-xs font-bold text-white">
+            🎁
+          </button>
+        </div>
+      </div>
+
+      <div id="flappy-stage" class="relative w-full h-[calc(100dvh-155px)] min-h-[460px] rounded-2xl overflow-hidden border-2 border-[#8cc63f]/50 shadow-2xl bg-[#07150d] select-none touch-manipulation">
+        <canvas id="flappy-canvas" class="block w-full h-full"></canvas>
+
+        <div class="pointer-events-none absolute top-3 inset-x-0 flex justify-center">
+          <div id="flappy-live-score" class="font-display text-5xl text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)]">0</div>
+        </div>
+
+        <div id="flappy-start-overlay" class="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex flex-col items-center justify-center p-5 text-center space-y-3">
+          <div class="text-5xl animate-bounce">🍗</div>
+          <h2 class="font-display text-3xl text-white tracking-wide">FLAPPY WINGS</h2>
+          <p class="text-xs text-slate-200 max-w-xs leading-relaxed">
+            Toca la pantalla (o presiona <strong>Espacio</strong>) para hacer volar el muslito entre los bats de béisbol. ¡Desde <strong>25 pts</strong> en una corrida ganas premio!
+          </p>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#8cc63f] text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg">
+            👆 Toca para despegar
+          </div>
+        </div>
+      </div>
+
+      <p class="text-center text-[11px] text-slate-400">
+        Cada bat superado = 1 pt · La velocidad sube poco a poco · 1 premio por visita
+      </p>
+    </section>
+
+    <!-- ==================== 6. RUN WINGS (RUNNER TIPO DINO) ==================== -->
+    <section id="pantalla-runner" class="hidden-screen space-y-3">
+      <div class="flex items-center justify-between gap-2">
+        <button id="btn-runner-back" type="button" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-bold text-slate-200">
+          ← Arcade
+        </button>
+        <div class="flex items-center gap-2">
+          <span id="runner-prize-pill" class="px-3 py-1 rounded-full bg-sky-400/15 border border-sky-400/50 text-sky-300 text-[11px] font-extrabold">
+            🎯 Meta 1: 400 pts (Bebida)
+          </span>
+          <button id="btn-runner-premios" type="button" class="px-2.5 py-1 rounded-xl bg-white/10 border border-white/15 text-xs font-bold text-white">
+            🎁
+          </button>
+        </div>
+      </div>
+
+      <div id="runner-stage" class="relative w-full h-[calc(100dvh-155px)] min-h-[460px] rounded-2xl overflow-hidden border-2 border-sky-400/50 shadow-2xl bg-[#07150d] select-none touch-manipulation">
+        <canvas id="runner-canvas" class="block w-full h-full"></canvas>
+
+        <div class="pointer-events-none absolute top-3 right-4">
+          <div id="runner-live-score" class="font-display text-4xl text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] tabular-nums">0000</div>
+        </div>
+
+        <div id="runner-start-overlay" class="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex flex-col items-center justify-center p-5 text-center space-y-3">
+          <div class="text-5xl animate-bounce">🍗</div>
+          <h2 class="font-display text-3xl text-white tracking-wide">RUN WINGS</h2>
+          <p class="text-xs text-slate-200 max-w-xs leading-relaxed">
+            Toca la pantalla (o presiona <strong>Espacio</strong>) para saltar conos, cascos, balones y bats altos (doble toque). ¡Desde <strong>400 pts</strong> ganas premio!
+          </p>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg">
+            👆 Toca para arrancar
+          </div>
+        </div>
+      </div>
+
+      <p class="text-center text-[11px] text-slate-400">
+        Toca para saltar (doble toque = salto alto) · La velocidad aumenta sola · 1 premio por visita
+      </p>
+    </section>
+
   </main>
 
-  <!-- Ticker inferior estilo ESPN -->
+  <!-- Ticker inferior -->
   <footer class="fixed bottom-0 inset-x-0 z-20 bg-black/85 border-t border-[#8cc63f]/30 py-1.5 overflow-hidden">
     <div class="ticker-track text-[11px] font-bold tracking-wide text-slate-300 whitespace-nowrap">
       <span class="mx-6">🔥 <span class="text-[#8cc63f]">CENTR☆L WINGS ALTACIA</span> · JUEGA MIENTRAS ESPERAS TUS ALIMENTOS</span>
-      <span class="mx-6">📺 ¿DUDAS? USA TU COMODÍN <span class="text-amber-300">VAR</span> UNA VEZ POR PARTIDA</span>
-      <span class="mx-6">🚫 NO CAMBIES DE PESTAÑA O PIERDES EL MARCADOR POR ABANDONO</span>
-      <span class="mx-6">⚡ METE 3 SEGUIDAS PARA ACTIVAR EL <span class="text-[#8cc63f]">MODO ENRACHADO</span></span>
+      <span class="mx-6">🍗 <span class="text-amber-300">FLAPPY WINGS</span> · DESDE 25 PTS EN UNA CORRIDA TE LLEVAS PREMIO</span>
+      <span class="mx-6">⚽ <span class="text-[#8cc63f]">TRIVIA DEPORTIVA</span> · HASTA TARJETA PRIORITY+ / MVP+</span>
+      <span class="mx-6">🎁 MÁXIMO 1 PREMIO POR VISITA · SUJETO A DISPONIBILIDAD</span>
       <span class="mx-6">🔥 <span class="text-[#8cc63f]">CENTR☆L WINGS ALTACIA</span> · JUEGA MIENTRAS ESPERAS TUS ALIMENTOS</span>
-      <span class="mx-6">📺 ¿DUDAS? USA TU COMODÍN <span class="text-amber-300">VAR</span> UNA VEZ POR PARTIDA</span>
-      <span class="mx-6">🚫 NO CAMBIES DE PESTAÑA O PIERDES EL MARCADOR POR ABANDONO</span>
-      <span class="mx-6">⚡ METE 3 SEGUIDAS PARA ACTIVAR EL <span class="text-[#8cc63f]">MODO ENRACHADO</span></span>
+      <span class="mx-6">🍗 <span class="text-amber-300">FLAPPY WINGS</span> · DESDE 25 PTS EN UNA CORRIDA TE LLEVAS PREMIO</span>
+      <span class="mx-6">⚽ <span class="text-[#8cc63f]">TRIVIA DEPORTIVA</span> · HASTA TARJETA PRIORITY+ / MVP+</span>
+      <span class="mx-6">🎁 MÁXIMO 1 PREMIO POR VISITA · SUJETO A DISPONIBILIDAD</span>
     </div>
   </footer>
 
   <!-- ==================== MODALES ==================== -->
-  <!-- Modal Reglas -->
   <div id="modal-reglas" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-md rounded-3xl bg-[#0c1d14] border border-[#8cc63f]/60 p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between">
@@ -541,27 +599,21 @@
           </div>
         </div>
       </div>
-      <button id="ok-reglas" type="button" class="w-full py-3 rounded-xl bg-[#8cc63f] text-slate-950 font-black uppercase text-sm">
-        ENTENDIDO
-      </button>
+      <button id="ok-reglas" type="button" class="w-full py-3 rounded-xl bg-[#8cc63f] text-slate-950 font-black uppercase text-sm">ENTENDIDO</button>
     </div>
   </div>
 
-  <!-- Modal Catálogo de Premios -->
   <div id="modal-premios" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-md rounded-3xl bg-[#0c1d14] border border-[#8cc63f]/60 p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between">
-        <h3 class="font-display text-2xl text-white">🎁 CATÁLOGO DE PREMIOS</h3>
+        <h3 id="modal-premios-title" class="font-display text-2xl text-white">🎁 CATÁLOGO DE PREMIOS</h3>
         <button id="close-premios" type="button" class="w-8 h-8 rounded-full bg-white/10 text-white font-bold">✕</button>
       </div>
       <div id="lista-modal-premios" class="space-y-2 max-h-[55vh] overflow-y-auto pr-1"></div>
-      <button id="ok-premios" type="button" class="w-full py-3 rounded-xl bg-[#8cc63f] text-slate-950 font-black uppercase text-sm">
-        A JUGAR
-      </button>
+      <button id="ok-premios" type="button" class="w-full py-3 rounded-xl bg-[#8cc63f] text-slate-950 font-black uppercase text-sm">A JUGAR</button>
     </div>
   </div>
 
-  <!-- Modal Acierto (¡Tiro Perfecto!) -->
   <div id="modal-acierto" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-sm rounded-3xl bg-[#0c1d14] border-2 border-[#8cc63f] p-6 text-center shadow-2xl space-y-4">
       <div class="text-5xl">🎯</div>
@@ -573,13 +625,49 @@
         <p id="acierto-pts-msg" class="text-lg font-extrabold text-amber-300 mt-1">+25 puntos</p>
       </div>
       <p id="acierto-next-msg" class="text-xs text-slate-300"></p>
-      <button id="btn-continuar" type="button" class="w-full py-3.5 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950 font-black uppercase tracking-wider text-sm">
-        CONTINUAR JUGANDO
-      </button>
+      <button id="btn-continuar" type="button" class="w-full py-3.5 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950 font-black uppercase tracking-wider text-sm">CONTINUAR JUGANDO</button>
     </div>
   </div>
 
-  <!-- Modal Cupón Oficial de Canje -->
+  <!-- Modal Elegir Premio Desbloqueado (Flappy / Runner) -->
+  <div id="modal-arcade-elegir" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-md rounded-3xl bg-[#0c1d14] border-2 border-[#8cc63f] p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#8cc63f]">Elige tu premio</span>
+          <h3 class="font-display text-2xl text-white">🎁 PREMIOS DESBLOQUEADOS</h3>
+        </div>
+        <button id="close-arcade-elegir" type="button" class="w-8 h-8 rounded-full bg-white/10 text-white font-bold">✕</button>
+      </div>
+      <p class="text-xs text-slate-300">Puedes elegir el premio más alto que alcanzaste o cualquiera de los anteriores (1 por visita):</p>
+      <div id="lista-arcade-elegir" class="space-y-2 max-h-[50vh] overflow-y-auto pr-1"></div>
+    </div>
+  </div>
+
+  <!-- Modal Game Over Flappy / Runner -->
+  <div id="modal-flappy-gameover" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-[#0d1f15] border-2 border-amber-400/70 p-6 text-center shadow-2xl space-y-4">
+      <div id="flappy-go-icon" class="text-5xl">💥</div>
+      <div>
+        <h3 id="flappy-go-title" class="font-display text-3xl text-white">¡CHOCASTE!</h3>
+        <p id="flappy-go-score" class="text-lg font-extrabold text-amber-300 mt-1">0 puntos</p>
+        <p id="flappy-go-msg" class="text-xs text-slate-300 mt-2 leading-relaxed"></p>
+      </div>
+      <div class="space-y-2">
+        <button id="btn-flappy-claim" type="button" class="hidden w-full py-3.5 rounded-2xl bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950 font-black uppercase tracking-wider text-sm">
+          🎁 ELEGIR PREMIO
+        </button>
+        <button id="btn-flappy-retry" type="button" class="w-full py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black uppercase tracking-wider text-sm">
+          🔄 INTENTAR DE NUEVO
+        </button>
+        <button id="btn-flappy-home" type="button" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 font-bold uppercase text-xs tracking-wider">
+          Volver al Arcade
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cupón Oficial Compartido -->
   <div id="modal-cupon" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
     <div class="relative w-full max-w-sm rounded-3xl bg-gradient-to-b from-[#133120] to-[#08150e] border-2 border-[#8cc63f] p-6 text-center shadow-2xl space-y-4">
       <span class="inline-block px-3 py-1 rounded-full bg-[#8cc63f] text-slate-950 text-[10px] font-black uppercase tracking-widest">
@@ -596,16 +684,16 @@
       </div>
       <div class="space-y-2 pt-1">
         <button id="btn-cupon-volver" type="button" class="w-full py-3 rounded-xl bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950 font-black uppercase text-xs tracking-wider">
-          Finalizar y volver al inicio
+          Finalizar y volver al Arcade
         </button>
         <button id="btn-cupon-cerrar" type="button" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 font-bold uppercase text-[11px] tracking-wider">
-          Elegir otro premio
+          Cerrar
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Modal Derrota (¡Tarjeta Roja!) -->
+  <!-- Modal Derrota Trivia -->
   <div id="modal-derrota" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div id="derrota-card" class="w-full max-w-sm rounded-3xl bg-[#1a0a0e] border-2 border-rose-500 p-6 text-center shadow-2xl space-y-4">
       <div class="mx-auto w-14 h-20 rounded-lg bg-gradient-to-b from-rose-500 to-red-600 shadow-lg shadow-rose-600/40 border border-rose-300/60 animate-red-card"></div>
@@ -616,13 +704,65 @@
         </p>
       </div>
       <button id="btn-reiniciar" type="button" class="w-full py-3.5 rounded-2xl bg-rose-500 hover:bg-rose-400 text-white font-black uppercase tracking-wider text-sm">
-        VOLVER AL INICIO
+        VOLVER A TRIVIA
       </button>
     </div>
   </div>
 
   <script>
-    // ==================== DATOS Y FALLBACK LOCAL ====================
+    // ==================== CONFIGURACIÓN Y TRACKING ====================
+    const SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxHFQQU6IAc1y_HjL40aDF0_Tm-ID-Vqyjt1GT5uwp0swpRbEMyurVQUZNuSXIEnQ/exec";
+    const sessionId = "CW-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 6);
+
+    function registrarEvento(evento, detalle = "", premio = "", puntosOverride = null) {
+      const pts = puntosOverride !== null ? puntosOverride : puntosAcumulados;
+      try {
+        if (typeof gtag === "function") {
+          gtag("event", evento, { detalle, puntos: pts, racha: rachaActual, premio });
+        }
+      } catch (_) {}
+      try {
+        const params = new URLSearchParams({
+          session_id: sessionId,
+          evento: evento,
+          detalle: detalle,
+          puntos: String(pts),
+          racha: String(rachaActual),
+          premio: premio
+        });
+        fetch(`${SHEETS_WEBHOOK_URL}?${params.toString()}`, {
+          method: "GET",
+          mode: "no-cors",
+          keepalive: true
+        }).catch(() => {});
+      } catch (_) {}
+    }
+
+    // ==================== CATÁLOGOS ====================
+    const catalogoPremios = [
+      { icono: "🍹", nombre: "Bebida de la casa", nota: "Selección del bartender según disponibilidad", costo: 150 },
+      { icono: "🍟", nombre: "Media orden de papas o aros", nota: "A elegir según disponibilidad en cocina", costo: 200 },
+      { icono: "📉", nombre: "10% de descuento en tu cuenta hoy", nota: "No aplica en promociones ni es acumulable", costo: 300 },
+      { icono: "🍻", nombre: "2x1 en bebidas participantes", nota: "Válido en tu próxima visita (Lun a Jue)", costo: 400 },
+      { icono: "🎟️", nombre: "Membresía MVP ACCESS", nota: "Bebida de bienvenida en cada visita", costo: 500 },
+      { icono: "🧢", nombre: "Gorra Edición CW", nota: "Sujeto a existencias en sucursal", costo: 650 },
+      { icono: "💳", nombre: "Tarjeta Priority+ / MVP+", nota: "Beneficios totalmente exclusivos", costo: 800 }
+    ];
+
+    const premiosFlappy = [
+      { icono: "🍹", nombre: "Bebida de la casa", nota: "Selección del bartender según disponibilidad", costo: 25 },
+      { icono: "🍟", nombre: "Media orden de papas o aros", nota: "A elegir según disponibilidad en cocina", costo: 35 },
+      { icono: "📉", nombre: "10% de descuento en tu cuenta hoy", nota: "No aplica en promociones ni es acumulable", costo: 50 },
+      { icono: "🍻", nombre: "2x1 en bebidas participantes", nota: "Válido en tu próxima visita (Lun a Jue)", costo: 70 }
+    ];
+
+    const premiosRunner = [
+      { icono: "🍹", nombre: "Bebida de la casa", nota: "Selección del bartender según disponibilidad", costo: 400 },
+      { icono: "🍟", nombre: "Media orden de papas o aros", nota: "A elegir según disponibilidad en cocina", costo: 650 },
+      { icono: "📉", nombre: "10% de descuento en tu cuenta hoy", nota: "No aplica en promociones ni es acumulable", costo: 950 },
+      { icono: "🍻", nombre: "2x1 en bebidas participantes", nota: "Válido en tu próxima visita (Lun a Jue)", costo: 1300 }
+    ];
+
     const fallbackPreguntas = {
       facil: [
         { id: 1, categoria: "Fútbol", pregunta: "¿Cada cuántos años se celebra la Copa Mundial de la FIFA?", opciones: ["2 años", "4 años", "5 años", "Cada año"], respuesta_correcta: "4 años" },
@@ -644,60 +784,12 @@
       ]
     };
 
-    const catalogoPremios = [
-      { icono: "🍹", nombre: "Bebida de la casa", nota: "Selección del bartender según disponibilidad", costo: 150 },
-      { icono: "🍟", nombre: "Media orden de papas o aros", nota: "A elegir según disponibilidad en cocina", costo: 200 },
-      { icono: "📉", nombre: "10% de descuento en tu cuenta hoy", nota: "No aplica en promociones ni es acumulable", costo: 300 },
-      { icono: "🍻", nombre: "2x1 en bebidas participantes", nota: "Válido en tu próxima visita (Lun a Jue)", costo: 400 },
-      { icono: "🎟️", nombre: "Membresía MVP ACCESS", nota: "Bebida de bienvenida en cada visita", costo: 500 },
-      { icono: "🧢", nombre: "Gorra Edición CW", nota: "Sujeto a existencias en sucursal", costo: 650 },
-      { icono: "💳", nombre: "Tarjeta Priority+ / MVP+", nota: "Beneficios totalmente exclusivos", costo: 800 }
-    ];
-
     const categoriaMeta = {
-      "Fútbol": { emoji: "⚽", color: "#8cc63f" },
-      "Boxeo": { emoji: "🥊", color: "#ef4444" },
-      "NFL": { emoji: "🏈", color: "#f59e0b" },
-      "NBA": { emoji: "🏀", color: "#fb923c" },
-      "UFC": { emoji: "🥋", color: "#f43f5e" },
-      "MLB": { emoji: "⚾", color: "#38bdf8" },
-      "Tenis": { emoji: "🎾", color: "#a3e635" }
+      "Fútbol": { emoji: "⚽" }, "Boxeo": { emoji: "🥊" }, "NFL": { emoji: "🏈" },
+      "NBA": { emoji: "🏀" }, "UFC": { emoji: "🥋" }, "MLB": { emoji: "⚾" }, "Tenis": { emoji: "🎾" }
     };
-
     const valorNivel = { facil: 25, medio: 50, dificil: 100 };
-    const SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxHFQQU6IAc1y_HjL40aDF0_Tm-ID-Vqyjt1GT5uwp0swpRbEMyurVQUZNuSXIEnQ/exec";
-    const sessionId = "CW-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 6);
 
-    function registrarEvento(evento, detalle = "", premio = "", puntosOverride = null) {
-      const pts = puntosOverride !== null ? puntosOverride : puntosAcumulados;
-      try {
-        if (typeof gtag === "function") {
-          gtag("event", evento, {
-            detalle: detalle,
-            puntos: pts,
-            racha: rachaActual,
-            premio: premio
-          });
-        }
-      } catch (_) {}
-      try {
-        const params = new URLSearchParams({
-          session_id: sessionId,
-          evento: evento,
-          detalle: detalle,
-          puntos: String(pts),
-          racha: String(rachaActual),
-          premio: premio
-        });
-        fetch(`${SHEETS_WEBHOOK_URL}?${params.toString()}`, {
-          method: "GET",
-          mode: "no-cors",
-          keepalive: true
-        }).catch(() => {});
-      } catch (_) {}
-    }
-
-    // Estado del juego
     let baseDatos = fallbackPreguntas;
     let usadasIds = new Set();
     let puntosAcumulados = 0;
@@ -712,15 +804,13 @@
     let soundEnabled = true;
     let audioCtx = null;
 
-    // ==================== AUDIO SINTETIZADO ====================
+    // ==================== AUDIO ====================
     function initAudio() {
       if (!audioCtx) {
         const Ctx = window.AudioContext || window.webkitAudioContext;
         if (Ctx) audioCtx = new Ctx();
       }
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume().catch(() => {});
-      }
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
     }
 
     function playTone(freq, duration, type = 'sine', gainVal = 0.08, delay = 0) {
@@ -739,20 +829,12 @@
       } catch (_) {}
     }
 
-    function sfxWhistle() {
-      playTone(2200, 0.12, 'triangle', 0.07, 0);
-      playTone(2550, 0.18, 'triangle', 0.07, 0.11);
-    }
+    function sfxWhistle() { playTone(2200, 0.12, 'triangle', 0.07, 0); playTone(2550, 0.18, 'triangle', 0.07, 0.11); }
     function sfxTick() { playTone(880, 0.06, 'square', 0.04, 0); }
-    function sfxWin() {
-      playTone(523.25, 0.12, 'triangle', 0.09, 0);
-      playTone(659.25, 0.12, 'triangle', 0.09, 0.1);
-      playTone(783.99, 0.25, 'triangle', 0.1, 0.2);
-    }
-    function sfxFail() {
-      playTone(220, 0.2, 'sawtooth', 0.09, 0);
-      playTone(150, 0.35, 'sawtooth', 0.09, 0.18);
-    }
+    function sfxWin() { playTone(523.25, 0.12, 'triangle', 0.09, 0); playTone(659.25, 0.12, 'triangle', 0.09, 0.1); playTone(783.99, 0.25, 'triangle', 0.1, 0.2); }
+    function sfxFail() { playTone(220, 0.2, 'sawtooth', 0.09, 0); playTone(150, 0.35, 'sawtooth', 0.09, 0.18); }
+    function sfxFlap() { playTone(360, 0.07, 'sine', 0.06, 0); playTone(520, 0.06, 'sine', 0.05, 0.03); }
+    function sfxScore() { playTone(740, 0.08, 'triangle', 0.07, 0); playTone(987, 0.12, 'triangle', 0.07, 0.06); }
 
     // ==================== CONFETI ====================
     function lanzarConfeti() {
@@ -762,27 +844,17 @@
       canvas.height = window.innerHeight;
       const colors = ['#8cc63f', '#fbbf24', '#ffffff', '#34d399'];
       const particles = Array.from({ length: 55 }, () => ({
-        x: Math.random() * canvas.width,
-        y: -10 - Math.random() * 80,
-        r: 4 + Math.random() * 5,
-        dx: (Math.random() - 0.5) * 4,
-        dy: 3 + Math.random() * 4.5,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        rot: Math.random() * 360
+        x: Math.random() * canvas.width, y: -10 - Math.random() * 80, r: 4 + Math.random() * 5,
+        dx: (Math.random() - 0.5) * 4, dy: 3 + Math.random() * 4.5,
+        color: colors[Math.floor(Math.random() * colors.length)], rot: Math.random() * 360
       }));
       let frame = 0;
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         particles.forEach(p => {
-          p.x += p.dx;
-          p.y += p.dy;
-          p.rot += 6;
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rot * Math.PI / 180);
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.6);
-          ctx.restore();
+          p.x += p.dx; p.y += p.dy; p.rot += 6;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180);
+          ctx.fillStyle = p.color; ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.6); ctx.restore();
         });
         frame++;
         if (frame < 75) requestAnimationFrame(draw);
@@ -791,7 +863,33 @@
       requestAnimationFrame(draw);
     }
 
-    // ==================== CARGA DE PREGUNTAS ====================
+    // ==================== NAVEGACIÓN GLOBAL ====================
+    const allScreens = ['pantalla-portal', 'pantalla-inicio', 'pantalla-riesgo', 'pantalla-pregunta', 'pantalla-victoria', 'pantalla-flappy', 'pantalla-runner'];
+    function mostrarPantalla(id) {
+      allScreens.forEach(s => document.getElementById(s).classList.toggle('hidden-screen', s !== id));
+      const inTrivia = ['pantalla-riesgo', 'pantalla-pregunta', 'pantalla-victoria'].includes(id);
+      document.getElementById('header-pts-box').classList.toggle('hidden', !inTrivia);
+      document.getElementById('header-pts-box').classList.toggle('flex', inTrivia);
+      if (id !== 'pantalla-pregunta') setWatermarkEmoji('');
+      if (id !== 'pantalla-flappy') stopFlappyLoop();
+      if (id !== 'pantalla-runner') stopRunnerLoop();
+      updateWatermarkVisibility();
+    }
+
+    function updateWatermarkVisibility() {
+      const cuponVisible = !document.getElementById('modal-cupon').classList.contains('hidden');
+      const victoriaVisible = !document.getElementById('pantalla-victoria').classList.contains('hidden-screen');
+      document.getElementById('reloj-marca-agua').style.display = (cuponVisible || victoriaVisible) ? 'block' : 'none';
+    }
+
+    function setWatermarkEmoji(emoji) {
+      const bg = document.getElementById('sport-watermark-bg');
+      if (!emoji) { bg.style.backgroundImage = 'none'; return; }
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90"><text x="20" y="55" font-size="34">${emoji}</text></svg>`;
+      bg.style.backgroundImage = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+    }
+
+    // ==================== TRIVIA LÓGICA ====================
     async function cargarPreguntas() {
       const statusEl = document.getElementById('db-status-msg');
       try {
@@ -808,41 +906,17 @@
       statusEl.textContent = '⚡ Modo demostración activo (compatible con preguntas.json)';
     }
 
-    // ==================== NAVEGACIÓN Y HUD ====================
-    function mostrarPantalla(id) {
-      ['pantalla-inicio', 'pantalla-riesgo', 'pantalla-pregunta', 'pantalla-victoria'].forEach(s => {
-        document.getElementById(s).classList.toggle('hidden-screen', s !== id);
-      });
-      document.getElementById('reloj-marca-agua').style.display = (id === 'pantalla-victoria') ? 'block' : 'none';
-      if (id !== 'pantalla-pregunta') {
-        setWatermarkEmoji('');
-      }
-    }
-
-    function setWatermarkEmoji(emoji) {
-      const bg = document.getElementById('sport-watermark-bg');
-      if (!emoji) {
-        bg.style.backgroundImage = 'none';
-        return;
-      }
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90"><text x="20" y="55" font-size="34">${emoji}</text></svg>`;
-      bg.style.backgroundImage = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
-    }
-
     function actualizarHUD() {
       document.getElementById('header-points').textContent = puntosAcumulados.toLocaleString('es-MX');
       const streakPill = document.getElementById('streak-pill');
       if (rachaActual > 0) {
-        streakPill.classList.remove('hidden');
-        streakPill.classList.add('flex');
+        streakPill.classList.remove('hidden'); streakPill.classList.add('flex');
         document.getElementById('streak-count').textContent = rachaActual;
       } else {
-        streakPill.classList.add('hidden');
-        streakPill.classList.remove('flex');
+        streakPill.classList.add('hidden'); streakPill.classList.remove('flex');
       }
       document.body.classList.toggle('on-fire', rachaActual >= 3);
 
-      // Progreso hacia siguiente premio
       const siguiente = catalogoPremios.find(p => p.costo > puntosAcumulados);
       const desbloqueados = catalogoPremios.filter(p => p.costo <= puntosAcumulados).length;
       document.getElementById('progress-pts-badge').textContent = `${puntosAcumulados.toLocaleString('es-MX')} PTS`;
@@ -855,14 +929,11 @@
       const subR = document.getElementById('riesgo-subtitulo');
 
       if (siguiente) {
-        const pct = Math.min(100, Math.round((puntosAcumulados / siguiente.costo) * 100));
-        bar.style.width = `${pct}%`;
+        bar.style.width = `${Math.min(100, Math.round((puntosAcumulados / siguiente.costo) * 100))}%`;
         label.textContent = `${siguiente.icono} ${siguiente.nombre} (${siguiente.costo} pts)`;
         hint.textContent = `Te faltan ${siguiente.costo - puntosAcumulados} pts para desbloquearlo`;
       } else {
-        bar.style.width = '100%';
-        label.textContent = '💳 ¡NIVEL MÁXIMO!';
-        hint.textContent = 'Ya desbloqueaste todo el catálogo';
+        bar.style.width = '100%'; label.textContent = '💳 ¡NIVEL MÁXIMO!'; hint.textContent = 'Ya desbloqueaste todo el catálogo';
       }
 
       if (puntosAcumulados === 0) {
@@ -882,27 +953,19 @@
       btnCanje.classList.toggle('ring-amber-300/70', puntosAcumulados >= 150);
     }
 
-    // ==================== FLUJO DEL JUEGO ====================
     function iniciarJuego() {
-      initAudio();
-      sfxWhistle();
-      puntosAcumulados = 0;
-      rachaActual = 0;
-      usadasIds.clear();
-      varUsado = false;
-      timeoutUsado = false;
-      juegoActivo = true;
+      initAudio(); sfxWhistle();
+      puntosAcumulados = 0; rachaActual = 0; usadasIds.clear();
+      varUsado = false; timeoutUsado = false; juegoActivo = true;
       actualizarHUD();
-      registrarEvento('inicio_juego', 'Nueva partida');
+      registrarEvento('inicio_juego', 'Trivia');
       mostrarPantalla('pantalla-riesgo');
     }
 
     function cargarNuevaPregunta(nivel) {
       const lista = baseDatos[nivel] || [];
       let disponibles = lista.filter(p => !usadasIds.has(`${nivel}-${p.id}`));
-      if (disponibles.length === 0) {
-        disponibles = lista;
-      }
+      if (disponibles.length === 0) disponibles = lista;
       if (disponibles.length === 0) return;
 
       preguntaActual = disponibles[Math.floor(Math.random() * disponibles.length)];
@@ -910,18 +973,14 @@
       puntosEnJuego = valorNivel[nivel];
       registrarEvento('nivel_elegido', `${nivel} (${preguntaActual.categoria})`);
 
-      const meta = categoriaMeta[preguntaActual.categoria] || { emoji: "🏆", color: "#8cc63f" };
+      const meta = categoriaMeta[preguntaActual.categoria] || { emoji: "🏆" };
       setWatermarkEmoji(meta.emoji);
-
       document.getElementById('q-category-badge').textContent = `${meta.emoji} ${preguntaActual.categoria}`;
       document.getElementById('q-points-badge').textContent = `+${puntosEnJuego} PTS`;
       document.getElementById('q-text').textContent = preguntaActual.pregunta;
-
-      // Botones de comodines
       document.getElementById('btn-var').disabled = varUsado;
       document.getElementById('btn-timeout').disabled = timeoutUsado;
 
-      // Opciones
       const contOpciones = document.getElementById('q-options');
       contOpciones.innerHTML = '';
       const letras = ['A', 'B', 'C', 'D'];
@@ -957,32 +1016,21 @@
       const ring = document.getElementById('timer-ring');
       const txt = document.getElementById('timer-text');
       const wrap = document.getElementById('timer-wrapper');
-      const maxDash = 150.8;
-      const ratio = Math.max(0, Math.min(1, tiempoRestante / 10));
-      ring.style.strokeDashoffset = maxDash * (1 - ratio);
+      ring.style.strokeDashoffset = 150.8 * (1 - Math.max(0, Math.min(1, tiempoRestante / 10)));
       txt.textContent = tiempoRestante;
-
-      if (tiempoRestante <= 3) {
-        ring.style.stroke = '#f43f5e';
-        txt.classList.add('text-rose-400');
-        wrap.classList.add('timer-urgent');
-      } else {
-        ring.style.stroke = '#8cc63f';
-        txt.classList.remove('text-rose-400');
-        wrap.classList.remove('timer-urgent');
-      }
+      ring.style.stroke = tiempoRestante <= 3 ? '#f43f5e' : '#8cc63f';
+      txt.classList.toggle('text-rose-400', tiempoRestante <= 3);
+      wrap.classList.toggle('timer-urgent', tiempoRestante <= 3);
     }
 
     function validarRespuesta(opcion, btn) {
       if (!juegoActivo) return;
       clearInterval(temporizador);
-
-      const allBtns = document.querySelectorAll('.option-btn');
-      allBtns.forEach(b => (b.disabled = true));
+      document.querySelectorAll('.option-btn').forEach(b => (b.disabled = true));
 
       if (opcion === preguntaActual.respuesta_correcta) {
-        btn.classList.remove('border-white/15', 'bg-black/45');
-        btn.classList.add('border-[#8cc63f]', 'bg-[#8cc63f]/25');
+        btn.classList.replace('border-white/15', 'border-[#8cc63f]');
+        btn.classList.replace('bg-black/45', 'bg-[#8cc63f]/25');
         puntosAcumulados += puntosEnJuego;
         rachaActual += 1;
         actualizarHUD();
@@ -991,51 +1039,46 @@
         lanzarConfeti();
 
         document.getElementById('acierto-pts-msg').textContent = `+${puntosEnJuego} puntos`;
-        const fireTag = document.getElementById('acierto-fire-tag');
-        fireTag.classList.toggle('hidden', rachaActual < 3);
-
+        document.getElementById('acierto-fire-tag').classList.toggle('hidden', rachaActual < 3);
         const sig = catalogoPremios.find(p => p.costo > puntosAcumulados);
         document.getElementById('acierto-next-msg').textContent = sig
           ? `Llevas ${puntosAcumulados} pts. Te faltan ${sig.costo - puntosAcumulados} pts para ${sig.icono} ${sig.nombre}.`
           : `¡Llevas ${puntosAcumulados} pts y ya desbloqueaste todo el catálogo!`;
-
-        setTimeout(() => {
-          document.getElementById('modal-acierto').classList.remove('hidden');
-        }, 280);
+        setTimeout(() => document.getElementById('modal-acierto').classList.remove('hidden'), 280);
       } else {
-        btn.classList.remove('border-white/15', 'bg-black/45');
-        btn.classList.add('border-rose-500', 'bg-rose-500/25');
-        setTimeout(() => {
-          lanzarDerrota('¡TARJETA ROJA!', 'Respuesta incorrecta. Pierdes todos tus puntos. Ni modo carnal, pide algo de tomar y vuelve a intentarlo.', 'error');
-        }, 300);
+        btn.classList.replace('border-white/15', 'border-rose-500');
+        btn.classList.replace('bg-black/45', 'bg-rose-500/25');
+        setTimeout(() => lanzarDerrota('¡TARJETA ROJA!', 'Respuesta incorrecta. Pierdes todos tus puntos. Ni modo carnal, pide algo de tomar y vuelve a intentarlo.', 'error'), 300);
       }
     }
 
     function lanzarDerrota(titulo, mensaje, motivo = 'error') {
       clearInterval(temporizador);
       registrarEvento('derrota', motivo, '', puntosAcumulados);
-      juegoActivo = false;
-      puntosAcumulados = 0;
-      rachaActual = 0;
-      actualizarHUD();
-      sfxFail();
-
+      juegoActivo = false; puntosAcumulados = 0; rachaActual = 0;
+      actualizarHUD(); sfxFail();
       document.getElementById('derrota-titulo').textContent = titulo;
       document.getElementById('derrota-mensaje').textContent = mensaje;
-      const modal = document.getElementById('modal-derrota');
       const card = document.getElementById('derrota-card');
-      modal.classList.remove('hidden');
-      card.classList.remove('animate-shake');
-      void card.offsetWidth;
-      card.classList.add('animate-shake');
+      document.getElementById('modal-derrota').classList.remove('hidden');
+      card.classList.remove('animate-shake'); void card.offsetWidth; card.classList.add('animate-shake');
+    }
+
+    function abrirCupon(premio, ptsUsados, origen) {
+      document.getElementById('ticket-icono').textContent = premio.icono;
+      document.getElementById('ticket-nombre').textContent = premio.nombre;
+      document.getElementById('ticket-detalle').textContent = `${premio.nota ? premio.nota + ' · ' : ''}Ganado en ${origen} con ${ptsUsados} pts.`;
+      document.getElementById('ticket-timestamp').textContent = `VALIDADO: ${new Date().toLocaleString('es-MX')}`;
+      document.getElementById('modal-cupon').classList.remove('hidden');
+      updateWatermarkVisibility();
+      lanzarConfeti();
+      sfxWin();
     }
 
     function lanzarVictoria() {
       clearInterval(temporizador);
       juegoActivo = false;
       document.getElementById('canje-puntos').textContent = `${puntosAcumulados} PTS`;
-      document.getElementById('modal-cupon').classList.add('hidden');
-
       const cont = document.getElementById('canje-lista');
       cont.innerHTML = '';
       catalogoPremios.forEach(premio => {
@@ -1051,33 +1094,685 @@
               <p class="text-[11px] font-extrabold text-amber-300">${premio.costo} pts</p>
             </div>
           </div>
-          <button
-            type="button"
-            ${alcanzado ? '' : 'disabled'}
-            class="px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-wider shrink-0 transition ${alcanzado ? 'bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950' : 'bg-white/10 text-slate-400 cursor-not-allowed'}"
-          >
+          <button type="button" ${alcanzado ? '' : 'disabled'} class="px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-wider shrink-0 transition ${alcanzado ? 'bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950' : 'bg-white/10 text-slate-400 cursor-not-allowed'}">
             ${alcanzado ? 'ELEGIR' : 'FALTAN PTS'}
           </button>
         `;
         if (alcanzado) {
           row.querySelector('button').addEventListener('click', () => {
-            document.getElementById('ticket-icono').textContent = premio.icono;
-            document.getElementById('ticket-nombre').textContent = premio.nombre;
-            document.getElementById('ticket-detalle').textContent = `${premio.nota ? premio.nota + ' · ' : ''}Canjeado con ${puntosAcumulados} pts. Muestra esta pantalla viva a tu mesero.`;
-            document.getElementById('ticket-timestamp').textContent = `VALIDADO: ${new Date().toLocaleString('es-MX')}`;
-            document.getElementById('modal-cupon').classList.remove('hidden');
-            registrarEvento('canje_premio', `${puntosAcumulados} pts`, premio.nombre);
-            lanzarConfeti();
-            sfxWin();
+            registrarEvento('canje_premio', `Trivia ${puntosAcumulados} pts`, premio.nombre);
+            abrirCupon(premio, puntosAcumulados, 'Trivia Deportiva');
           });
         }
         cont.appendChild(row);
       });
-
       mostrarPantalla('pantalla-victoria');
     }
 
-    // ==================== RELOJ MARCA DE AGUA ANTI-TRAMPA ====================
+    // ==================== FLAPPY WINGS ====================
+    const flappyCanvas = document.getElementById('flappy-canvas');
+    const fCtx = flappyCanvas.getContext('2d');
+    let flappyRaf = null;
+    let flappyState = 'idle'; // idle | playing | over
+    let fScore = 0;
+    let fWing = { x: 85, y: 200, vy: 0, r: 16, rot: 0 };
+    let fPipes = [];
+    let fFrame = 0;
+
+    function resizeFlappyCanvas() {
+      const stage = document.getElementById('flappy-stage');
+      if (!stage) return;
+      flappyCanvas.width = stage.clientWidth;
+      flappyCanvas.height = stage.clientHeight;
+      if (flappyState === 'idle') {
+        fWing.x = Math.min(110, flappyCanvas.width * 0.25);
+        fWing.y = flappyCanvas.height * 0.45;
+        drawFlappyScene();
+      }
+    }
+
+    function getFlappyBestPrize(score) {
+      let best = null;
+      premiosFlappy.forEach(p => { if (score >= p.costo) best = p; });
+      return best;
+    }
+
+    function updateFlappyPrizePill() {
+      const pill = document.getElementById('flappy-prize-pill');
+      const next = premiosFlappy.find(p => p.costo > fScore);
+      const unlocked = getFlappyBestPrize(fScore);
+      if (unlocked && next) {
+        pill.textContent = `✅ ${unlocked.icono} · Siguiente: ${next.costo} pts`;
+      } else if (unlocked && !next) {
+        pill.textContent = `🏆 ¡MÁXIMO DESBLOQUEADO! (${unlocked.icono})`;
+      } else {
+        pill.textContent = `🎯 Meta 1: 25 pts (Bebida)`;
+      }
+    }
+
+    function resetFlappy() {
+      stopFlappyLoop();
+      flappyState = 'idle';
+      fScore = 0;
+      fPipes = [];
+      fFrame = 0;
+      resizeFlappyCanvas();
+      fWing = { x: Math.min(110, flappyCanvas.width * 0.25), y: flappyCanvas.height * 0.45, vy: 0, r: 16, rot: 0 };
+      document.getElementById('flappy-live-score').textContent = '0';
+      document.getElementById('flappy-start-overlay').classList.remove('hidden');
+      document.getElementById('modal-flappy-gameover').classList.add('hidden');
+      updateFlappyPrizePill();
+      drawFlappyScene();
+    }
+
+    function stopFlappyLoop() {
+      if (flappyRaf) { cancelAnimationFrame(flappyRaf); flappyRaf = null; }
+    }
+
+    function flapAction() {
+      initAudio();
+      if (flappyState === 'over') return;
+      if (flappyState === 'idle') {
+        flappyState = 'playing';
+        document.getElementById('flappy-start-overlay').classList.add('hidden');
+        registrarEvento('flappy_inicio', 'Flappy Wings');
+        flappyLoop();
+      }
+      fWing.vy = -5.6;
+      sfxFlap();
+    }
+
+    function spawnPipe() {
+      const gap = fScore >= 20
+        ? Math.max(106, 152 - Math.floor((fScore - 15) / 5) * 6)
+        : 152;
+      const margin = 58;
+      const topH = margin + Math.random() * (flappyCanvas.height - gap - margin * 2);
+      fPipes.push({ x: flappyCanvas.width + 24, w: 46, topH, gap, passed: false });
+    }
+
+    function drawBeerPipe(x, y, w, h, isTop) {
+      const cx = x + w / 2;
+      const grad = fCtx.createLinearGradient(x, 0, x + w, 0);
+      grad.addColorStop(0, '#78350f');
+      grad.addColorStop(0.35, '#eab308');
+      grad.addColorStop(0.55, '#fef08a');
+      grad.addColorStop(1, '#92400e');
+
+      fCtx.save();
+      fCtx.fillStyle = grad;
+      fCtx.strokeStyle = '#451a03';
+      fCtx.lineWidth = 2;
+
+      if (isTop) {
+        const barrelH = Math.min(h * 0.55, 110);
+        const handleW = w * 0.42;
+        fCtx.beginPath();
+        fCtx.moveTo(cx - handleW / 2, y);
+        fCtx.lineTo(cx + handleW / 2, y);
+        fCtx.lineTo(x + w, y + h - 16);
+        fCtx.quadraticCurveTo(x + w, y + h, cx, y + h);
+        fCtx.quadraticCurveTo(x, y + h, x, y + h - 16);
+        fCtx.closePath();
+        fCtx.fill(); fCtx.stroke();
+
+        fCtx.fillStyle = '#8cc63f';
+        fCtx.fillRect(cx - handleW * 0.65, y + Math.max(8, h - barrelH - 12), handleW * 1.3, 6);
+        fCtx.fillStyle = '#1e293b';
+        fCtx.fillRect(cx - handleW / 2, y, handleW, Math.max(0, h - barrelH - 14));
+      } else {
+        const barrelH = Math.min(h * 0.55, 110);
+        const handleW = w * 0.42;
+        fCtx.beginPath();
+        fCtx.moveTo(cx, y);
+        fCtx.quadraticCurveTo(x + w, y, x + w, y + 16);
+        fCtx.lineTo(cx + handleW / 2, y + h);
+        fCtx.lineTo(cx - handleW / 2, y + h);
+        fCtx.lineTo(x, y + 16);
+        fCtx.quadraticCurveTo(x, y, cx, y);
+        fCtx.closePath();
+        fCtx.fill(); fCtx.stroke();
+
+        fCtx.fillStyle = '#8cc63f';
+        fCtx.fillRect(cx - handleW * 0.65, y + barrelH + 6, handleW * 1.3, 6);
+        fCtx.fillStyle = '#1e293b';
+        fCtx.fillRect(cx - handleW / 2, y + barrelH + 14, handleW, Math.max(0, h - barrelH - 14));
+      }
+      fCtx.restore();
+    }
+
+    function drawWingCharacter() {
+      fCtx.save();
+      fCtx.translate(fWing.x, fWing.y);
+      fCtx.rotate(fWing.rot);
+
+      fCtx.fillStyle = '#f8fafc';
+      fCtx.strokeStyle = '#cbd5e1';
+      fCtx.lineWidth = 1.5;
+      fCtx.beginPath();
+      fCtx.roundRect(-24, -4, 14, 8, 4);
+      fCtx.fill();
+      fCtx.beginPath();
+      fCtx.arc(-25, -4, 4.5, 0, Math.PI * 2);
+      fCtx.arc(-25, 4, 4.5, 0, Math.PI * 2);
+      fCtx.fill();
+
+      const bodyGrad = fCtx.createRadialGradient(4, -3, 3, 2, 0, 20);
+      bodyGrad.addColorStop(0, '#fbbf24');
+      bodyGrad.addColorStop(0.65, '#ea580c');
+      bodyGrad.addColorStop(1, '#9a3412');
+      fCtx.fillStyle = bodyGrad;
+      fCtx.strokeStyle = '#fef08a';
+      fCtx.lineWidth = 2;
+      fCtx.beginPath();
+      fCtx.moveTo(-12, -5);
+      fCtx.quadraticCurveTo(2, -18, 17, -9);
+      fCtx.quadraticCurveTo(23, 0, 17, 10);
+      fCtx.quadraticCurveTo(2, 17, -12, 5);
+      fCtx.closePath();
+      fCtx.fill(); fCtx.stroke();
+
+      fCtx.fillStyle = 'rgba(124, 45, 18, 0.5)';
+      fCtx.beginPath();
+      fCtx.arc(2, 7, 2.2, 0, Math.PI * 2);
+      fCtx.arc(-3, -6, 1.8, 0, Math.PI * 2);
+      fCtx.arc(9, 5, 1.8, 0, Math.PI * 2);
+      fCtx.fill();
+
+      fCtx.fillStyle = '#8cc63f';
+      fCtx.beginPath();
+      fCtx.roundRect(-2, -13, 18, 4.5, 2);
+      fCtx.fill();
+
+      fCtx.fillStyle = '#ffffff';
+      fCtx.beginPath();
+      fCtx.arc(11, -3, 4.5, 0, Math.PI * 2);
+      fCtx.fill();
+      fCtx.fillStyle = '#0f172a';
+      fCtx.beginPath();
+      fCtx.arc(12.5, -3, 2.2, 0, Math.PI * 2);
+      fCtx.fill();
+
+      const flapOffset = Math.sin(fFrame * 0.35) * 4;
+      fCtx.fillStyle = '#f59e0b';
+      fCtx.strokeStyle = '#fef08a';
+      fCtx.lineWidth = 1.5;
+      fCtx.beginPath();
+      fCtx.ellipse(-1, 2 + flapOffset * 0.4, 7, 4.5, -0.3 + flapOffset * 0.06, 0, Math.PI * 2);
+      fCtx.fill(); fCtx.stroke();
+
+      fCtx.restore();
+    }
+
+    function drawFlappyScene() {
+      const W = flappyCanvas.width;
+      const H = flappyCanvas.height;
+      const bg = fCtx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#06150d');
+      bg.addColorStop(0.65, '#0b2416');
+      bg.addColorStop(1, '#0d2b19');
+      fCtx.fillStyle = bg;
+      fCtx.fillRect(0, 0, W, H);
+
+      fCtx.save();
+      [W * 0.22, W * 0.78].forEach(lx => {
+        const glow = fCtx.createRadialGradient(lx, 24, 4, lx, 24, 130);
+        glow.addColorStop(0, 'rgba(254, 249, 195, 0.14)');
+        glow.addColorStop(1, 'rgba(254, 249, 195, 0)');
+        fCtx.fillStyle = glow;
+        fCtx.fillRect(lx - 130, 0, 260, 160);
+      });
+
+      fCtx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+      fCtx.fillRect(0, H * 0.52, W, H * 0.14);
+
+      fCtx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+      fCtx.lineWidth = 2;
+      fCtx.beginPath();
+      fCtx.arc(W / 2, H + 40, Math.min(W * 0.75, 240), Math.PI * 1.15, Math.PI * 1.85);
+      fCtx.stroke();
+
+      fCtx.strokeStyle = 'rgba(140, 198, 63, 0.10)';
+      fCtx.beginPath();
+      fCtx.moveTo(W / 2, H); fCtx.lineTo(0, H * 0.65);
+      fCtx.moveTo(W / 2, H); fCtx.lineTo(W, H * 0.65);
+      fCtx.stroke();
+
+      fCtx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+      for (let c = 0; c < 4; c++) {
+        const cx = ((W + 140) - ((fFrame * 0.45 + c * 150) % (W + 180))) - 40;
+        const cy = 58 + (c % 2) * 44;
+        fCtx.beginPath();
+        fCtx.arc(cx, cy, 18, 0, Math.PI * 2);
+        fCtx.arc(cx + 18, cy - 6, 22, 0, Math.PI * 2);
+        fCtx.arc(cx + 38, cy, 16, 0, Math.PI * 2);
+        fCtx.fill();
+      }
+
+      fCtx.fillStyle = 'rgba(255, 255, 255, 0.07)';
+      fCtx.beginPath();
+      fCtx.moveTo(W / 2, H - 6);
+      fCtx.lineTo(W / 2 - 14, H - 18);
+      fCtx.lineTo(W / 2 - 14, H - 28);
+      fCtx.lineTo(W / 2 + 14, H - 28);
+      fCtx.lineTo(W / 2 + 14, H - 18);
+      fCtx.closePath();
+      fCtx.fill();
+      fCtx.restore();
+
+      fPipes.forEach(p => {
+        drawBeerPipe(p.x, 0, p.w, p.topH, true);
+        drawBeerPipe(p.x, p.topH + p.gap, p.w, H - (p.topH + p.gap), false);
+      });
+
+      drawWingCharacter();
+    }
+
+    function triggerFlappyGameOver() {
+      flappyState = 'over';
+      stopFlappyLoop();
+      sfxFail();
+      const prize = getFlappyBestPrize(fScore);
+      registrarEvento('flappy_fin', `Score ${fScore}`, prize ? prize.nombre : '', fScore);
+
+      const claimBtn = document.getElementById('btn-flappy-claim');
+      const iconEl = document.getElementById('flappy-go-icon');
+      const titleEl = document.getElementById('flappy-go-title');
+      const scoreEl = document.getElementById('flappy-go-score');
+      const msgEl = document.getElementById('flappy-go-msg');
+
+      scoreEl.textContent = `${fScore} ${fScore === 1 ? 'punto' : 'puntos'}`;
+      if (prize) {
+        iconEl.textContent = prize.icono;
+        titleEl.textContent = '¡BUEN VUELO!';
+        msgEl.textContent = `Desbloqueaste: ${prize.nombre}. Puedes reclamarlo ahorita o descartarlo e intentar llegar más lejos.`;
+        claimBtn.classList.remove('hidden');
+        claimBtn.textContent = '🎁 ELEGIR PREMIO';
+        claimBtn.onclick = () => {
+          document.getElementById('modal-flappy-gameover').classList.add('hidden');
+          abrirSelectorPremioArcade(premiosFlappy, fScore, 'Flappy Wings', 'flappy_canje');
+        };
+      } else {
+        iconEl.textContent = '💥';
+        titleEl.textContent = '¡CHOCASTE!';
+        msgEl.textContent = `Te faltaron ${25 - fScore} pts para desbloquear tu Bebida de la casa. ¡Inténtalo de nuevo!`;
+        claimBtn.classList.add('hidden');
+      }
+      document.getElementById('modal-flappy-gameover').classList.remove('hidden');
+    }
+
+    function flappyLoop() {
+      if (flappyState !== 'playing') return;
+      fFrame++;
+
+      const speed = 2.15 + Math.min(2.6, fScore * 0.042);
+      if (fFrame === 1 || (fPipes.length && fPipes[fPipes.length - 1].x < flappyCanvas.width - 215)) {
+        spawnPipe();
+      }
+
+      fWing.vy += 0.25;
+      fWing.y += fWing.vy;
+      fWing.rot = Math.max(-0.4, Math.min(0.55, fWing.vy * 0.055));
+
+      if (fWing.y - fWing.r < 0 || fWing.y + fWing.r > flappyCanvas.height) {
+        drawFlappyScene();
+        triggerFlappyGameOver();
+        return;
+      }
+
+      for (let i = fPipes.length - 1; i >= 0; i--) {
+        const p = fPipes[i];
+        p.x -= speed;
+
+        const hitX = fWing.x + fWing.r - 4 > p.x && fWing.x - fWing.r + 4 < p.x + p.w;
+        const hitY = fWing.y - fWing.r + 4 < p.topH || fWing.y + fWing.r - 4 > p.topH + p.gap;
+        if (hitX && hitY) {
+          drawFlappyScene();
+          triggerFlappyGameOver();
+          return;
+        }
+
+        if (!p.passed && p.x + p.w < fWing.x) {
+          p.passed = true;
+          fScore++;
+          document.getElementById('flappy-live-score').textContent = fScore;
+          sfxScore();
+          updateFlappyPrizePill();
+        }
+        if (p.x + p.w < -20) fPipes.splice(i, 1);
+      }
+
+      drawFlappyScene();
+      flappyRaf = requestAnimationFrame(flappyLoop);
+    }
+
+    function abrirSelectorPremioArcade(listaPremios, puntajeAlcanzado, nombreJuego, eventoCanje) {
+      const cont = document.getElementById('lista-arcade-elegir');
+      cont.innerHTML = '';
+      listaPremios.forEach(p => {
+        const desbloqueado = puntajeAlcanzado >= p.costo;
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between gap-2 p-3 rounded-xl border ${desbloqueado ? 'bg-emerald-950/60 border-[#8cc63f]/60' : 'bg-black/35 border-white/10 opacity-45'}`;
+        row.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="text-xl shrink-0">${p.icono}</span>
+            <div class="min-w-0">
+              <p class="text-xs font-bold text-white truncate">${p.nombre}</p>
+              <p class="text-[10px] text-slate-300 truncate">${p.nota || ''}</p>
+              <p class="text-[11px] font-extrabold text-amber-300">${p.costo} pts</p>
+            </div>
+          </div>
+          <button type="button" ${desbloqueado ? '' : 'disabled'} class="px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-wider shrink-0 transition ${desbloqueado ? 'bg-[#8cc63f] hover:bg-[#9bd64c] text-slate-950' : 'bg-white/10 text-slate-400 cursor-not-allowed'}">
+            ${desbloqueado ? 'ELEGIR' : 'BLOQUEADO'}
+          </button>
+        `;
+        if (desbloqueado) {
+          row.querySelector('button').addEventListener('click', () => {
+            document.getElementById('modal-arcade-elegir').classList.add('hidden');
+            registrarEvento(eventoCanje, `${nombreJuego} ${puntajeAlcanzado} pts`, p.nombre, puntajeAlcanzado);
+            abrirCupon(p, puntajeAlcanzado, nombreJuego);
+          });
+        }
+        cont.appendChild(row);
+      });
+      document.getElementById('modal-arcade-elegir').classList.remove('hidden');
+    }
+
+    // ==================== RUN WINGS (RUNNER TIPO DINO) ====================
+    const runnerCanvas = document.getElementById('runner-canvas');
+    const rCtx = runnerCanvas.getContext('2d');
+    let runnerRaf = null;
+    let runnerState = 'idle'; // idle | playing | over
+    let rScore = 0;
+    let rFrame = 0;
+    let rGroundY = 260;
+    let rPlayer = { x: 68, y: 220, vy: 0, w: 34, h: 34, onGround: true, jumpsLeft: 2 };
+    let rObstacles = [];
+
+    function resizeRunnerCanvas() {
+      const stage = document.getElementById('runner-stage');
+      if (!stage) return;
+      runnerCanvas.width = stage.clientWidth;
+      runnerCanvas.height = stage.clientHeight;
+      rGroundY = Math.round(runnerCanvas.height * 0.56);
+      if (runnerState === 'idle') {
+        rPlayer.y = rGroundY - rPlayer.h;
+        drawRunnerScene();
+      }
+    }
+
+    function stopRunnerLoop() {
+      if (runnerRaf) { cancelAnimationFrame(runnerRaf); runnerRaf = null; }
+    }
+
+    function updateRunnerPrizePill() {
+      const pill = document.getElementById('runner-prize-pill');
+      let best = null;
+      premiosRunner.forEach(p => { if (rScore >= p.costo) best = p; });
+      const next = premiosRunner.find(p => p.costo > rScore);
+      if (best && next) pill.textContent = `✅ ${best.icono} · Siguiente: ${next.costo} pts`;
+      else if (best && !next) pill.textContent = `🏆 ¡MÁXIMO DESBLOQUEADO! (${best.icono})`;
+      else pill.textContent = `🎯 Meta 1: 400 pts (Bebida)`;
+    }
+
+    function resetRunner() {
+      stopRunnerLoop();
+      runnerState = 'idle';
+      rScore = 0; rFrame = 0; rObstacles = [];
+      resizeRunnerCanvas();
+      rPlayer = { x: 64, y: rGroundY - 34, vy: 0, w: 34, h: 34, onGround: true, jumpsLeft: 2 };
+      document.getElementById('runner-live-score').textContent = '0000';
+      document.getElementById('runner-start-overlay').classList.remove('hidden');
+      document.getElementById('modal-flappy-gameover').classList.add('hidden');
+      updateRunnerPrizePill();
+      drawRunnerScene();
+    }
+
+    function runnerJump() {
+      initAudio();
+      if (runnerState === 'over') return;
+      if (runnerState === 'idle') {
+        runnerState = 'playing';
+        document.getElementById('runner-start-overlay').classList.add('hidden');
+        registrarEvento('runner_inicio', 'Run Wings');
+        runnerLoop();
+      }
+      if (rPlayer.jumpsLeft > 0) {
+        rPlayer.vy = rPlayer.onGround ? -10.5 : -9.0;
+        rPlayer.onGround = false;
+        rPlayer.jumpsLeft--;
+        sfxFlap();
+      }
+    }
+
+    function spawnRunnerObstacle() {
+      const types = ['cone', 'helmet', 'ball', 'tallbat'];
+      const maxIdx = rScore > 250 ? 4 : 3;
+      const type = types[Math.floor(Math.random() * maxIdx)];
+      if (type === 'ball') {
+        const high = Math.random() > 0.55;
+        rObstacles.push({ type, x: runnerCanvas.width + 30, y: rGroundY - (high ? 70 : 28), w: 28, h: 28 });
+      } else if (type === 'tallbat') {
+        rObstacles.push({ type, x: runnerCanvas.width + 30, y: rGroundY - 64, w: 22, h: 64 });
+      } else if (type === 'helmet') {
+        rObstacles.push({ type, x: runnerCanvas.width + 30, y: rGroundY - 32, w: 34, h: 32 });
+      } else {
+        rObstacles.push({ type, x: runnerCanvas.width + 30, y: rGroundY - 34, w: 28, h: 34 });
+      }
+    }
+
+    function drawRunnerScene() {
+      const W = runnerCanvas.width;
+      const H = runnerCanvas.height;
+      const bg = rCtx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#06121c');
+      bg.addColorStop(0.55, '#0b2230');
+      bg.addColorStop(1, '#081b10');
+      rCtx.fillStyle = bg;
+      rCtx.fillRect(0, 0, W, H);
+
+      rCtx.save();
+      [W * 0.2, W * 0.8].forEach(lx => {
+        const glow = rCtx.createRadialGradient(lx, 18, 3, lx, 18, 110);
+        glow.addColorStop(0, 'rgba(224, 242, 254, 0.14)');
+        glow.addColorStop(1, 'rgba(224, 242, 254, 0)');
+        rCtx.fillStyle = glow;
+        rCtx.fillRect(lx - 110, 0, 220, 140);
+      });
+      rCtx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+      rCtx.fillRect(0, rGroundY - 58, W, 58);
+
+      rCtx.fillStyle = 'rgba(255, 255, 255, 0.07)';
+      for (let c = 0; c < 4; c++) {
+        const cx = ((W + 140) - ((rFrame * 0.65 + c * 155) % (W + 180))) - 40;
+        const cy = 44 + (c % 2) * 32;
+        rCtx.beginPath();
+        rCtx.arc(cx, cy, 16, 0, Math.PI * 2);
+        rCtx.arc(cx + 16, cy - 5, 20, 0, Math.PI * 2);
+        rCtx.arc(cx + 34, cy, 14, 0, Math.PI * 2);
+        rCtx.fill();
+      }
+      rCtx.restore();
+
+      rCtx.fillStyle = '#0d2b18';
+      rCtx.fillRect(0, rGroundY, W, H - rGroundY);
+      rCtx.fillStyle = 'rgba(140, 198, 63, 0.22)';
+      rCtx.font = 'bold 11px Inter, sans-serif';
+      rCtx.textAlign = 'center';
+      rCtx.fillText('👆 ZONA DE TOQUE · TOCA AQUÍ PARA SALTAR', W / 2, rGroundY + (H - rGroundY) * 0.58);
+      rCtx.strokeStyle = '#8cc63f';
+      rCtx.lineWidth = 3;
+      rCtx.beginPath();
+      rCtx.moveTo(0, rGroundY);
+      rCtx.lineTo(W, rGroundY);
+      rCtx.stroke();
+
+      rCtx.strokeStyle = 'rgba(255,255,255,0.12)';
+      rCtx.lineWidth = 2;
+      const offset = (rFrame * 5) % 48;
+      for (let x = -offset; x < W; x += 48) {
+        rCtx.beginPath();
+        rCtx.moveTo(x, rGroundY + 18);
+        rCtx.lineTo(x + 22, rGroundY + 18);
+        rCtx.stroke();
+      }
+
+      rObstacles.forEach(o => {
+        if (o.type === 'tallbat') {
+          const cx = o.x + o.w / 2;
+          const grad = rCtx.createLinearGradient(o.x, 0, o.x + o.w, 0);
+          grad.addColorStop(0, '#78350f');
+          grad.addColorStop(0.45, '#eab308');
+          grad.addColorStop(1, '#92400e');
+          rCtx.fillStyle = grad;
+          rCtx.strokeStyle = '#fef08a';
+          rCtx.lineWidth = 1.5;
+          rCtx.beginPath();
+          rCtx.moveTo(cx, o.y);
+          rCtx.quadraticCurveTo(o.x + o.w, o.y, o.x + o.w, o.y + 12);
+          rCtx.lineTo(cx + 5, o.y + o.h);
+          rCtx.lineTo(cx - 5, o.y + o.h);
+          rCtx.lineTo(o.x, o.y + 12);
+          rCtx.quadraticCurveTo(o.x, o.y, cx, o.y);
+          rCtx.closePath();
+          rCtx.fill(); rCtx.stroke();
+          rCtx.fillStyle = '#8cc63f';
+          rCtx.fillRect(cx - 6, o.y + 42, 12, 4);
+        } else if (o.type === 'helmet') {
+          rCtx.fillStyle = '#10b981';
+          rCtx.strokeStyle = '#d1fae5';
+          rCtx.lineWidth = 1.8;
+          rCtx.beginPath();
+          rCtx.arc(o.x + 16, o.y + 16, 15, Math.PI * 0.9, Math.PI * 2.15);
+          rCtx.lineTo(o.x + 28, o.y + 29);
+          rCtx.lineTo(o.x + 4, o.y + 29);
+          rCtx.closePath();
+          rCtx.fill(); rCtx.stroke();
+          rCtx.strokeStyle = '#e2e8f0';
+          rCtx.lineWidth = 2;
+          rCtx.beginPath();
+          rCtx.moveTo(o.x + 2, o.y + 19); rCtx.lineTo(o.x + 12, o.y + 19);
+          rCtx.moveTo(o.x + 2, o.y + 25); rCtx.lineTo(o.x + 12, o.y + 25);
+          rCtx.stroke();
+        } else if (o.type === 'cone') {
+          rCtx.fillStyle = '#f97316';
+          rCtx.beginPath();
+          rCtx.moveTo(o.x + o.w / 2, o.y);
+          rCtx.lineTo(o.x + o.w, o.y + o.h);
+          rCtx.lineTo(o.x, o.y + o.h);
+          rCtx.closePath();
+          rCtx.fill();
+          rCtx.fillStyle = '#ffffff';
+          rCtx.fillRect(o.x + 6, o.y + 15, o.w - 12, 5);
+        } else {
+          rCtx.fillStyle = '#f8fafc';
+          rCtx.strokeStyle = '#0f172a';
+          rCtx.lineWidth = 2;
+          rCtx.beginPath();
+          rCtx.arc(o.x + 14, o.y + 14, 13, 0, Math.PI * 2);
+          rCtx.fill(); rCtx.stroke();
+          rCtx.fillStyle = '#0f172a';
+          rCtx.beginPath();
+          rCtx.arc(o.x + 14, o.y + 14, 4.5, 0, Math.PI * 2);
+          rCtx.fill();
+        }
+      });
+
+      rCtx.save();
+      rCtx.translate(rPlayer.x + rPlayer.w / 2, rPlayer.y + rPlayer.h / 2);
+      const runBob = rPlayer.onGround ? Math.sin(rFrame * 0.4) * 2 : -0.15;
+      rCtx.rotate(runBob * 0.05);
+      rCtx.fillStyle = '#f8fafc';
+      rCtx.beginPath();
+      rCtx.roundRect(-20, -4, 10, 7, 3);
+      rCtx.fill();
+      rCtx.fillStyle = '#ea580c';
+      rCtx.strokeStyle = '#fef08a';
+      rCtx.lineWidth = 2;
+      rCtx.beginPath();
+      rCtx.ellipse(2, 0, 15, 13, 0, 0, Math.PI * 2);
+      rCtx.fill(); rCtx.stroke();
+      rCtx.fillStyle = '#8cc63f';
+      rCtx.fillRect(-4, -11, 16, 4);
+      rCtx.fillStyle = '#ffffff';
+      rCtx.beginPath(); rCtx.arc(9, -3, 4, 0, Math.PI * 2); rCtx.fill();
+      rCtx.fillStyle = '#0f172a';
+      rCtx.beginPath(); rCtx.arc(10.5, -3, 2, 0, Math.PI * 2); rCtx.fill();
+      rCtx.restore();
+    }
+
+    function triggerRunnerGameOver() {
+      runnerState = 'over';
+      stopRunnerLoop();
+      sfxFail();
+      let best = null;
+      premiosRunner.forEach(p => { if (rScore >= p.costo) best = p; });
+      registrarEvento('runner_fin', `Score ${rScore}`, best ? best.nombre : '', rScore);
+
+      const claimBtn = document.getElementById('btn-flappy-claim');
+      document.getElementById('flappy-go-score').textContent = `${rScore} puntos`;
+      if (best) {
+        document.getElementById('flappy-go-icon').textContent = best.icono;
+        document.getElementById('flappy-go-title').textContent = '¡GRAN CARRERA!';
+        document.getElementById('flappy-go-msg').textContent = `Alcanzaste hasta: ${best.nombre}. Puedes elegir este o uno más bajo, o volver a intentar.`;
+        claimBtn.textContent = '🎁 ELEGIR PREMIO';
+        claimBtn.classList.remove('hidden');
+        claimBtn.onclick = () => {
+          document.getElementById('modal-flappy-gameover').classList.add('hidden');
+          abrirSelectorPremioArcade(premiosRunner, rScore, 'Run Wings', 'runner_canje');
+        };
+      } else {
+        document.getElementById('flappy-go-icon').textContent = '🟥';
+        document.getElementById('flappy-go-title').textContent = '¡TROPEZÓN!';
+        document.getElementById('flappy-go-msg').textContent = `Te faltaron ${400 - rScore} pts para desbloquear tu Bebida de la casa. ¡Dale otra corrida!`;
+        claimBtn.classList.add('hidden');
+      }
+      document.getElementById('modal-flappy-gameover').classList.remove('hidden');
+    }
+
+    function runnerLoop() {
+      if (runnerState !== 'playing') return;
+      rFrame++;
+      if (rFrame % 3 === 0) {
+        rScore++;
+        document.getElementById('runner-live-score').textContent = String(rScore).padStart(4, '0');
+        if (rScore % 100 === 0) sfxScore();
+        updateRunnerPrizePill();
+      }
+
+      const speed = 4.6 + Math.min(4.8, rScore * 0.006);
+      const minGap = Math.max(190, 270 - rScore * 0.08);
+      if (rFrame === 15 || (rObstacles.length === 0 && rFrame > 25) || (rObstacles.length && rObstacles[rObstacles.length - 1].x < runnerCanvas.width - minGap - Math.random() * 90)) {
+        spawnRunnerObstacle();
+      }
+
+      rPlayer.vy += 0.56;
+      rPlayer.y += rPlayer.vy;
+      if (rPlayer.y >= rGroundY - rPlayer.h) {
+        rPlayer.y = rGroundY - rPlayer.h;
+        rPlayer.vy = 0;
+        rPlayer.onGround = true;
+        rPlayer.jumpsLeft = 2;
+      }
+
+      for (let i = rObstacles.length - 1; i >= 0; i--) {
+        const o = rObstacles[i];
+        o.x -= speed;
+        const hitX = rPlayer.x + rPlayer.w - 6 > o.x + 3 && rPlayer.x + 6 < o.x + o.w - 3;
+        const hitY = rPlayer.y + rPlayer.h - 4 > o.y + 3 && rPlayer.y + 4 < o.y + o.h - 3;
+        if (hitX && hitY) {
+          drawRunnerScene();
+          triggerRunnerGameOver();
+          return;
+        }
+        if (o.x + o.w < -40) rObstacles.splice(i, 1);
+      }
+
+      drawRunnerScene();
+      runnerRaf = requestAnimationFrame(runnerLoop);
+    }
+
+    // ==================== RELOJ ANTI-TRAMPA ====================
     function actualizarReloj() {
       const ahora = new Date();
       const fecha = ahora.toLocaleDateString('es-MX', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -1087,17 +1782,16 @@
     setInterval(actualizarReloj, 1000);
     actualizarReloj();
 
-    // ==================== DETECCIÓN DE CAMBIO DE PESTAÑA ====================
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && juegoActivo) {
         lanzarDerrota('¡TRAMPA DETECTADA!', 'Te saliste de la pantalla. En esta cancha se juega limpio. Pierdes todos tus puntos.', 'trampa');
       }
     });
 
-    // ==================== EVENTOS UI ====================
-    function renderModalPremios() {
-      const cont = document.getElementById('lista-modal-premios');
-      cont.innerHTML = catalogoPremios.map(p => `
+    // ==================== RENDER MODALES Y EVENTOS ====================
+    function renderModalPremios(lista, titulo) {
+      document.getElementById('modal-premios-title').textContent = titulo;
+      document.getElementById('lista-modal-premios').innerHTML = lista.map(p => `
         <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-white/10">
           <div class="flex items-center gap-2.5 min-w-0 pr-2">
             <span class="text-lg shrink-0">${p.icono}</span>
@@ -1111,92 +1805,133 @@
       `).join('');
     }
 
-    document.getElementById('btn-iniciar').addEventListener('click', iniciarJuego);
-    document.querySelectorAll('.btn-riesgo').forEach(btn => {
-      btn.addEventListener('click', () => cargarNuevaPregunta(btn.dataset.level));
+    document.getElementById('btn-header-home').addEventListener('click', () => {
+      clearInterval(temporizador); juegoActivo = false;
+      mostrarPantalla('pantalla-portal');
     });
+    document.getElementById('btn-go-trivia').addEventListener('click', () => mostrarPantalla('pantalla-inicio'));
+    document.getElementById('btn-trivia-back-portal').addEventListener('click', () => mostrarPantalla('pantalla-portal'));
+    document.getElementById('btn-go-flappy').addEventListener('click', () => {
+      mostrarPantalla('pantalla-flappy');
+      resetFlappy();
+    });
+    document.getElementById('btn-flappy-back').addEventListener('click', () => mostrarPantalla('pantalla-portal'));
+    document.getElementById('btn-flappy-home').addEventListener('click', () => {
+      document.getElementById('modal-flappy-gameover').classList.add('hidden');
+      mostrarPantalla('pantalla-portal');
+    });
+    document.getElementById('btn-flappy-retry').addEventListener('click', () => {
+      if (!document.getElementById('pantalla-runner').classList.contains('hidden-screen')) resetRunner();
+      else resetFlappy();
+    });
+    document.getElementById('btn-go-runner').addEventListener('click', () => {
+      mostrarPantalla('pantalla-runner');
+      resetRunner();
+    });
+    document.getElementById('btn-runner-back').addEventListener('click', () => mostrarPantalla('pantalla-portal'));
+    document.getElementById('btn-runner-premios').addEventListener('click', () => {
+      renderModalPremios(premiosRunner, '🎁 PREMIOS RUN WINGS');
+      toggleModal('modal-premios', true);
+    });
+    document.getElementById('runner-stage').addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      runnerJump();
+    });
+    document.getElementById('close-arcade-elegir').addEventListener('click', () => {
+      document.getElementById('modal-arcade-elegir').classList.add('hidden');
+    });
+
+    document.getElementById('flappy-stage').addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      flapAction();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        if (!document.getElementById('pantalla-flappy').classList.contains('hidden-screen')) {
+          e.preventDefault();
+          flapAction();
+        } else if (!document.getElementById('pantalla-runner').classList.contains('hidden-screen')) {
+          e.preventDefault();
+          runnerJump();
+        }
+      }
+    });
+    window.addEventListener('resize', () => {
+      resizeFlappyCanvas();
+      resizeRunnerCanvas();
+    });
+
+    document.getElementById('btn-iniciar').addEventListener('click', iniciarJuego);
+    document.querySelectorAll('.btn-riesgo').forEach(btn => btn.addEventListener('click', () => cargarNuevaPregunta(btn.dataset.level)));
     document.getElementById('btn-ir-canje').addEventListener('click', lanzarVictoria);
 
     document.getElementById('btn-continuar').addEventListener('click', () => {
       document.getElementById('modal-acierto').classList.add('hidden');
       mostrarPantalla('pantalla-riesgo');
       const box = document.getElementById('progress-box');
-      box.classList.remove('animate-score-pop');
-      void box.offsetWidth;
-      box.classList.add('animate-score-pop');
+      box.classList.remove('animate-score-pop'); void box.offsetWidth; box.classList.add('animate-score-pop');
     });
 
     document.getElementById('btn-cupon-cerrar').addEventListener('click', () => {
       document.getElementById('modal-cupon').classList.add('hidden');
+      updateWatermarkVisibility();
     });
-
     document.getElementById('btn-cupon-volver').addEventListener('click', () => {
       document.getElementById('modal-cupon').classList.add('hidden');
-      puntosAcumulados = 0;
-      rachaActual = 0;
-      actualizarHUD();
-      mostrarPantalla('pantalla-inicio');
+      puntosAcumulados = 0; rachaActual = 0; actualizarHUD();
+      mostrarPantalla('pantalla-portal');
     });
-
     document.getElementById('btn-reiniciar').addEventListener('click', () => {
       document.getElementById('modal-derrota').classList.add('hidden');
       mostrarPantalla('pantalla-inicio');
     });
-
     document.getElementById('btn-volver-inicio-victoria').addEventListener('click', () => {
-      puntosAcumulados = 0;
-      rachaActual = 0;
-      actualizarHUD();
-      mostrarPantalla('pantalla-inicio');
+      puntosAcumulados = 0; rachaActual = 0; actualizarHUD();
+      mostrarPantalla('pantalla-portal');
     });
 
-    // Comodines
     document.getElementById('btn-var').addEventListener('click', () => {
       if (varUsado || !preguntaActual) return;
-      varUsado = true;
-      registrarEvento('comodin_usado', 'VAR');
+      varUsado = true; registrarEvento('comodin_usado', 'VAR');
       document.getElementById('btn-var').disabled = true;
-      const btns = Array.from(document.querySelectorAll('.option-btn')).filter(b => {
-        const text = b.querySelector('span:last-child').textContent;
-        return text !== preguntaActual.respuesta_correcta;
-      });
-      btns.sort(() => Math.random() - 0.5).slice(0, 2).forEach(b => {
-        b.disabled = true;
-        b.classList.add('opacity-25', 'line-through');
-      });
+      const btns = Array.from(document.querySelectorAll('.option-btn')).filter(b => b.querySelector('span:last-child').textContent !== preguntaActual.respuesta_correcta);
+      btns.sort(() => Math.random() - 0.5).slice(0, 2).forEach(b => { b.disabled = true; b.classList.add('opacity-25', 'line-through'); });
     });
 
     document.getElementById('btn-timeout').addEventListener('click', () => {
       if (timeoutUsado || !juegoActivo) return;
-      timeoutUsado = true;
-      registrarEvento('comodin_usado', '+5 seg');
+      timeoutUsado = true; registrarEvento('comodin_usado', '+5 seg');
       document.getElementById('btn-timeout').disabled = true;
       tiempoRestante = Math.min(15, tiempoRestante + 5);
       actualizarRelojUI();
     });
 
-    // Sonido toggle
     document.getElementById('btn-sound-toggle').addEventListener('click', (e) => {
-      initAudio();
-      soundEnabled = !soundEnabled;
+      initAudio(); soundEnabled = !soundEnabled;
       e.currentTarget.textContent = soundEnabled ? '🔊' : '🔇';
     });
 
-    // Modales Reglas / Premios
     const toggleModal = (id, show) => document.getElementById(id).classList.toggle('hidden', !show);
     document.getElementById('btn-reglas').addEventListener('click', () => toggleModal('modal-reglas', true));
     document.getElementById('close-reglas').addEventListener('click', () => toggleModal('modal-reglas', false));
     document.getElementById('ok-reglas').addEventListener('click', () => toggleModal('modal-reglas', false));
 
-    document.getElementById('btn-premios').addEventListener('click', () => toggleModal('modal-premios', true));
+    document.getElementById('btn-premios').addEventListener('click', () => {
+      renderModalPremios(catalogoPremios, '🎁 PREMIOS TRIVIA');
+      toggleModal('modal-premios', true);
+    });
+    document.getElementById('btn-flappy-premios').addEventListener('click', () => {
+      renderModalPremios(premiosFlappy, '🎁 PREMIOS FLAPPY WINGS');
+      toggleModal('modal-premios', true);
+    });
     document.getElementById('close-premios').addEventListener('click', () => toggleModal('modal-premios', false));
     document.getElementById('ok-premios').addEventListener('click', () => toggleModal('modal-premios', false));
 
-    // Inicializar
-    renderModalPremios();
+    // Init
     cargarPreguntas();
     actualizarHUD();
-    registrarEvento('qr_abierto', 'Visita');
+    mostrarPantalla('pantalla-portal');
+    registrarEvento('portal_abierto', 'Visita');
   </script>
 </body>
 </html>
